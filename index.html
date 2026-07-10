@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <title>Tesra 💕</title>
+    <link rel="manifest" href="manifest.json" />
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
     <style>
         * {
             margin: 0;
@@ -14,7 +20,6 @@
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
             background: #c2185b;
-            /* deep pink */
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -328,7 +333,6 @@
         .notif-banner button:hover {
             background: #e63e5e;
         }
-        /* Install popup */
         .install-popup {
             position: fixed;
             top: 0;
@@ -427,8 +431,7 @@
 </head>
 <body>
 
-    <!-- INSTALL POPUP -->
-    <div class="install-popup" id="installPopup">
+    <div class="install-popup hidden" id="installPopup">
         <div class="install-box">
             <h2>💕 Tesra</h2>
             <p>Download and install this love app on your phone — it's made just for you.</p>
@@ -437,7 +440,7 @@
         </div>
     </div>
 
-    <div class="app" id="app">
+    <div class="app">
         <div class="clouds">
             <div class="cloud"></div>
             <div class="cloud"></div>
@@ -476,7 +479,7 @@
             </div>
         </div>
 
-        <div class="reasons" id="reasonsContainer">
+        <div class="reasons">
             <h3>💕 1,000,000 Reasons I Love You</h3>
             <ul id="reasonsList"></ul>
         </div>
@@ -491,13 +494,11 @@
 
     <script>
         (function() {
-            // ---- 1,000,000 REASONS ----
             const reasonsList = document.getElementById('reasonsList');
             const totalReasons = 1000000;
             const batchSize = 100;
             let currentIndex = 0;
 
-            // Generate and display reasons in batches
             function generateReasons(start, count) {
                 const fragment = document.createDocumentFragment();
                 const baseMessages = [
@@ -516,22 +517,19 @@
                 for (let i = start; i < start + count && i < totalReasons; i++) {
                     const li = document.createElement('li');
                     const msg = baseMessages[i % baseMessages.length];
-                    li.textContent = `${msg} #${i + 1}`;
+                    li.textContent = msg + ' #' + (i + 1);
                     fragment.appendChild(li);
                 }
                 reasonsList.appendChild(fragment);
                 currentIndex += count;
 
                 if (currentIndex < totalReasons) {
-                    // Load more as user scrolls
                     setTimeout(() => generateReasons(currentIndex, batchSize), 10);
                 }
             }
 
-            // Start generating reasons after page loads
             setTimeout(() => generateReasons(0, batchSize), 500);
 
-            // ---- LOVE METER ----
             const loveMeter = document.getElementById('loveMeter');
             const lovePercent = document.getElementById('lovePercent');
             let loveValue = 100;
@@ -546,12 +544,10 @@
                 loveMeter.style.width = pct + '%';
                 lovePercent.textContent = Math.round(pct) + '%';
             }
-            // Update every 5 seconds so she can see it move
             setInterval(updateLoveMeter, 5000);
 
-            // ---- DAYS TOGETHER ----
             const daysCounter = document.getElementById('daysCounter');
-            const anniversary = new Date(2026, 5, 14); // June 14, 2026
+            const anniversary = new Date(2026, 5, 14);
 
             function updateDays() {
                 const now = new Date();
@@ -562,7 +558,6 @@
             updateDays();
             setInterval(updateDays, 60000);
 
-            // ---- INSTALL POPUP ----
             const popup = document.getElementById('installPopup');
             const installBtn = document.getElementById('installBtn');
             const skipBtn = document.getElementById('skipBtn');
@@ -570,7 +565,6 @@
             setTimeout(() => popup.classList.remove('hidden'), 1500);
 
             installBtn.addEventListener('click', function() {
-                // Check if the device supports PWA installation
                 if (window.deferredPrompt) {
                     window.deferredPrompt.prompt();
                     window.deferredPrompt.userChoice.then(() => {
@@ -586,13 +580,11 @@
                 popup.classList.add('hidden');
             });
 
-            // Listen for beforeinstallprompt event (Chrome)
             window.addEventListener('beforeinstallprompt', function(e) {
                 e.preventDefault();
                 window.deferredPrompt = e;
             });
 
-            // ---- NOTIFICATIONS ----
             const notifBtn = document.getElementById('notifBtn');
             const DAILY_MESSAGES = [
                 "Good morning, my love. You're the first thing on my mind every day. 💕",
@@ -610,4 +602,17 @@
             function getDailyMessage() {
                 const now = new Date();
                 const start = new Date(2026, 6, 10);
-                const diff = Math.floor((now - start) / (1000 * 60 * 60 *
+                const diff = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+                return DAILY_MESSAGES[diff % DAILY_MESSAGES.length];
+            }
+
+            function scheduleMorningNotification() {
+                const now = new Date();
+                const target = new Date(now);
+                target.setHours(8, 0, 0, 0);
+                let delay = target - now;
+                if (delay < 0) {
+                    target.setDate(target.getDate() + 1);
+                    delay = target - now;
+                }
+             
