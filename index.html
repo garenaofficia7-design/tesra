@@ -1,626 +1,764 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-    <title>Tesra 💕</title>
-    <link rel="manifest" href="manifest.json" />
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
-        }
-    </script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none;
-        }
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: #800020;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 16px;
-            overflow-x: hidden;
-        }
-        .app {
-            max-width: 420px;
-            width: 100%;
-            background: linear-gradient(145deg, #800020, #4a0012);
-            border-radius: 32px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-            padding: 24px 20px 30px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-            color: #fff;
-        }
-        .clouds {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-        }
-        .cloud {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 9999px;
-            filter: blur(16px);
-            animation: floatCloud 12s infinite alternate ease-in-out;
-        }
-        .cloud:nth-child(1) {
-            width: 220px;
-            height: 70px;
-            top: 8%;
-            left: -20%;
-            animation-duration: 14s;
-        }
-        .cloud:nth-child(2) {
-            width: 300px;
-            height: 80px;
-            bottom: 15%;
-            right: -30%;
-            animation-duration: 16s;
-            animation-delay: 2s;
-        }
-        .cloud:nth-child(3) {
-            width: 180px;
-            height: 55px;
-            top: 50%;
-            left: 15%;
-            animation-duration: 12s;
-            animation-delay: 4s;
-        }
-        @keyframes floatCloud {
-            0% {
-                transform: translateX(0px);
-                opacity: 0.2;
-            }
-            100% {
-                transform: translateX(70px);
-                opacity: 0.5;
-            }
-        }
-        .heart-float {
-            position: absolute;
-            font-size: 24px;
-            opacity: 0.12;
-            animation: floatHeart 10s infinite alternate;
-            pointer-events: none;
-        }
-        .heart-float:nth-child(4) {
-            top: 12%;
-            left: 8%;
-            animation-duration: 9s;
-        }
-        .heart-float:nth-child(5) {
-            bottom: 20%;
-            right: 5%;
-            animation-duration: 11s;
-            animation-delay: 1s;
-        }
-        .heart-float:nth-child(6) {
-            top: 55%;
-            left: 3%;
-            animation-duration: 13s;
-            animation-delay: 3s;
-        }
-        @keyframes floatHeart {
-            0% {
-                transform: translateY(0px) scale(1);
-                opacity: 0.08;
-            }
-            100% {
-                transform: translateY(-35px) scale(1.3);
-                opacity: 0.2;
-            }
-        }
-        .photo {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #888;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-            margin: 0 auto 16px;
-            display: block;
-        }
-        .app-title {
-            text-align: center;
-            font-size: 28px;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-        .app-title span {
-            font-weight: 300;
-            color: #aaa;
-        }
-        .love-letter {
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(4px);
-            border-radius: 24px;
-            padding: 20px 18px;
-            margin: 16px 0 20px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            font-size: 15px;
-            line-height: 1.7;
-            color: #ddd;
-            text-align: center;
-            font-style: italic;
-        }
-        .love-letter strong {
-            color: #fff;
-            font-style: normal;
-        }
-        .dashboard {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            margin: 18px 0 20px;
-        }
-        .meter-wrap {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(4px);
-            border-radius: 60px;
-            padding: 8px 20px 8px 16px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            width: 100%;
-            max-width: 300px;
-        }
-        .meter-heart {
-            font-size: 32px;
-            animation: pulseHeart 2s infinite;
-        }
-        @keyframes pulseHeart {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.15);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-        .meter-bar {
-            flex: 1;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 99px;
-            overflow: hidden;
-        }
-        .meter-fill {
-            height: 100%;
-            width: 100%;
-            background: linear-gradient(90deg, #aaa, #888);
-            border-radius: 99px;
-            transition: width 0.5s ease;
-        }
-        .meter-label {
-            font-size: 14px;
-            font-weight: 600;
-            color: #fff;
-            min-width: 44px;
-            text-align: right;
-        }
-        .counters {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(4px);
-            border-radius: 60px;
-            padding: 10px 24px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            width: 100%;
-            max-width: 300px;
-        }
-        .counter-item {
-            text-align: center;
-        }
-        .counter-item .num {
-            font-size: 20px;
-            font-weight: 700;
-            color: #fff;
-            display: block;
-            line-height: 1.2;
-        }
-        .counter-item .label {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #aaa;
-        }
-        .reasons {
-            margin-top: 20px;
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(4px);
-            border-radius: 24px;
-            padding: 16px 18px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        .reasons h3 {
-            font-size: 16px;
-            color: #ccc;
-            font-weight: 600;
-            margin-bottom: 12px;
-            text-align: center;
-            letter-spacing: 0.5px;
-        }
-        .reasons ul {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .reasons li {
-            font-size: 12px;
-            color: #ddd;
-            padding: 4px 0 4px 24px;
-            position: relative;
-            line-height: 1.4;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .reasons li:last-child {
-            border-bottom: none;
-        }
-        .reasons li::before {
-            content: "💕";
-            position: absolute;
-            left: 0;
-            top: 4px;
-            font-size: 12px;
-        }
-        .music-toggle {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 60px;
-            padding: 12px 16px;
-            font-size: 20px;
-            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
-            cursor: pointer;
-            z-index: 99;
-            color: #fff;
-        }
-        .music-toggle:hover {
-            transform: scale(1.05);
-            background: rgba(255, 255, 255, 0.15);
-        }
-        .notif-banner {
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(4px);
-            border-radius: 60px;
-            padding: 8px 16px;
-            margin-top: 12px;
-            text-align: center;
-            font-size: 12px;
-            color: #aaa;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .notif-banner button {
-            background: #888;
-            border: none;
-            color: #fff;
-            font-weight: 600;
-            padding: 4px 16px;
-            border-radius: 40px;
-            font-size: 12px;
-            cursor: pointer;
-        }
-        .notif-banner button:hover {
-            background: #aaa;
-        }
-        .alarm-section {
-            margin-top: 16px;
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(4px);
-            border-radius: 24px;
-            padding: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            text-align: center;
-        }
-        .alarm-section input {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 16px;
-            width: 120px;
-            text-align: center;
-            margin: 8px 0;
-        }
-        .alarm-section button {
-            background: #888;
-            border: none;
-            color: #fff;
-            font-weight: 600;
-            padding: 8px 20px;
-            border-radius: 40px;
-            font-size: 14px;
-            cursor: pointer;
-            margin: 4px;
-        }
-        .alarm-section button:hover {
-            background: #aaa;
-        }
-        .alarm-status {
-            color: #ccc;
-            font-size: 14px;
-            margin-top: 6px;
-        }
-        /* Full-screen alarm overlay */
-        #alarmOverlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #800020;
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            padding: 30px;
-            text-align: center;
-            animation: fadeIn 0.5s;
-            color: #fff;
-        }
-        #alarmOverlay.show {
-            display: flex;
-        }
-        #alarmOverlay h1 {
-            font-size: 48px;
-            margin-bottom: 10px;
-        }
-        #alarmOverlay .message {
-            font-size: 24px;
-            margin: 20px 0;
-            max-width: 80%;
-            line-height: 1.6;
-        }
-        #alarmOverlay .alarm-buttons button {
-            background: #888;
-            border: none;
-            color: #fff;
-            font-weight: 600;
-            padding: 14px 30px;
-            border-radius: 60px;
-            font-size: 18px;
-            cursor: pointer;
-            margin: 10px;
-        }
-        #alarmOverlay .alarm-buttons button:hover {
-            background: #aaa;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        @media (max-width: 400px) {
-            .app {
-                padding: 16px;
-            }
-            .photo {
-                width: 80px;
-                height: 80px;
-            }
-            .app-title {
-                font-size: 22px;
-            }
-            .love-letter {
-                font-size: 14px;
-                padding: 16px;
-            }
-            .counter-item .num {
-                font-size: 17px;
-            }
-            .reasons li {
-                font-size: 11px;
-            }
-            #alarmOverlay h1 {
-                font-size: 32px;
-            }
-            #alarmOverlay .message {
-                font-size: 18px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Tesra 💕</title>
+  <link rel="manifest" href="manifest.json" />
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+  <style>
+    /* ── RESET & BASE ── */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #800020;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      overflow-x: hidden;
+    }
+    .app {
+      max-width: 420px;
+      width: 100%;
+      background: linear-gradient(145deg, #800020, #4a0012);
+      border-radius: 32px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      padding: 24px 20px 30px;
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    /* ── CLOUDS & HEARTS ── */
+    .clouds {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .cloud {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 9999px;
+      filter: blur(16px);
+      animation: floatCloud 12s infinite alternate ease-in-out;
+    }
+    .cloud:nth-child(1) {
+      width: 220px;
+      height: 70px;
+      top: 8%;
+      left: -20%;
+      animation-duration: 14s;
+    }
+    .cloud:nth-child(2) {
+      width: 300px;
+      height: 80px;
+      bottom: 15%;
+      right: -30%;
+      animation-duration: 16s;
+      animation-delay: 2s;
+    }
+    .cloud:nth-child(3) {
+      width: 180px;
+      height: 55px;
+      top: 50%;
+      left: 15%;
+      animation-duration: 12s;
+      animation-delay: 4s;
+    }
+    @keyframes floatCloud {
+      0% {
+        transform: translateX(0px);
+        opacity: 0.2;
+      }
+      100% {
+        transform: translateX(70px);
+        opacity: 0.5;
+      }
+    }
+    .heart-float {
+      position: absolute;
+      font-size: 24px;
+      opacity: 0.12;
+      animation: floatHeart 10s infinite alternate;
+      pointer-events: none;
+    }
+    .heart-float:nth-child(4) {
+      top: 12%;
+      left: 8%;
+      animation-duration: 9s;
+    }
+    .heart-float:nth-child(5) {
+      bottom: 20%;
+      right: 5%;
+      animation-duration: 11s;
+      animation-delay: 1s;
+    }
+    .heart-float:nth-child(6) {
+      top: 55%;
+      left: 3%;
+      animation-duration: 13s;
+      animation-delay: 3s;
+    }
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(0px) scale(1);
+        opacity: 0.08;
+      }
+      100% {
+        transform: translateY(-35px) scale(1.3);
+        opacity: 0.2;
+      }
+    }
+
+    /* ── BUTTERFLY ANIMATION ── */
+    .butterfly-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .butterfly {
+      position: absolute;
+      font-size: 20px;
+      animation: fly 12s infinite alternate ease-in-out;
+      opacity: 0.3;
+    }
+    .butterfly:nth-child(1) {
+      top: 10%;
+      left: 5%;
+      animation-duration: 14s;
+    }
+    .butterfly:nth-child(2) {
+      top: 30%;
+      right: 8%;
+      animation-duration: 16s;
+      animation-delay: 2s;
+    }
+    .butterfly:nth-child(3) {
+      bottom: 20%;
+      left: 15%;
+      animation-duration: 12s;
+      animation-delay: 4s;
+    }
+    .butterfly:nth-child(4) {
+      top: 60%;
+      right: 5%;
+      animation-duration: 18s;
+      animation-delay: 6s;
+    }
+    .butterfly:nth-child(5) {
+      top: 45%;
+      left: 25%;
+      animation-duration: 15s;
+      animation-delay: 8s;
+    }
+    @keyframes fly {
+      0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+      }
+      25% {
+        transform: translate(30px, -40px) scale(1.2) rotate(10deg);
+      }
+      50% {
+        transform: translate(-20px, -80px) scale(1.1) rotate(-5deg);
+      }
+      75% {
+        transform: translate(40px, -30px) scale(1.3) rotate(8deg);
+      }
+      100% {
+        transform: translate(-10px, -60px) scale(1) rotate(-3deg);
+      }
+    }
+
+    /* ── PHOTO & TITLE ── */
+    .photo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #888;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      margin: 0 auto 16px;
+      display: block;
+      position: relative;
+      z-index: 1;
+    }
+    .app-title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 1;
+    }
+    .app-title span {
+      font-weight: 300;
+      color: #aaa;
+    }
+
+    /* ── LOVE LETTER ── */
+    .love-letter {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(4px);
+      border-radius: 24px;
+      padding: 20px 18px;
+      margin: 16px 0 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 15px;
+      line-height: 1.7;
+      color: #ddd;
+      text-align: center;
+      font-style: italic;
+      position: relative;
+      z-index: 1;
+    }
+    .love-letter strong {
+      color: #fff;
+      font-style: normal;
+    }
+
+    /* ── DASHBOARD ── */
+    .dashboard {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin: 18px 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .meter-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(4px);
+      border-radius: 60px;
+      padding: 8px 20px 8px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      width: 100%;
+      max-width: 300px;
+    }
+    .meter-heart {
+      font-size: 32px;
+      animation: pulseHeart 2s infinite;
+    }
+    @keyframes pulseHeart {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.15);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+    .meter-bar {
+      flex: 1;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .meter-fill {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #aaa, #888);
+      border-radius: 99px;
+      transition: width 0.5s ease;
+    }
+    .meter-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      min-width: 44px;
+      text-align: right;
+    }
+    .counters {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(4px);
+      border-radius: 60px;
+      padding: 10px 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      width: 100%;
+      max-width: 300px;
+    }
+    .counter-item {
+      text-align: center;
+    }
+    .counter-item .num {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      display: block;
+      line-height: 1.2;
+    }
+    .counter-item .label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #aaa;
+    }
+
+    /* ── REASONS ── */
+    .reasons {
+      margin-top: 20px;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(4px);
+      border-radius: 24px;
+      padding: 16px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      max-height: 200px;
+      overflow-y: auto;
+      position: relative;
+      z-index: 1;
+    }
+    .reasons h3 {
+      font-size: 16px;
+      color: #ccc;
+      font-weight: 600;
+      margin-bottom: 12px;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+    .reasons ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .reasons li {
+      font-size: 12px;
+      color: #ddd;
+      padding: 4px 0 4px 24px;
+      position: relative;
+      line-height: 1.4;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .reasons li:last-child {
+      border-bottom: none;
+    }
+    .reasons li::before {
+      content: "💕";
+      position: absolute;
+      left: 0;
+      top: 4px;
+      font-size: 12px;
+    }
+
+    /* ── ALARM SECTION ── */
+    .alarm-section {
+      margin-top: 16px;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(4px);
+      border-radius: 24px;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .alarm-section label {
+      font-size: 14px;
+      color: #ccc;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .alarm-section input[type="time"] {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid #ffb6c1;
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 18px;
+      width: 140px;
+      text-align: center;
+      margin: 6px auto;
+      display: block;
+      font-weight: 600;
+      color: #ffb6c1;
+    }
+    .alarm-section input[type="time"]:focus {
+      outline: none;
+      border-color: #ff8fa3;
+      box-shadow: 0 0 20px rgba(255, 182, 193, 0.2);
+    }
+    .alarm-section button {
+      background: #ffb6c1;
+      border: none;
+      color: #4a0012;
+      font-weight: 700;
+      padding: 10px 28px;
+      border-radius: 40px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 8px 4px;
+      transition: all 0.2s;
+    }
+    .alarm-section button:hover {
+      background: #ff8fa3;
+      transform: scale(1.02);
+    }
+    .alarm-status {
+      color: #ccc;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    /* ── MUSIC TOGGLE ── */
+    .music-toggle {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 60px;
+      padding: 12px 16px;
+      font-size: 20px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      z-index: 99;
+      color: #fff;
+    }
+    .music-toggle:hover {
+      transform: scale(1.05);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* ── FULL-SCREEN ALARM OVERLAY ── */
+    #alarmOverlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #800020;
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 30px;
+      text-align: center;
+      animation: fadeIn 0.5s;
+      color: #fff;
+    }
+    #alarmOverlay.show {
+      display: flex;
+    }
+    #alarmOverlay h1 {
+      font-size: 38px;
+      margin-bottom: 10px;
+      color: #ffb6c1;
+    }
+    #alarmOverlay .prefix {
+      font-size: 18px;
+      color: #ffb6c1;
+      margin-bottom: 5px;
+      letter-spacing: 2px;
+      font-weight: 300;
+    }
+    #alarmOverlay .message {
+      font-size: 24px;
+      margin: 15px 0 25px;
+      max-width: 80%;
+      line-height: 1.6;
+      color: #fff;
+    }
+    #alarmOverlay .alarm-buttons button {
+      background: #ffb6c1;
+      border: none;
+      color: #4a0012;
+      font-weight: 700;
+      padding: 14px 30px;
+      border-radius: 60px;
+      font-size: 18px;
+      cursor: pointer;
+      margin: 10px;
+      transition: all 0.2s;
+    }
+    #alarmOverlay .alarm-buttons button:hover {
+      background: #ff8fa3;
+      transform: scale(1.03);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 400px) {
+      .app {
+        padding: 16px;
+      }
+      .photo {
+        width: 80px;
+        height: 80px;
+      }
+      .app-title {
+        font-size: 22px;
+      }
+      .love-letter {
+        font-size: 14px;
+        padding: 16px;
+      }
+      .counter-item .num {
+        font-size: 17px;
+      }
+      .reasons li {
+        font-size: 11px;
+      }
+      #alarmOverlay h1 {
+        font-size: 28px;
+      }
+      #alarmOverlay .message {
+        font-size: 18px;
+      }
+      #alarmOverlay .alarm-buttons button {
+        padding: 10px 20px;
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Main App -->
-    <div class="app">
-        <div class="clouds">
-            <div class="cloud"></div>
-            <div class="cloud"></div>
-            <div class="cloud"></div>
-            <div class="heart-float">❤️</div>
-            <div class="heart-float">💕</div>
-            <div class="heart-float">🌸</div>
-        </div>
-
-        <img class="photo" src="https://i.ibb.co/0cL3Wr2/190130-1291403634850282997.webp" alt="Tesra" />
-
-        <div class="app-title">Tesra <span>💕</span></div>
-
-        <div class="love-letter">
-            <strong>My dearest Testimony ❤️</strong>,<br />
-            loving you has been one of the greatest blessings in my life. Every smile you give me, every word you speak, and every moment we share reminds me how lucky I am to have you. Thank you for loving me, believing in me, and making my life brighter. I promise to keep choosing you every single day. I love you more than words can ever express. Forever and always. ❤️🥹
-        </div>
-
-        <div class="dashboard">
-            <div class="meter-wrap">
-                <span class="meter-heart">❤️</span>
-                <div class="meter-bar">
-                    <div class="meter-fill" id="loveMeter" style="width:100%"></div>
-                </div>
-                <span class="meter-label" id="lovePercent">100%</span>
-            </div>
-            <div class="counters">
-                <div class="counter-item">
-                    <span class="num" id="daysCounter">0</span>
-                    <span class="label">Days Together</span>
-                </div>
-                <div class="counter-item">
-                    <span class="num" id="reasonsCount">1,000,000</span>
-                    <span class="label">Reasons</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="reasons">
-            <h3>💕 1,000,000 Reasons I Love You</h3>
-            <ul id="reasonsList"></ul>
-        </div>
-
-        <!-- Alarm Section -->
-        <div class="alarm-section">
-            <div style="font-size:14px; color:#ccc; margin-bottom:6px;">⏰ Set a reminder</div>
-            <input type="time" id="alarmTime" value="08:00" />
-            <button id="setAlarmBtn">Set Alarm</button>
-            <div class="alarm-status" id="alarmStatus">No alarm set</div>
-        </div>
-
-        <div class="notif-banner">
-            💕 Morning love notes
-            <button id="notifBtn">Enable</button>
-        </div>
+  <!-- ─── APP ─── -->
+  <div class="app">
+    <!-- Butterflies -->
+    <div class="butterfly-container">
+      <div class="butterfly">🦋</div>
+      <div class="butterfly">🦋</div>
+      <div class="butterfly">🦋</div>
+      <div class="butterfly">🦋</div>
+      <div class="butterfly">🦋</div>
     </div>
 
-    <!-- Full-screen Alarm Overlay -->
-    <div id="alarmOverlay" class="">
-        <h1>❤️ GOOD MORNING MY LOVE ❤️</h1>
-        <div class="message">"You are the first thought in my heart, every single day."</div>
-        <div class="alarm-buttons">
-            <button id="snoozeBtn">💤 Snooze</button>
-            <button id="stopAlarmBtn">⏹️ Stop</button>
-        </div>
+    <div class="clouds">
+      <div class="cloud"></div>
+      <div class="cloud"></div>
+      <div class="cloud"></div>
+      <div class="heart-float">❤️</div>
+      <div class="heart-float">💕</div>
+      <div class="heart-float">🌸</div>
     </div>
 
-    <!-- Music Toggle -->
-    <button class="music-toggle" id="musicBtn" title="Play Cinnamon Girl">🎵</button>
+    <img class="photo" src="https://i.ibb.co/0cL3Wr2/190130-1291403634850282997.webp" alt="Tesra" />
 
-    <script>
-        (function() {
-            // ---- 1,000,000 REAL REASONS ----
-            const reasonsList = document.getElementById('reasonsList');
-            const totalReasons = 1000000;
-            const batchSize = 100;
-            let currentIndex = 0;
+    <div class="app-title">Tesra <span>💕</span></div>
 
-            const lovePhrases = [
-                "I love your smile", "I love your laugh", "I love your eyes",
-                "I love your heart", "I love your kindness", "I love your strength",
-                "I love your courage", "I love your beauty", "I love your mind",
-                "I love your soul", "I love your voice", "I love your touch",
-                "I love your warmth", "I love your patience", "I love your loyalty",
-                "I love your passion", "I love your dreams", "I love your energy",
-                "I love your spirit", "I love your honesty"
-            ];
+    <div class="love-letter">
+      <strong>My dearest Testimony ❤️</strong>,<br />
+      loving you has been one of the greatest blessings in my life. Every smile you give me, every word you speak, and every moment we share reminds me how lucky I am to have you. Thank you for loving me, believing in me, and making my life brighter. I promise to keep choosing you every single day. I love you more than words can ever express. Forever and always. ❤️🥹
+    </div>
 
-            function generateReasons(start, count) {
-                const fragment = document.createDocumentFragment();
-                for (let i = start; i < start + count && i < totalReasons; i++) {
-                    const li = document.createElement('li');
-                    const phrase = lovePhrases[i % lovePhrases.length];
-                    li.textContent = phrase + ' #' + (i + 1);
-                    fragment.appendChild(li);
-                }
-                reasonsList.appendChild(fragment);
-                currentIndex += count;
-                if (currentIndex < totalReasons) {
-                    setTimeout(() => generateReasons(currentIndex, batchSize), 10);
-                }
-            }
-            setTimeout(() => generateReasons(0, batchSize), 500);
+    <div class="dashboard">
+      <div class="meter-wrap">
+        <span class="meter-heart">❤️</span>
+        <div class="meter-bar">
+          <div class="meter-fill" id="loveMeter" style="width:100%"></div>
+        </div>
+        <span class="meter-label" id="lovePercent">100%</span>
+      </div>
+      <div class="counters">
+        <div class="counter-item">
+          <span class="num" id="daysCounter">0</span>
+          <span class="label">Days Together</span>
+        </div>
+        <div class="counter-item">
+          <span class="num" id="reasonsCount">1,000,000</span>
+          <span class="label">Reasons</span>
+        </div>
+      </div>
+    </div>
 
-            // ---- LOVE METER ----
-            const loveMeter = document.getElementById('loveMeter');
-            const lovePercent = document.getElementById('lovePercent');
-            let loveValue = 100;
-            const MAX_LOVE = 1000;
+    <div class="reasons">
+      <h3>💕 1,000,000 Reasons I Love You</h3>
+      <ul id="reasonsList"></ul>
+    </div>
 
-            function updateLoveMeter() {
-                if (loveValue < MAX_LOVE) {
-                    loveValue += 1;
-                    if (loveValue > MAX_LOVE) loveValue = MAX_LOVE;
-                }
-                const pct = Math.min(loveValue / 10, 100);
-                loveMeter.style.width = pct + '%';
-                lovePercent.textContent = Math.round(pct) + '%';
-            }
-            setInterval(updateLoveMeter, 5000);
+    <!-- Alarm Section -->
+    <div class="alarm-section">
+      <label>⏰ Set a reminder, my love 💕</label>
+      <input type="time" id="alarmTime" value="08:00" />
+      <button id="setAlarmBtn">🌸 Set Alarm</button>
+      <div class="alarm-status" id="alarmStatus">No alarm set</div>
+    </div>
+  </div>
 
-            // ---- DAYS TOGETHER ----
-            const daysCounter = document.getElementById('daysCounter');
-            const anniversary = new Date(2026, 5, 14);
+  <!-- ─── FULL-SCREEN ALARM OVERLAY ─── -->
+  <div id="alarmOverlay">
+    <div class="prefix">🌸 Good Morning, My Queen 👑</div>
+    <h1>💕 TESRA 💕</h1>
+    <div class="message">"You are the first thought in my heart, every single day."</div>
+    <div class="alarm-buttons">
+      <button id="snoozeBtn">💤 Snooze</button>
+      <button id="stopAlarmBtn">⏹️ Stop</button>
+    </div>
+  </div>
 
-            function updateDays() {
-                const now = new Date();
-                const diff = now - anniversary;
-                const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
-                daysCounter.textContent = days;
-            }
-            updateDays();
-            setInterval(updateDays, 60000);
+  <!-- ─── MUSIC TOGGLE ─── -->
+  <button class="music-toggle" id="musicBtn" title="Play Cinnamon Girl">🎵</button>
 
-            // ---- ALARM SYSTEM ----
-            let alarmTimeout = null;
-            const alarmStatus = document.getElementById('alarmStatus');
-            const alarmInput = document.getElementById('alarmTime');
-            const setAlarmBtn = document.getElementById('setAlarmBtn');
-            const alarmOverlay = document.getElementById('alarmOverlay');
-            const snoozeBtn = document.getElementById('snoozeBtn');
-            const stopAlarmBtn = document.getElementById('stopAlarmBtn');
-            let audioCtx = null;
-            let isAlarmPlaying = false;
-            let oscillator = null;
-            let gainNode = null;
+  <script>
+    (function() {
+      // ---- 1,000,000 REAL REASONS ----
+      const reasonsList = document.getElementById('reasonsList');
+      const totalReasons = 1000000;
+      const batchSize = 100;
+      let currentIndex = 0;
 
-            // Use the actual Cinnamon Girl song URL
-            const CINNAMON_GIRL_URL = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
-            let alarmAudio = null;
+      const lovePhrases = [
+        "I love your smile", "I love your laugh", "I love your eyes",
+        "I love your heart", "I love your kindness", "I love your strength",
+        "I love your courage", "I love your beauty", "I love your mind",
+        "I love your soul", "I love your voice", "I love your touch",
+        "I love your warmth", "I love your patience", "I love your loyalty",
+        "I love your passion", "I love your dreams", "I love your energy",
+        "I love your spirit", "I love your honesty"
+      ];
 
-            function playAlarmSound() {
-                if (alarmAudio) {
-                    alarmAudio.pause();
-                    alarmAudio.currentTime = 0;
-                }
-                alarmAudio = new Audio(CINNAMON_GIRL_URL);
-                alarmAudio.loop = true;
-                alarmAudio.volume = 0.5;
-                alarmAudio.play().catch(() => {});
-            }
+      function generateReasons(start, count) {
+        const fragment = document.createDocumentFragment();
+        for (let i = start; i < start + count && i < totalReasons; i++) {
+          const li = document.createElement('li');
+          const phrase = lovePhrases[i % lovePhrases.length];
+          li.textContent = phrase + ' #' + (i + 1);
+          fragment.appendChild(li);
+        }
+        reasonsList.appendChild(fragment);
+        currentIndex += count;
+        if (currentIndex < totalReasons) {
+          setTimeout(() => generateReasons(currentIndex, batchSize), 10);
+        }
+      }
+      setTimeout(() => generateReasons(0, batchSize), 500);
 
-            function stopAlarmSo
+      // ---- LOVE METER ----
+      const loveMeter = document.getElementById('loveMeter');
+      const lovePercent = document.getElementById('lovePercent');
+      let loveValue = 100;
+      const MAX_LOVE = 1000;
+
+      function updateLoveMeter() {
+        if (loveValue < MAX_LOVE) {
+          loveValue += 1;
+          if (loveValue > MAX_LOVE) loveValue = MAX_LOVE;
+        }
+        const pct = Math.min(loveValue / 10, 100);
+        loveMeter.style.width = pct + '%';
+        lovePercent.textContent = Math.round(pct) + '%';
+      }
+      setInterval(updateLoveMeter, 5000);
+
+      // ---- DAYS TOGETHER ----
+      const daysCounter = document.getElementById('daysCounter');
+      const anniversary = new Date(2026, 5, 14);
+
+      function updateDays() {
+        const now = new Date();
+        const diff = now - anniversary;
+        const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+        daysCounter.textContent = days;
+      }
+      updateDays();
+      setInterval(updateDays, 60000);
+
+      // ---- ALARM SYSTEM ----
+      let alarmTimeout = null;
+      const alarmStatus = document.getElementById('alarmStatus');
+      const alarmInput = document.getElementById('alarmTime');
+      const setAlarmBtn = document.getElementById('setAlarmBtn');
+      const alarmOverlay = document.getElementById('alarmOverlay');
+      const snoozeBtn = document.getElementById('snoozeBtn');
+      const stopAlarmBtn = document.getElementById('stopAlarmBtn');
+      let alarmAudio = null;
+      const CINNAMON_GIRL_URL = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+
+      function playAlarmSound() {
+        if (alarmAudio) {
+          alarmAudio.pause();
+          alarmAudio.currentTime = 0;
+        }
+        alarmAudio = new Audio(CINNAMON_GIRL_URL);
+        alarmAudio.loop = true;
+        alarmAudio.volume = 0.4;
+        alarmAudio.play().catch(() => {});
+      }
+
+      function stopAlarmSound() {
+        if (alarmAudio) {
+          alarmAudio.pause();
+          alarmAudio.currentTime = 0;
+        }
+      }
+
+      function showAlarm() {
+        alarmOverlay.classList.add('show');
+        playAlarmSound();
+        if (Notification.permission === 'granted') {
+          new Notification('💕 Good Morning, My Queen!', {
+            body: 'You are the first thought in my heart, every single day.',
+            icon: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ctext y=\'.9em\' font-size=\'90\'%3E💕%3C/text%3E%3C/svg%3E'
+          });
+        }
+      }
+
+      function hideAlarm() {
+        alarmOverlay.classList.remove('show');
+        stopAlarmSound();
+        if (alarmTimeout) {
+          clearTimeout(alarmTimeout);
+          alarmTimeout = null;
+        }
+      }
+
+      function setAlarm() {
+        if (alarmTimeout) {
+          clearTimeout(alarmTimeout);
+          alarmTimeout = null;
+        }
+        const now = new Date();
+        const [hours, minutes] = alarmInput.value.split(':').map(Number);
+        const alarmTime = new Date(now);
+        alarmTime.setHours(hours, minutes, 0, 0);
+        if (alarmTime <= now) {
+          alarmTime.setDate(alarmTime.getDate() + 1);
+        }
+        const delay = alarmTime - now;
+        alarmTimeout = setTimeout(() => {
+          showAlarm();
+        }, 
