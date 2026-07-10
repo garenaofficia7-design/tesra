@@ -7,15 +7,30 @@
   <link rel="manifest" href="manifest.json" />
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log("Tesra offline mode ready ❤️"))
+        .catch(error => console.log("Service worker error:", error));
     }
   </script>
   <style>
-    /* ── ROOT VARIABLES (for Theme Changer) ── */
+    /* ── ROOT VARIABLES ── */
     :root {
       --main-color: #800020;
       --second-color: #4a0012;
       --text-color: #ffffff;
+    }
+
+    /* ── LOADING SCREEN ── */
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: #800020;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 30px;
+      z-index: 99999;
     }
 
     /* ── RESET & BASE ── */
@@ -784,6 +799,9 @@
 </head>
 <body>
 
+  <!-- ─── LOADING SCREEN ─── -->
+  <div id="loading">💕 Tesra 💕</div>
+
   <!-- ─── APP ─── -->
   <div class="app">
     <!-- Butterflies -->
@@ -1094,6 +1112,7 @@
         new Notification("💕 Good Morning My Queen!", { body: msg });
       }
     }
+
     function stopAlarm() {
       alarmOverlay.classList.remove("show");
       if (window.currentAlarm) {
@@ -1101,11 +1120,14 @@
         window.currentAlarm.currentTime = 0;
       }
     }
+
     stopAlarmBtn.onclick = stopAlarm;
+
     snoozeBtn.onclick = function() {
       stopAlarm();
       alarmTimer = setTimeout(ringAlarm, 300000);
     };
+
     setAlarmBtn.onclick = function() {
       clearTimeout(alarmTimer);
       const value = alarmInput.value;
@@ -1113,9 +1135,19 @@
       const [h, m] = value.split(":").map(Number);
       const target = new Date();
       target.setHours(h, m, 0, 0);
-      if (target < now) target.setDate(target.getDate() + 1);
-      alarmTimer = setTimeout(ringAlarm, target - now);
-      alarmStatus.textContent = "Alarm set for " + target.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      if (target < now) {
+        target.setDate(target.getDate() + 1);
+      }
+      const delay = target - now;
+      alarmTimer = setTimeout(ringAlarm, delay);
+      alarmStatus.textContent = "⏰ Alarm set for " + target.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+      alert("✅ Alarm set for " + target.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      }) + "! 💕");
     };
 
     // ─── NOTIFICATIONS ───
@@ -1322,9 +1354,7 @@
       };
     }
 
-    /* ==========================================================
-       📝 LOVE NOTE JOURNAL
-    ========================================================== */
+    // ─── LOVE NOTE JOURNAL (SAFER) ───
     const noteInput = document.getElementById("loveNote");
     const saveNote = document.getElementById("saveLoveNote");
     const noteList = document.getElementById("noteList");
@@ -1334,7 +1364,7 @@
       noteList.innerHTML = "";
       notes.forEach(note => {
         const li = document.createElement("li");
-        li.innerHTML = note;
+        li.textContent = note; // safer
         noteList.appendChild(li);
       });
     }
@@ -1350,9 +1380,7 @@
     }
     loadNotes();
 
-    /* ==========================================================
-       🎨 THEME CHANGER
-    ========================================================== */
+    // ─── THEME CHANGER (IMPROVED) ───
     const themes = {
       pink: { main: "#ff69b4", second: "#ff1493" },
       burgundy: { main: "#800020", second: "#4a0012" },
@@ -1374,9 +1402,7 @@
       if (saved) changeTheme(saved);
     });
 
-    /* ==========================================================
-       🎤 VOICE NOTES DATABASE (IndexedDB)
-    ========================================================== */
+    // ─── VOICE RECORDER (IMPROVED) ───
     let db;
     const request = indexedDB.open("TesraVoiceNotes", 1);
     request.onupgradeneeded = function(e) {
@@ -1393,19 +1419,26 @@
     let chunks = [];
     const startBtn = document.getElementById("startRecord");
     const stopBtn = document.getElementById("stopRecord");
+
     startBtn.onclick = async function() {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      recorder = new MediaRecorder(stream);
-      chunks = [];
-      recorder.ondataavailable = (e) => { chunks.push(e.data); };
-      recorder.onstop = () => {
-        const blob = new Blob(chunks, { type: "audio/webm" });
-        saveVoice(blob);
-      };
-      recorder.start();
-      startBtn.disabled = true;
-      stopBtn.disabled = false;
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        recorder = new MediaRecorder(stream);
+        chunks = [];
+        recorder.ondataavailable = (e) => { chunks.push(e.data); };
+        recorder.onstop = () => {
+          const blob = new Blob(chunks, { type: "audio/webm" });
+          saveVoice(blob);
+          stream.getTracks().forEach(track => track.stop());
+        };
+        recorder.start();
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+      } catch(error) {
+        alert("Please allow microphone permission ❤️");
+      }
     };
+
     stopBtn.onclick = function() {
       if (recorder) {
         recorder.stop();
@@ -1413,6 +1446,7 @@
         stopBtn.disabled = true;
       }
     };
+
     function saveVoice(blob) {
       const transaction = db.transaction(["voices"], "readwrite");
       const store = transaction.objectStore("voices");
@@ -1447,6 +1481,11 @@
       transaction.objectStore("voices").delete(id);
       transaction.oncomplete = () => { loadVoices(); };
     }
+
+    // ─── LOADING SCREEN ───
+    window.addEventListener("load", () => {
+      document.getElementById("loading").style.display = "none";
+    });
 
     // ─── INITIALIZE ───
     updateStats();
