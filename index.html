@@ -11,6 +11,13 @@
     }
   </script>
   <style>
+    /* ── ROOT VARIABLES (for Theme Changer) ── */
+    :root {
+      --main-color: #800020;
+      --second-color: #4a0012;
+      --text-color: #ffffff;
+    }
+
     /* ── RESET & BASE ── */
     * {
       margin: 0;
@@ -20,14 +27,14 @@
     }
     body {
       font-family: 'Segoe UI', system-ui, sans-serif;
-      background: #800020;
+      background: var(--main-color);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 16px;
       overflow-x: hidden;
-      transition: background 0.5s ease;
+      transition: background 0.8s ease;
     }
     body.night {
       background: #0a0a0a;
@@ -35,14 +42,14 @@
     .app {
       max-width: 420px;
       width: 100%;
-      background: linear-gradient(145deg, #800020, #4a0012);
+      background: linear-gradient(145deg, var(--main-color), var(--second-color));
       border-radius: 32px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
       padding: 24px 20px 30px;
       position: relative;
       overflow: hidden;
       color: #fff;
-      transition: background 0.5s ease;
+      transition: background 0.8s ease;
     }
     body.night .app {
       background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
@@ -90,14 +97,8 @@
       animation-delay: 4s;
     }
     @keyframes floatCloud {
-      0% {
-        transform: translateX(0px);
-        opacity: 0.2;
-      }
-      100% {
-        transform: translateX(70px);
-        opacity: 0.5;
-      }
+      0% { transform: translateX(0px); opacity: 0.2; }
+      100% { transform: translateX(70px); opacity: 0.5; }
     }
     .heart-float {
       position: absolute;
@@ -106,32 +107,12 @@
       animation: floatHeart 10s infinite alternate;
       pointer-events: none;
     }
-    .heart-float:nth-child(4) {
-      top: 12%;
-      left: 8%;
-      animation-duration: 9s;
-    }
-    .heart-float:nth-child(5) {
-      bottom: 20%;
-      right: 5%;
-      animation-duration: 11s;
-      animation-delay: 1s;
-    }
-    .heart-float:nth-child(6) {
-      top: 55%;
-      left: 3%;
-      animation-duration: 13s;
-      animation-delay: 3s;
-    }
+    .heart-float:nth-child(4) { top: 12%; left: 8%; animation-duration: 9s; }
+    .heart-float:nth-child(5) { bottom: 20%; right: 5%; animation-duration: 11s; animation-delay: 1s; }
+    .heart-float:nth-child(6) { top: 55%; left: 3%; animation-duration: 13s; animation-delay: 3s; }
     @keyframes floatHeart {
-      0% {
-        transform: translateY(0px) scale(1);
-        opacity: 0.08;
-      }
-      100% {
-        transform: translateY(-35px) scale(1.3);
-        opacity: 0.2;
-      }
+      0% { transform: translateY(0px) scale(1); opacity: 0.08; }
+      100% { transform: translateY(-35px) scale(1.3); opacity: 0.2; }
     }
 
     /* ── BUTTERFLY ANIMATION ── */
@@ -151,51 +132,17 @@
       animation: fly 12s infinite alternate ease-in-out;
       opacity: 0.3;
     }
-    .butterfly:nth-child(1) {
-      top: 10%;
-      left: 5%;
-      animation-duration: 14s;
-    }
-    .butterfly:nth-child(2) {
-      top: 30%;
-      right: 8%;
-      animation-duration: 16s;
-      animation-delay: 2s;
-    }
-    .butterfly:nth-child(3) {
-      bottom: 20%;
-      left: 15%;
-      animation-duration: 12s;
-      animation-delay: 4s;
-    }
-    .butterfly:nth-child(4) {
-      top: 60%;
-      right: 5%;
-      animation-duration: 18s;
-      animation-delay: 6s;
-    }
-    .butterfly:nth-child(5) {
-      top: 45%;
-      left: 25%;
-      animation-duration: 15s;
-      animation-delay: 8s;
-    }
+    .butterfly:nth-child(1) { top: 10%; left: 5%; animation-duration: 14s; }
+    .butterfly:nth-child(2) { top: 30%; right: 8%; animation-duration: 16s; animation-delay: 2s; }
+    .butterfly:nth-child(3) { bottom: 20%; left: 15%; animation-duration: 12s; animation-delay: 4s; }
+    .butterfly:nth-child(4) { top: 60%; right: 5%; animation-duration: 18s; animation-delay: 6s; }
+    .butterfly:nth-child(5) { top: 45%; left: 25%; animation-duration: 15s; animation-delay: 8s; }
     @keyframes fly {
-      0% {
-        transform: translate(0, 0) scale(1) rotate(0deg);
-      }
-      25% {
-        transform: translate(30px, -40px) scale(1.2) rotate(10deg);
-      }
-      50% {
-        transform: translate(-20px, -80px) scale(1.1) rotate(-5deg);
-      }
-      75% {
-        transform: translate(40px, -30px) scale(1.3) rotate(8deg);
-      }
-      100% {
-        transform: translate(-10px, -60px) scale(1) rotate(-3deg);
-      }
+      0% { transform: translate(0,0) scale(1) rotate(0deg); }
+      25% { transform: translate(30px,-40px) scale(1.2) rotate(10deg); }
+      50% { transform: translate(-20px,-80px) scale(1.1) rotate(-5deg); }
+      75% { transform: translate(40px,-30px) scale(1.3) rotate(8deg); }
+      100% { transform: translate(-10px,-60px) scale(1) rotate(-3deg); }
     }
 
     /* ── PHOTO & TITLE ── */
@@ -205,7 +152,7 @@
       border-radius: 50%;
       object-fit: cover;
       border: 4px solid #888;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
       margin: 0 auto 16px;
       display: block;
       position: relative;
@@ -217,23 +164,20 @@
       font-weight: 700;
       color: #fff;
       letter-spacing: 1px;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
       position: relative;
       z-index: 1;
     }
-    .app-title span {
-      font-weight: 300;
-      color: #aaa;
-    }
+    .app-title span { font-weight: 300; color: #aaa; }
 
     /* ── LOVE LETTER ── */
     .love-letter {
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255,255,255,0.06);
       backdrop-filter: blur(4px);
       border-radius: 24px;
       padding: 20px 18px;
       margin: 16px 0 20px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255,255,255,0.08);
       font-size: 15px;
       line-height: 1.7;
       color: #ddd;
@@ -242,10 +186,7 @@
       position: relative;
       z-index: 1;
     }
-    .love-letter strong {
-      color: #fff;
-      font-style: normal;
-    }
+    .love-letter strong { color: #fff; font-style: normal; }
 
     /* ── DASHBOARD ── */
     .dashboard {
@@ -261,33 +202,24 @@
       display: flex;
       align-items: center;
       gap: 14px;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255,255,255,0.06);
       backdrop-filter: blur(4px);
       border-radius: 60px;
       padding: 8px 20px 8px 16px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255,255,255,0.08);
       width: 100%;
       max-width: 300px;
     }
-    .meter-heart {
-      font-size: 32px;
-      animation: pulseHeart 2s infinite;
-    }
+    .meter-heart { font-size: 32px; animation: pulseHeart 2s infinite; }
     @keyframes pulseHeart {
-      0% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.15);
-      }
-      100% {
-        transform: scale(1);
-      }
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); }
     }
     .meter-bar {
       flex: 1;
       height: 10px;
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255,255,255,0.15);
       border-radius: 99px;
       overflow: hidden;
     }
@@ -309,17 +241,15 @@
       display: flex;
       justify-content: center;
       gap: 24px;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255,255,255,0.06);
       backdrop-filter: blur(4px);
       border-radius: 60px;
       padding: 10px 24px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255,255,255,0.08);
       width: 100%;
       max-width: 300px;
     }
-    .counter-item {
-      text-align: center;
-    }
+    .counter-item { text-align: center; }
     .counter-item .num {
       font-size: 20px;
       font-weight: 700;
@@ -337,11 +267,11 @@
     /* ── REASONS ── */
     .reasons {
       margin-top: 20px;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255,255,255,0.06);
       backdrop-filter: blur(4px);
       border-radius: 24px;
       padding: 16px 18px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255,255,255,0.08);
       max-height: 200px;
       overflow-y: auto;
       position: relative;
@@ -355,23 +285,16 @@
       text-align: center;
       letter-spacing: 0.5px;
     }
-    .reasons ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
+    .reasons ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
     .reasons li {
       font-size: 12px;
       color: #ddd;
       padding: 4px 0 4px 24px;
       position: relative;
       line-height: 1.4;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
     }
-    .reasons li:last-child {
-      border-bottom: none;
-    }
+    .reasons li:last-child { border-bottom: none; }
     .reasons li::before {
       content: "💕";
       position: absolute;
@@ -384,11 +307,11 @@
     .alarm-section {
       position: relative;
       overflow: hidden;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255,255,255,0.05);
       backdrop-filter: blur(4px);
       border-radius: 24px;
       padding: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255,255,255,0.08);
       text-align: center;
       z-index: 1;
       margin-top: 16px;
@@ -406,7 +329,7 @@
     .bubble {
       position: absolute;
       bottom: -30px;
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255,255,255,0.15);
       border-radius: 50%;
       animation: rise 8s infinite ease-in;
       width: 12px;
@@ -432,24 +355,11 @@
     .bubble:nth-child(18) { left: 60%; animation-duration: 10.2s; width: 16px; height: 16px; }
     .bubble:nth-child(19) { left: 80%; animation-duration: 8.8s; width: 14px; height: 14px; }
     .bubble:nth-child(20) { left: 100%; animation-duration: 9.6s; width: 20px; height: 20px; }
-
     @keyframes rise {
-      0% {
-        bottom: -30px;
-        transform: translateX(0px) scale(0.5);
-        opacity: 0.2;
-      }
-      50% {
-        transform: translateX(15px) scale(1);
-        opacity: 0.6;
-      }
-      100% {
-        bottom: 110%;
-        transform: translateX(-10px) scale(0.8);
-        opacity: 0;
-      }
+      0% { bottom: -30px; transform: translateX(0px) scale(0.5); opacity: 0.2; }
+      50% { transform: translateX(15px) scale(1); opacity: 0.6; }
+      100% { bottom: 110%; transform: translateX(-10px) scale(0.8); opacity: 0; }
     }
-
     .alarm-section label {
       font-size: 14px;
       color: #ccc;
@@ -476,7 +386,7 @@
     .alarm-section input[type="time"]:focus {
       outline: none;
       border-color: #ff8fa3;
-      box-shadow: 0 0 20px rgba(255, 182, 193, 0.2);
+      box-shadow: 0 0 20px rgba(255,182,193,0.2);
     }
     .alarm-section button {
       background: #ffb6c1;
@@ -488,7 +398,7 @@
       font-size: 16px;
       cursor: pointer;
       margin: 8px 4px;
-      transition: all 0.2s;
+      transition: 0.2s;
       position: relative;
       z-index: 2;
     }
@@ -509,20 +419,20 @@
       position: fixed;
       bottom: 24px;
       right: 24px;
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255,255,255,0.08);
       backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 60px;
       padding: 12px 16px;
       font-size: 20px;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.3);
       cursor: pointer;
       z-index: 99;
       color: #fff;
     }
     .music-toggle:hover {
       transform: scale(1.05);
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255,255,255,0.15);
     }
 
     /* ── FULL-SCREEN ALARM OVERLAY ── */
@@ -533,7 +443,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: #800020;
+      background: var(--main-color);
       z-index: 9999;
       justify-content: center;
       align-items: center;
@@ -543,9 +453,7 @@
       animation: fadeIn 0.5s;
       color: #fff;
     }
-    #alarmOverlay.show {
-      display: flex;
-    }
+    #alarmOverlay.show { display: flex; }
     #alarmOverlay h1 {
       font-size: 38px;
       margin-bottom: 10px;
@@ -575,32 +483,25 @@
       font-size: 18px;
       cursor: pointer;
       margin: 10px;
-      transition: all 0.2s;
+      transition: 0.2s;
     }
     #alarmOverlay .alarm-buttons button:hover {
       background: #ff8fa3;
       transform: scale(1.03);
     }
-
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
     }
 
     /* ── NEW FEATURES STYLES ── */
     .info-card {
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255,255,255,0.06);
       backdrop-filter: blur(4px);
       border-radius: 24px;
       padding: 16px 18px;
       margin-top: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255,255,255,0.08);
       color: #ddd;
       position: relative;
       z-index: 1;
@@ -677,38 +578,88 @@
       transform: scale(1.2);
     }
 
+    /* ── THEME BOX ── */
+    .theme-box {
+      margin-top: 20px;
+      padding: 18px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 25px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .theme-box h3 {
+      color: white;
+      margin-bottom: 15px;
+    }
+    .theme-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .theme-buttons button {
+      border: none;
+      padding: 10px 15px;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      background: white;
+      color: #800020;
+      transition: 0.3s;
+    }
+    .theme-buttons button:hover {
+      transform: scale(1.1);
+    }
+
+    /* ── VOICE NOTES BOX ── */
+    .voice-box {
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 25px;
+      text-align: center;
+      color: white;
+      position: relative;
+      z-index: 1;
+    }
+    .voice-box button {
+      margin: 8px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 30px;
+      background: #ffb6c1;
+      color: #4a0012;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .voice-item {
+      margin-top: 15px;
+      padding: 12px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 20px;
+    }
+    .voice-item button {
+      background: #800020;
+      color: white;
+      font-size: 12px;
+    }
+    .voice-item audio {
+      width: 100%;
+      margin-top: 10px;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 400px) {
-      .app {
-        padding: 16px;
-      }
-      .photo {
-        width: 80px;
-        height: 80px;
-      }
-      .app-title {
-        font-size: 22px;
-      }
-      .love-letter {
-        font-size: 14px;
-        padding: 16px;
-      }
-      .counter-item .num {
-        font-size: 17px;
-      }
-      .reasons li {
-        font-size: 11px;
-      }
-      #alarmOverlay h1 {
-        font-size: 28px;
-      }
-      #alarmOverlay .message {
-        font-size: 18px;
-      }
-      #alarmOverlay .alarm-buttons button {
-        padding: 10px 20px;
-        font-size: 16px;
-      }
+      .app { padding: 16px; }
+      .photo { width: 80px; height: 80px; }
+      .app-title { font-size: 22px; }
+      .love-letter { font-size: 14px; padding: 16px; }
+      .counter-item .num { font-size: 17px; }
+      .reasons li { font-size: 11px; }
+      #alarmOverlay h1 { font-size: 28px; }
+      #alarmOverlay .message { font-size: 18px; }
+      #alarmOverlay .alarm-buttons button { padding: 10px 20px; font-size: 16px; }
     }
   </style>
 </head>
@@ -785,7 +736,6 @@
         <div class="bubble"></div>
         <div class="bubble"></div>
         <div class="bubble"></div>
-          <div class="bubble"></div>
         <div class="bubble"></div>
         <div class="bubble"></div>
         <div class="bubble"></div>
@@ -834,24 +784,22 @@
     </div>
 
     <!-- ─── THEME CHANGER ─── -->
-    <div class="info-card" style="text-align:center;">
-      <h4>🎨 Choose your theme</h4>
-      <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
-        <button onclick="setTheme('#800020')" class="theme-dot" style="background:#800020;"></button>
-        <button onclick="setTheme('#c2185b')" class="theme-dot" style="background:#c2185b;"></button>
-        <button onclick="setTheme('#4a0012')" class="theme-dot" style="background:#4a0012;"></button>
-        <button onclick="setTheme('#333')" class="theme-dot" style="background:#333;"></button>
-        <button onclick="setTheme('#2c3e50')" class="theme-dot" style="background:#2c3e50;"></button>
-        <button onclick="setTheme('#1a1a2e')" class="theme-dot" style="background:#1a1a2e;"></button>
+    <div class="theme-box">
+      <h3>🎨 Choose Your Theme</h3>
+      <div class="theme-buttons">
+        <button onclick="changeTheme('pink')">💗 Pink</button>
+        <button onclick="changeTheme('burgundy')">❤️ Burgundy</button>
+        <button onclick="changeTheme('purple')">💜 Purple</button>
+        <button onclick="changeTheme('grey')">🩶 Grey</button>
       </div>
     </div>
 
     <!-- ─── VOICE NOTES ─── -->
-    <div class="info-card" style="text-align:center;">
-      <h4>🎤 Voice Notes</h4>
-      <button id="startRecordBtn" class="love-btn" onclick="startRecording()">⏺️ Record</button>
-      <button id="stopRecordBtn" class="love-btn" onclick="stopRecording()">⏹️ Stop</button>
-      <div id="voiceNotes" style="margin-top:10px;"></div>
+    <div class="voice-box">
+      <h3>🎤 Voice Notes For Us ❤️</h3>
+      <button id="startRecord">🎙️ Start Recording</button>
+      <button id="stopRecord" disabled>⏹️ Stop Recording</button>
+      <div id="recordings"></div>
     </div>
 
   </div> <!-- ─── END APP ─── -->
@@ -872,8 +820,8 @@
 
   <script>
     /* ==========================================================
-       TESRA APP - FULL SCRIPT
-       ========================================================== */
+       TESRA APP - FULL SCRIPT (All Features)
+    ========================================================== */
 
     // ─── 1,000 REASONS ───
     const reasonsList = document.getElementById('reasonsList');
@@ -886,7 +834,6 @@
       "I love your strength.", "I love your love.", "I love everything about you.",
       "You make me happy.", "You complete me."
     ];
-
     function loadReasons() {
       reasonsList.innerHTML = "";
       const frag = document.createDocumentFragment();
@@ -903,11 +850,8 @@
     const loveMeter = document.getElementById('loveMeter');
     const lovePercent = document.getElementById('lovePercent');
     let love = 100;
-
     function animateLoveMeter() {
-      if (love < 1000) {
-        love += 1;
-      }
+      if (love < 1000) love += 1;
       const percent = Math.floor(love / 10);
       loveMeter.style.width = percent + "%";
       lovePercent.textContent = percent + "%";
@@ -917,7 +861,6 @@
     // ─── DAYS TOGETHER ───
     const daysCounter = document.getElementById('daysCounter');
     const anniversary = new Date(2026, 5, 14);
-
     function updateRelationship() {
       const now = new Date();
       const diff = now - anniversary;
@@ -940,7 +883,6 @@
       "May your day be filled with happiness, peace and endless smiles.",
       "I love you more than yesterday and less than tomorrow. ❤️"
     ];
-
     function getDailyMessage() {
       const start = new Date(2026, 6, 10);
       const diff = Math.floor((new Date() - start) / 86400000);
@@ -954,7 +896,6 @@
     music.volume = 0.35;
     let playing = false;
     const musicBtn = document.getElementById('musicBtn');
-
     musicBtn.onclick = function() {
       if (playing) {
         music.pause();
@@ -975,7 +916,6 @@
     const alarmStatus = document.getElementById('alarmStatus');
     const snoozeBtn = document.getElementById('snoozeBtn');
     const stopAlarmBtn = document.getElementById('stopAlarmBtn');
-
     function ringAlarm() {
       alarmOverlay.classList.add("show");
       const ring = new Audio("love.mpss.mp3");
@@ -983,12 +923,9 @@
       ring.play().catch(() => {});
       window.currentAlarm = ring;
       if (Notification.permission === "granted") {
-        new Notification("💕 Good Morning My Queen!", {
-          body: getDailyMessage()
-        });
+        new Notification("💕 Good Morning My Queen!", { body: getDailyMessage() });
       }
     }
-
     function stopAlarm() {
       alarmOverlay.classList.remove("show");
       if (window.currentAlarm) {
@@ -996,14 +933,11 @@
         window.currentAlarm.currentTime = 0;
       }
     }
-
     stopAlarmBtn.onclick = stopAlarm;
-
     snoozeBtn.onclick = function() {
       stopAlarm();
       alarmTimer = setTimeout(ringAlarm, 300000);
     };
-
     setAlarmBtn.onclick = function() {
       clearTimeout(alarmTimer);
       const value = alarmInput.value;
@@ -1011,52 +945,31 @@
       const [h, m] = value.split(":").map(Number);
       const target = new Date();
       target.setHours(h, m, 0, 0);
-      if (target < now) {
-        target.setDate(target.getDate() + 1);
-      }
+      if (target < now) target.setDate(target.getDate() + 1);
       alarmTimer = setTimeout(ringAlarm, target - now);
-      alarmStatus.textContent = "Alarm set for " + target.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit"
-      });
+      alarmStatus.textContent = "Alarm set for " + target.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     };
 
     // ─── NOTIFICATIONS ───
-    if (Notification.permission === "default") {
-      Notification.requestPermission();
-    }
-
+    if (Notification.permission === "default") Notification.requestPermission();
     function scheduleMorning() {
       const now = new Date();
       const next = new Date();
       next.setHours(8, 0, 0, 0);
-      if (next < now) {
-        next.setDate(next.getDate() + 1);
-      }
+      if (next < now) next.setDate(next.getDate() + 1);
       setTimeout(() => {
         if (Notification.permission === "granted") {
-          new Notification("💕 Good Morning ❤️", {
-            body: getDailyMessage()
-          });
+          new Notification("💕 Good Morning ❤️", { body: getDailyMessage() });
         }
         scheduleMorning();
       }, next - now);
     }
-
-    if (Notification.permission === "granted") {
-      scheduleMorning();
-    }
+    if (Notification.permission === "granted") scheduleMorning();
 
     /* ==========================================================
-       🌸 BEAUTIFUL EMOJI PARTICLE SYSTEM
+       🌸 EMOJI PARTICLE SYSTEM
     ========================================================== */
-
-    const EMOJIS = [
-      "💖", "💕", "❤️", "💘", "💝",
-      "🌸", "🌹", "🌺", "🦋", "✨",
-      "💞", "💗", "💓", "💟", "🥰"
-    ];
-
+    const EMOJIS = ["💖","💕","❤️","💘","💝","🌸","🌹","🌺","🦋","✨","💞","💗","💓","💟","🥰"];
     function createParticle() {
       const particle = document.createElement("span");
       particle.innerHTML = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
@@ -1069,40 +982,30 @@
       particle.style.transition = (6 + Math.random() * 4) + "s linear";
       document.body.appendChild(particle);
       requestAnimationFrame(() => {
-        particle.style.transform =
-          `translateY(-120vh) translateX(${Math.random() * 150 - 75}px) rotate(${Math.random() * 720}deg)`;
+        particle.style.transform = `translateY(-120vh) translateX(${Math.random() * 150 - 75}px) rotate(${Math.random() * 720}deg)`;
         particle.style.opacity = "0";
       });
-      setTimeout(() => {
-        particle.remove();
-      }, 10000);
+      setTimeout(() => particle.remove(), 10000);
     }
-
     setInterval(createParticle, 1200);
 
     /* ==========================================================
        ❤️ ANNIVERSARY COUNTDOWN
     ========================================================== */
-
     const anniversaryText = document.getElementById("anniversaryCountdown");
-
     function updateAnniversary() {
       const now = new Date();
       let next = new Date(now.getFullYear(), 5, 14);
-      if (next < now) {
-        next.setFullYear(next.getFullYear() + 1);
-      }
+      if (next < now) next.setFullYear(next.getFullYear() + 1);
       const diff = Math.ceil((next - now) / 86400000);
       anniversaryText.innerHTML = `❤️ ${diff} day${diff == 1 ? "" : "s"} until our special day`;
     }
-
     updateAnniversary();
     setInterval(updateAnniversary, 60000);
 
     /* ==========================================================
        💌 DAILY LOVE LETTER
     ========================================================== */
-
     const LOVE_LETTERS = [
       "My beautiful Testimony, every heartbeat reminds me how lucky I am to have you. ❤️",
       "You are my peace, my happiness and my forever. 💕",
@@ -1135,55 +1038,35 @@
       "My heart smiles because of you.",
       "Forever starts with you."
     ];
-
     const letterBox = document.querySelector(".love-letter");
-
     function loadDailyLetter() {
       const start = new Date(2026, 6, 10);
       const day = Math.floor((new Date() - start) / 86400000);
-      letterBox.innerHTML =
-        "<strong>My Dearest Testimony ❤️</strong><br><br>" +
-        LOVE_LETTERS[day % LOVE_LETTERS.length];
+      letterBox.innerHTML = "<strong>My Dearest Testimony ❤️</strong><br><br>" + LOVE_LETTERS[day % LOVE_LETTERS.length];
     }
-
     loadDailyLetter();
 
     /* ==========================================================
        🌙 AUTO DAY/NIGHT MODE
     ========================================================== */
-
     function updateTheme() {
       const hour = new Date().getHours();
-      if (hour >= 18 || hour <= 6) {
-        document.body.classList.add("night");
-      } else {
-        document.body.classList.remove("night");
-      }
+      if (hour >= 18 || hour <= 6) document.body.classList.add("night");
+      else document.body.classList.remove("night");
     }
-
     updateTheme();
     setInterval(updateTheme, 300000);
 
     /* ==========================================================
        💖 RANDOM LOVE GENERATOR
     ========================================================== */
-
     const RANDOM_REASONS = [
-      "You always make me smile.",
-      "You understand me.",
-      "You support me.",
-      "You have a beautiful heart.",
-      "You make life exciting.",
-      "Your laugh is adorable.",
-      "You make me feel safe.",
-      "You believe in me.",
-      "You inspire me.",
-      "You are my happiness."
+      "You always make me smile.", "You understand me.", "You support me.",
+      "You have a beautiful heart.", "You make life exciting.", "Your laugh is adorable.",
+      "You make me feel safe.", "You believe in me.", "You inspire me.", "You are my happiness."
     ];
-
     const reasonButton = document.getElementById("randomReasonBtn");
     const randomReason = document.getElementById("randomReason");
-
     if (reasonButton) {
       reasonButton.onclick = function() {
         const text = RANDOM_REASONS[Math.floor(Math.random() * RANDOM_REASONS.length)];
@@ -1192,20 +1075,16 @@
           { transform: "scale(.7)", opacity: 0 },
           { transform: "scale(1.1)", opacity: 1 },
           { transform: "scale(1)", opacity: 1 }
-        ], {
-          duration: 600
-        });
+        ], { duration: 600 });
       };
     }
 
     /* ==========================================================
        📝 LOVE NOTE JOURNAL
     ========================================================== */
-
     const noteInput = document.getElementById("loveNote");
     const saveNote = document.getElementById("saveLoveNote");
     const noteList = document.getElementById("noteList");
-
     function loadNotes() {
       if (!noteList) return;
       const notes = JSON.parse(localStorage.getItem("tesra_notes") || "[]");
@@ -1216,7 +1095,6 @@
         noteList.appendChild(li);
       });
     }
-
     if (saveNote) {
       saveNote.onclick = function() {
         const notes = JSON.parse(localStorage.getItem("tesra_notes") || "[]");
@@ -1226,65 +1104,110 @@
         loadNotes();
       };
     }
-
     loadNotes();
 
     /* ==========================================================
        😊 MOOD CHECK
     ========================================================== */
-
     function saveMood(mood) {
-      localStorage.setItem("tesraMood", JSON.stringify({
-        emoji: mood,
-        date: new Date().toDateString()
-      }));
+      localStorage.setItem("tesraMood", JSON.stringify({ emoji: mood, date: new Date().toDateString() }));
       alert("Mood Saved ❤️");
     }
 
     /* ==========================================================
        🎨 THEME CHANGER
     ========================================================== */
-
-    function setTheme(color) {
-      document.documentElement.style.setProperty("--theme", color);
-      localStorage.setItem("tesra_theme", color);
+    const themes = {
+      pink: { main: "#ff69b4", second: "#ff1493" },
+      burgundy: { main: "#800020", second: "#4a0012" },
+      purple: { main: "#6a0dad", second: "#2d004d" },
+      grey: { main: "#555555", second: "#222222" }
+    };
+    function changeTheme(name) {
+      const theme = themes[name];
+      if (!theme) return;
+      document.documentElement.style.setProperty("--main-color", theme.main);
+      document.documentElement.style.setProperty("--second-color", theme.second);
+      localStorage.setItem("tesraTheme", name);
     }
-
-    const savedTheme = localStorage.getItem("tesra_theme");
-    if (savedTheme) {
-      setTheme(savedTheme);
-    }
+    window.addEventListener("load", () => {
+      const saved = localStorage.getItem("tesraTheme");
+      if (saved) changeTheme(saved);
+    });
 
     /* ==========================================================
-       🎤 VOICE NOTES
+       🎤 VOICE NOTES DATABASE (IndexedDB)
     ========================================================== */
-
+    let db;
+    const request = indexedDB.open("TesraVoiceNotes", 1);
+    request.onupgradeneeded = function(e) {
+      db = e.target.result;
+      if (!db.objectStoreNames.contains("voices")) {
+        db.createObjectStore("voices", { keyPath: "id", autoIncrement: true });
+      }
+    };
+    request.onsuccess = function(e) {
+      db = e.target.result;
+      loadVoices();
+    };
     let recorder;
-    let audioChunks = [];
-
-    async function startRecording() {
+    let chunks = [];
+    const startBtn = document.getElementById("startRecord");
+    const stopBtn = document.getElementById("stopRecord");
+    startBtn.onclick = async function() {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       recorder = new MediaRecorder(stream);
-      audioChunks = [];
-      recorder.ondataavailable = e => {
-        audioChunks.push(e.data);
-      };
+      chunks = [];
+      recorder.ondataavailable = (e) => { chunks.push(e.data); };
       recorder.onstop = () => {
-        const blob = new Blob(audioChunks);
-        const url = URL.createObjectURL(blob);
-        const audio = document.createElement("audio");
-        audio.controls = true;
-        audio.src = url;
-        document.getElementById("voiceNotes").appendChild(audio);
+        const blob = new Blob(chunks, { type: "audio/webm" });
+        saveVoice(blob);
       };
       recorder.start();
-    }
-
-    function stopRecording() {
+      startBtn.disabled = true;
+      stopBtn.disabled = false;
+    };
+    stopBtn.onclick = function() {
       if (recorder) {
         recorder.stop();
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
       }
+    };
+    function saveVoice(blob) {
+      const transaction = db.transaction(["voices"], "readwrite");
+      const store = transaction.objectStore("voices");
+      store.add({ audio: blob, date: new Date().toLocaleString() });
+      transaction.oncomplete = () => { loadVoices(); };
+    }
+    function loadVoices() {
+      if (!db) return;
+      const box = document.getElementById("recordings");
+      box.innerHTML = "";
+      const transaction = db.transaction(["voices"], "readonly");
+      const store = transaction.objectStore("voices");
+      store.openCursor().onsuccess = function(e) {
+        const cursor = e.target.result;
+        if (cursor) {
+          const item = cursor.value;
+          const url = URL.createObjectURL(item.audio);
+          const div = document.createElement("div");
+          div.className = "voice-item";
+          div.innerHTML = `
+            <p>❤️ ${item.date}</p>
+            <audio controls src="${url}"></audio>
+            <button onclick="deleteVoice(${cursor.key})">🗑️ Delete</button>
+          `;
+          box.appendChild(div);
+          cursor.continue();
+        }
+      };
+    }
+    function deleteVoice(id) {
+      const transaction = db.transaction(["voices"], "readwrite");
+      transaction.objectStore("voices").delete(id);
+      transaction.oncomplete = () => { loadVoices(); };
     }
   </script>
 </body>
-          </html>
+  </html>
