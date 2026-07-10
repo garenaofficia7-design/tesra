@@ -371,28 +371,88 @@
       font-size: 12px;
     }
 
-    /* ── ALARM SECTION ── */
+    /* ── ALARM SECTION WITH BUBBLES ── */
     .alarm-section {
-      margin-top: 16px;
-      background: rgba(255, 255, 255, 0.06);
+      position: relative;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(4px);
       border-radius: 24px;
       padding: 16px;
       border: 1px solid rgba(255, 255, 255, 0.08);
       text-align: center;
-      position: relative;
       z-index: 1;
+      margin-top: 16px;
     }
+    .bubble-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .bubble {
+      position: absolute;
+      bottom: -30px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      animation: rise 8s infinite ease-in;
+      width: 12px;
+      height: 12px;
+    }
+    .bubble:nth-child(1)  { left: 5%;  animation-duration: 7s;  width: 10px; height: 10px; }
+    .bubble:nth-child(2)  { left: 15%; animation-duration: 9s;  width: 18px; height: 18px; }
+    .bubble:nth-child(3)  { left: 25%; animation-duration: 8s;  width: 14px; height: 14px; }
+    .bubble:nth-child(4)  { left: 35%; animation-duration: 10s; width: 20px; height: 20px; }
+    .bubble:nth-child(5)  { left: 45%; animation-duration: 7.5s; width: 12px; height: 12px; }
+    .bubble:nth-child(6)  { left: 55%; animation-duration: 9.5s; width: 16px; height: 16px; }
+    .bubble:nth-child(7)  { left: 65%; animation-duration: 8.5s; width: 10px; height: 10px; }
+    .bubble:nth-child(8)  { left: 75%; animation-duration: 11s; width: 22px; height: 22px; }
+    .bubble:nth-child(9)  { left: 85%; animation-duration: 7.2s; width: 14px; height: 14px; }
+    .bubble:nth-child(10) { left: 95%; animation-duration: 9.8s; width: 18px; height: 18px; }
+    .bubble:nth-child(11) { left: 10%; animation-duration: 12s; width: 24px; height: 24px; }
+    .bubble:nth-child(12) { left: 30%; animation-duration: 6.5s; width: 8px; height: 8px; }
+    .bubble:nth-child(13) { left: 50%; animation-duration: 10.5s; width: 20px; height: 20px; }
+    .bubble:nth-child(14) { left: 70%; animation-duration: 8.2s; width: 15px; height: 15px; }
+    .bubble:nth-child(15) { left: 90%; animation-duration: 9.2s; width: 18px; height: 18px; }
+    .bubble:nth-child(16) { left: 20%; animation-duration: 11.5s; width: 22px; height: 22px; }
+    .bubble:nth-child(17) { left: 40%; animation-duration: 7.8s; width: 12px; height: 12px; }
+    .bubble:nth-child(18) { left: 60%; animation-duration: 10.2s; width: 16px; height: 16px; }
+    .bubble:nth-child(19) { left: 80%; animation-duration: 8.8s; width: 14px; height: 14px; }
+    .bubble:nth-child(20) { left: 100%; animation-duration: 9.6s; width: 20px; height: 20px; }
+
+    @keyframes rise {
+      0% {
+        bottom: -30px;
+        transform: translateX(0px) scale(0.5);
+        opacity: 0.2;
+      }
+      50% {
+        transform: translateX(15px) scale(1);
+        opacity: 0.6;
+      }
+      100% {
+        bottom: 110%;
+        transform: translateX(-10px) scale(0.8);
+        opacity: 0;
+      }
+    }
+
     .alarm-section label {
       font-size: 14px;
       color: #ccc;
       display: block;
       margin-bottom: 6px;
+      position: relative;
+      z-index: 2;
     }
     .alarm-section input[type="time"] {
-      background: rgba(255, 255, 255, 0.1);
+      background: transparent !important;
       border: 2px solid #ffb6c1;
-      color: #fff;
+      color: #ffb6c1;
       padding: 10px 16px;
       border-radius: 12px;
       font-size: 18px;
@@ -401,7 +461,8 @@
       margin: 6px auto;
       display: block;
       font-weight: 600;
-      color: #ffb6c1;
+      position: relative;
+      z-index: 2;
     }
     .alarm-section input[type="time"]:focus {
       outline: none;
@@ -419,6 +480,8 @@
       cursor: pointer;
       margin: 8px 4px;
       transition: all 0.2s;
+      position: relative;
+      z-index: 2;
     }
     .alarm-section button:hover {
       background: #ff8fa3;
@@ -428,6 +491,8 @@
       color: #ccc;
       font-size: 14px;
       margin-top: 8px;
+      position: relative;
+      z-index: 2;
     }
 
     /* ── MUSIC TOGGLE ── */
@@ -610,8 +675,34 @@
       <ul id="reasonsList"></ul>
     </div>
 
-    <!-- Alarm Section -->
-    <div class="alarm-section">
+    <!-- Alarm Section with Bubbles -->
+    <div class="alarm-section" id="alarmSection">
+      <div class="bubble-container" id="bubbleContainer">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+      </div>
       <label>⏰ Set a reminder, my love 💕</label>
       <input type="time" id="alarmTime" value="08:00" />
       <button id="setAlarmBtn">🌸 Set Alarm</button>
@@ -654,7 +745,7 @@
       function generateReasons(start, count) {
         const fragment = document.createDocumentFragment();
         for (let i = start; i < start + count && i < totalReasons; i++) {
-          const li = document.createElement('li');
+                    const li = document.createElement('li');
           const phrase = lovePhrases[i % lovePhrases.length];
           li.textContent = phrase + ' #' + (i + 1);
           fragment.appendChild(li);
@@ -761,4 +852,99 @@
         const delay = alarmTime - now;
         alarmTimeout = setTimeout(() => {
           showAlarm();
-        }, 
+        }, delay);
+        const timeStr = alarmTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        alarmStatus.textContent = '⏰ Alarm set for ' + timeStr + ' 💕';
+        alert('✅ Alarm set for ' + timeStr + '! 💕');
+      }
+
+      setAlarmBtn.addEventListener('click', setAlarm);
+
+      snoozeBtn.addEventListener('click', function() {
+        hideAlarm();
+        alarmTimeout = setTimeout(() => {
+          showAlarm();
+        }, 5 * 60 * 1000);
+        alarmStatus.textContent = '😴 Snoozed for 5 minutes';
+      });
+
+      stopAlarmBtn.addEventListener('click', function() {
+        hideAlarm();
+        alarmStatus.textContent = '⏰ Alarm stopped';
+      });
+
+      // ---- NOTIFICATIONS (AUTOMATIC ON FIRST VISIT) ----
+      if (Notification.permission === 'default') {
+        Notification.requestPermission().then(() => {});
+      }
+
+      function scheduleMorningNotification() {
+        const now = new Date();
+        const target = new Date(now);
+        target.setHours(8, 0, 0, 0);
+        let delay = target - now;
+        if (delay < 0) {
+          target.setDate(target.getDate() + 1);
+          delay = target - now;
+        }
+        setTimeout(() => {
+          if (Notification.permission === 'granted') {
+            new Notification('💕 Good Morning, My Queen!', {
+              body: getDailyMessage(),
+              icon: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ctext y=\'.9em\' font-size=\'90\'%3E💕%3C/text%3E%3C/svg%3E'
+            });
+          }
+          scheduleMorningNotification();
+        }, delay);
+      }
+
+      const DAILY_MESSAGES = [
+        "Good morning, my love. You're the first thing on my mind every day. 💕",
+        "I hope today brings you as much joy as you bring me.",
+        "You are my sunshine, even on cloudy days. ☀️",
+        "I fell in love with you yesterday, and I fall deeper every morning.",
+        "Another day, another reason to be grateful for you.",
+        "You are my favorite thought in the morning and my sweetest dream at night.",
+        "I love you more than coffee, and that's saying a lot. ☕💕",
+        "Every morning with you in my heart is a beautiful morning.",
+        "You are the best part of my day, even before it begins.",
+        "I wake up smiling because I know you're mine."
+      ];
+
+      function getDailyMessage() {
+        const now = new Date();
+        const start = new Date(2026, 6, 10);
+        const diff = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+        return DAILY_MESSAGES[diff % DAILY_MESSAGES.length];
+      }
+
+      if (Notification.permission === 'granted') {
+        scheduleMorningNotification();
+      }
+
+      // ---- MUSIC: Cinnamon Girl (manual toggle) ----
+      const musicBtn = document.getElementById('musicBtn');
+      let audio = null;
+      let isPlaying = false;
+      const MUSIC_URL = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+
+      musicBtn.addEventListener('click', function() {
+        if (!audio) {
+          audio = new Audio(MUSIC_URL);
+          audio.loop = true;
+          audio.volume = 0.3;
+        }
+        if (isPlaying) {
+          audio.pause();
+          isPlaying = false;
+          musicBtn.textContent = '🎵';
+        } else {
+          audio.play().catch(() => {});
+          isPlaying = true;
+          musicBtn.textContent = '🔊';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
