@@ -6,7 +6,12 @@
     <title>Tesra 💕</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💕</text></svg>" />
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: #fff5f7;
@@ -39,31 +44,77 @@
         }
         .cloud {
             position: absolute;
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.3);
             border-radius: 9999px;
-            filter: blur(12px);
+            filter: blur(16px);
             animation: floatCloud 12s infinite alternate ease-in-out;
         }
-        .cloud:nth-child(1) { width: 200px; height: 60px; top: 10%; left: -20%; animation-duration: 14s; }
-        .cloud:nth-child(2) { width: 280px; height: 70px; bottom: 20%; right: -30%; animation-duration: 16s; animation-delay: 2s; }
-        .cloud:nth-child(3) { width: 160px; height: 50px; top: 50%; left: 20%; animation-duration: 12s; animation-delay: 4s; }
+        .cloud:nth-child(1) {
+            width: 220px;
+            height: 70px;
+            top: 8%;
+            left: -20%;
+            animation-duration: 14s;
+        }
+        .cloud:nth-child(2) {
+            width: 300px;
+            height: 80px;
+            bottom: 15%;
+            right: -30%;
+            animation-duration: 16s;
+            animation-delay: 2s;
+        }
+        .cloud:nth-child(3) {
+            width: 180px;
+            height: 55px;
+            top: 50%;
+            left: 15%;
+            animation-duration: 12s;
+            animation-delay: 4s;
+        }
         @keyframes floatCloud {
-            0% { transform: translateX(0px); opacity: 0.4; }
-            100% { transform: translateX(60px); opacity: 0.9; }
+            0% {
+                transform: translateX(0px);
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateX(70px);
+                opacity: 0.9;
+            }
         }
         .heart-float {
             position: absolute;
-            font-size: 22px;
+            font-size: 24px;
             opacity: 0.15;
             animation: floatHeart 10s infinite alternate;
             pointer-events: none;
         }
-        .heart-float:nth-child(4) { top: 15%; left: 10%; animation-duration: 9s; }
-        .heart-float:nth-child(5) { bottom: 25%; right: 8%; animation-duration: 11s; animation-delay: 1s; }
-        .heart-float:nth-child(6) { top: 60%; left: 5%; animation-duration: 13s; animation-delay: 3s; }
+        .heart-float:nth-child(4) {
+            top: 12%;
+            left: 8%;
+            animation-duration: 9s;
+        }
+        .heart-float:nth-child(5) {
+            bottom: 20%;
+            right: 5%;
+            animation-duration: 11s;
+            animation-delay: 1s;
+        }
+        .heart-float:nth-child(6) {
+            top: 55%;
+            left: 3%;
+            animation-duration: 13s;
+            animation-delay: 3s;
+        }
         @keyframes floatHeart {
-            0% { transform: translateY(0px) scale(1); opacity: 0.1; }
-            100% { transform: translateY(-30px) scale(1.2); opacity: 0.3; }
+            0% {
+                transform: translateY(0px) scale(1);
+                opacity: 0.1;
+            }
+            100% {
+                transform: translateY(-35px) scale(1.3);
+                opacity: 0.3;
+            }
         }
         .photo {
             width: 100px;
@@ -83,7 +134,10 @@
             letter-spacing: 1px;
             margin-bottom: 4px;
         }
-        .app-title span { font-weight: 300; color: #d87a8f; }
+        .app-title span {
+            font-weight: 300;
+            color: #d87a8f;
+        }
         .love-letter {
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(4px);
@@ -98,7 +152,10 @@
             font-style: italic;
             box-shadow: 0 4px 20px rgba(255, 105, 135, 0.06);
         }
-        .love-letter strong { color: #b3405a; font-style: normal; }
+        .love-letter strong {
+            color: #b3405a;
+            font-style: normal;
+        }
         .dashboard {
             display: flex;
             flex-direction: column;
@@ -118,15 +175,25 @@
             width: 100%;
             max-width: 300px;
         }
-        .meter-heart { font-size: 32px; line-height: 1; animation: pulseHeart 2s infinite; }
+        .meter-heart {
+            font-size: 32px;
+            line-height: 1;
+            animation: pulseHeart 2s infinite;
+        }
         @keyframes pulseHeart {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.12); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
         .meter-bar {
             flex: 1;
-            height: 8px;
+            height: 10px;
             background: #f0d6dc;
             border-radius: 99px;
             overflow: hidden;
@@ -158,7 +225,9 @@
             width: 100%;
             max-width: 300px;
         }
-        .counter-item { text-align: center; }
+        .counter-item {
+            text-align: center;
+        }
         .counter-item .num {
             font-size: 20px;
             font-weight: 700;
@@ -202,7 +271,9 @@
             line-height: 1.5;
             border-bottom: 1px solid rgba(255, 182, 193, 0.1);
         }
-        .reasons li:last-child { border-bottom: none; }
+        .reasons li:last-child {
+            border-bottom: none;
+        }
         .reasons li::before {
             content: "💕";
             position: absolute;
@@ -226,7 +297,10 @@
             backdrop-filter: blur(8px);
             color: #b3405a;
         }
-        .music-toggle:hover { transform: scale(1.05); background: #ffe8ec; }
+        .music-toggle:hover {
+            transform: scale(1.05);
+            background: #ffe8ec;
+        }
         .notif-banner {
             background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(4px);
@@ -253,12 +327,26 @@
             cursor: pointer;
         }
         @media (max-width: 400px) {
-            .app { padding: 16px; }
-            .photo { width: 80px; height: 80px; }
-            .app-title { font-size: 22px; }
-            .love-letter { font-size: 14px; padding: 16px; }
-            .counter-item .num { font-size: 17px; }
-            .reasons li { font-size: 13px; }
+            .app {
+                padding: 16px;
+            }
+            .photo {
+                width: 80px;
+                height: 80px;
+            }
+            .app-title {
+                font-size: 22px;
+            }
+            .love-letter {
+                font-size: 14px;
+                padding: 16px;
+            }
+            .counter-item .num {
+                font-size: 17px;
+            }
+            .reasons li {
+                font-size: 13px;
+            }
         }
     </style>
 </head>
@@ -274,11 +362,11 @@
             <div class="heart-float">🌸</div>
         </div>
 
-        <img class="photo" src="https://i.ibb.co/2dzKsPj/190130-1291403634850282997.webp" alt="Tesra" />
+        <img class="photo" src="https://i.ibb.co/0cL3Wr2/190130-1291403634850282997.webp" alt="Tesra" />
 
         <div class="app-title">Tesra <span>💕</span></div>
 
-        <div class="love-letter" id="loveLetter">
+        <div class="love-letter">
             <strong>My dearest Testimony ❤️</strong>,<br />
             loving you has been one of the greatest blessings in my life. Every smile you give me, every word you speak, and every moment we share reminds me how lucky I am to have you. Thank you for loving me, believing in me, and making my life brighter. I promise to keep choosing you every single day. I love you more than words can ever express. Forever and always. ❤️🥹
         </div>
@@ -305,10 +393,10 @@
 
         <div class="reasons">
             <h3>💕 20 Reasons I Love You</h3>
-            <ul id="reasonsList">
+            <ul>
                 <li>You make my life happier.</li>
                 <li>I love the way you smile.</li>
-                <li>You’re kind and caring.</li>
+                <li>You're kind and caring.</li>
                 <li>You always make me feel understood.</li>
                 <li>Your heart is beautiful.</li>
                 <li>You support me in everything.</li>
@@ -321,7 +409,7 @@
                 <li>You believe in me.</li>
                 <li>The little things you do.</li>
                 <li>I feel peaceful with you.</li>
-                <li>The memories we’re creating.</li>
+                <li>The memories we're creating.</li>
                 <li>Your voice and laugh.</li>
                 <li>You make my heart race.</li>
                 <li>The future I imagine with you.</li>
@@ -329,7 +417,7 @@
             </ul>
         </div>
 
-        <div class="notif-banner" id="notifBanner">
+        <div class="notif-banner">
             💕 Morning love notes
             <button id="notifBtn">Enable</button>
         </div>
@@ -339,70 +427,12 @@
 
     <script>
         (function() {
-            const REASONS = [
-                "You make my life happier.",
-                "I love the way you smile.",
-                "You’re kind and caring.",
-                "You always make me feel understood.",
-                "Your heart is beautiful.",
-                "You support me in everything.",
-                "You make ordinary days special.",
-                "Your sense of humor.",
-                "You inspire me to be better.",
-                "I can be myself with you.",
-                "You brighten my darkest days.",
-                "Your strength and determination.",
-                "You believe in me.",
-                "The little things you do.",
-                "I feel peaceful with you.",
-                "The memories we’re creating.",
-                "Your voice and laugh.",
-                "You make my heart race.",
-                "The future I imagine with you.",
-                "Most of all — you."
-            ];
-            const ANNIVERSARY = new Date(2026, 5, 14);
-
-            const DAILY_MESSAGES = [
-                "Good morning, my love. You’re the first thing on my mind every day. 💕",
-                "I hope today brings you as much joy as you bring me.",
-                "You are my sunshine, even on cloudy days. ☀️",
-                "I fell in love with you yesterday, and I fall deeper every morning.",
-                "Another day, another reason to be grateful for you.",
-                "You are my favorite thought in the morning and my sweetest dream at night.",
-                "I love you more than coffee, and that’s saying a lot. ☕💕",
-                "Every morning with you in my heart is a beautiful morning.",
-                "You are the best part of my day, even before it begins.",
-                "I wake up smiling because I know you’re mine.",
-                "Good morning, beautiful. I hope you feel as loved as you truly are.",
-                "You make every sunrise worth waking up for.",
-                "I don’t need a reason to love you — but I find one every morning anyway.",
-                "The world is brighter because you’re in it. 💛",
-                "Thinking of you is the first thing I do, and it’s my favorite habit.",
-                "You are my peace, my joy, and my home.",
-                "I love you more today than yesterday, but not as much as tomorrow.",
-                "Good morning to the woman who holds my heart completely. 💕",
-                "I hope your day is as beautiful as your smile.",
-                "You make ordinary mornings feel like magic.",
-                "I thank God for you every single morning.",
-                "You are not just my girlfriend — you’re my best friend and my heart.",
-                "Every day with you is a gift I never take for granted.",
-                "I love you. I miss you. I can’t wait to see you again.",
-                "Good morning, my queen. 👑",
-                "You are the reason I believe in love.",
-                "I wake up grateful for you, every single day.",
-                "You are my favorite hello and my hardest goodbye.",
-                "Loving you is the easiest thing I’ve ever done.",
-                "Forever doesn’t seem long enough with you. I love you. ❤️"
-            ];
-
             const loveMeter = document.getElementById('loveMeter');
             const lovePercent = document.getElementById('lovePercent');
             const daysCounter = document.getElementById('daysCounter');
-            const reasonsCount = document.getElementById('reasonsCount');
             const notifBtn = document.getElementById('notifBtn');
-            const notifBanner = document.getElementById('notifBanner');
 
+            // ---- Love meter (increases visibly every 10 seconds) ----
             let loveValue = 100;
             const MAX_LOVE = 300;
 
@@ -415,29 +445,34 @@
                 loveMeter.style.width = pct + '%';
                 lovePercent.textContent = Math.round(pct) + '%';
             }
-            setInterval(updateLoveMeter, 2 * 60 * 1000);
-            setInterval(() => {
-                if (loveValue < MAX_LOVE) {
-                    loveValue += 0.2;
-                    if (loveValue > MAX_LOVE) loveValue = MAX_LOVE;
-                    const pct = Math.min(loveValue, 100);
-                    loveMeter.style.width = pct + '%';
-                    lovePercent.textContent = Math.round(pct) + '%';
-                }
-            }, 5000);
 
+            // Increase every 10 seconds so she can see it move
+            setInterval(updateLoveMeter, 10000);
+
+            // ---- Anniversary counter (June 14, 2026) ----
             function updateDays() {
                 const now = new Date();
-                const diff = now - ANNIVERSARY;
+                const anniversary = new Date(2026, 5, 14);
+                const diff = now - anniversary;
                 const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
                 daysCounter.textContent = days;
             }
             updateDays();
-            setInterval(updateDays, 60 * 60 * 1000);
+            setInterval(updateDays, 60000);
 
-            reasonsCount.textContent = REASONS.length;
-
-            let notifPermission = Notification.permission;
+            // ---- Daily love notifications ----
+            const DAILY_MESSAGES = [
+                "Good morning, my love. You're the first thing on my mind every day. 💕",
+                "I hope today brings you as much joy as you bring me.",
+                "You are my sunshine, even on cloudy days. ☀️",
+                "I fell in love with you yesterday, and I fall deeper every morning.",
+                "Another day, another reason to be grateful for you.",
+                "You are my favorite thought in the morning and my sweetest dream at night.",
+                "I love you more than coffee, and that's saying a lot. ☕💕",
+                "Every morning with you in my heart is a beautiful morning.",
+                "You are the best part of my day, even before it begins.",
+                "I wake up smiling because I know you're mine."
+            ];
 
             function getDailyMessage() {
                 const now = new Date();
@@ -447,28 +482,10 @@
                 return DAILY_MESSAGES[index];
             }
 
-            function requestNotifPermission() {
-                if (notifPermission === 'default' || notifPermission === 'denied') {
-                    Notification.requestPermission().then(perm => {
-                        notifPermission = perm;
-                        if (perm === 'granted') {
-                            notifBanner.innerHTML = '💕 Morning love notes enabled ✅';
-                            scheduleMorningNotification();
-                        } else {
-                            notifBanner.innerHTML = '💕 Please allow notifications for love notes.';
-                        }
-                    });
-                } else if (notifPermission === 'granted') {
-                    notifBanner.innerHTML = '💕 Morning love notes enabled ✅';
-                    scheduleMorningNotification();
-                }
-            }
-
             function scheduleMorningNotification() {
                 const now = new Date();
                 const target = new Date(now);
                 target.setHours(8, 0, 0, 0);
-
                 let delay = target - now;
                 if (delay < 0) {
                     target.setDate(target.getDate() + 1);
@@ -476,9 +493,8 @@
                 }
                 setTimeout(() => {
                     if (Notification.permission === 'granted') {
-                        const msg = getDailyMessage();
                         new Notification('💕 Good morning, my love!', {
-                            body: msg,
+                            body: getDailyMessage(),
                             icon: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ctext y=\'.9em\' font-size=\'90\'%3E💕%3C/text%3E%3C/svg%3E'
                         });
                     }
@@ -486,14 +502,48 @@
                 }, delay);
             }
 
-            notifBtn.addEventListener('click', requestNotifPermission);
+            notifBtn.addEventListener('click', function() {
+                if (Notification.permission === 'default' || Notification.permission === 'denied') {
+                    Notification.requestPermission().then(perm => {
+                        if (perm === 'granted') {
+                            notifBtn.textContent = '✅ Enabled';
+                            scheduleMorningNotification();
+                        }
+                    });
+                } else if (Notification.permission === 'granted') {
+                    notifBtn.textContent = '✅ Enabled';
+                    scheduleMorningNotification();
+                }
+            });
 
             if (Notification.permission === 'granted') {
-                notifBanner.innerHTML = '💕 Morning love notes enabled ✅';
+                notifBtn.textContent = '✅ Enabled';
                 scheduleMorningNotification();
             }
 
+            // ---- Music ----
             const musicBtn = document.getElementById('musicBtn');
             let audio = null;
             let isPlaying = false;
-            const MUSIC_URL = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3
+            const MUSIC_URL = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+
+            musicBtn.addEventListener('click', function() {
+                if (!audio) {
+                    audio = new Audio(MUSIC_URL);
+                    audio.loop = true;
+                    audio.volume = 0.3;
+                }
+                if (isPlaying) {
+                    audio.pause();
+                    isPlaying = false;
+                    musicBtn.textContent = '🎵';
+                } else {
+                    audio.play().catch(() => {});
+                    isPlaying = true;
+                    musicBtn.textContent = '🔊';
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
