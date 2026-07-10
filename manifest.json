@@ -1,0 +1,24 @@
+{
+  "name": "Tesra",
+  "short_name": "Tesra",
+  "description": "A love app for Testimony 💕",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#c2185b",
+  "theme_color": "#c2185b",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://i.ibb.co/0cL3Wr2/190130-1291403634850282997.webp",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://i.ibb.co/0cL3Wr2/190130-1291403634850282997.webp",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
