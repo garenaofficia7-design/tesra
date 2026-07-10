@@ -664,14 +664,14 @@
           <span class="label">Days Together</span>
         </div>
         <div class="counter-item">
-          <span class="num" id="reasonsCount">1,000,000</span>
+          <span class="num" id="reasonsCount">1,000</span>
           <span class="label">Reasons</span>
         </div>
       </div>
     </div>
 
     <div class="reasons">
-      <h3>💕 1,000,000 Reasons I Love You</h3>
+      <h3>💕 1,000 Reasons I Love You</h3>
       <ul id="reasonsList"></ul>
     </div>
 
@@ -722,229 +722,248 @@
   </div>
 
   <!-- ─── MUSIC TOGGLE ─── -->
-  <button class="music-toggle" id="musicBtn" title="Play Cinnamon Girl">🎵</button>
+  <button class="music-toggle" id="musicBtn" title="Play Music">🎵</button>
 
   <script>
-    (function() {
-      // ---- 1,000,000 REAL REASONS ----
-      const reasonsList = document.getElementById('reasonsList');
-      const totalReasons = 1000000;
-      const batchSize = 100;
-      let currentIndex = 0;
+    /* ==========================================
+       TESRA APP - IMPROVED FEATURES
+       ========================================== */
 
-      const lovePhrases = [
-        "I love your smile", "I love your laugh", "I love your eyes",
-        "I love your heart", "I love your kindness", "I love your strength",
-        "I love your courage", "I love your beauty", "I love your mind",
-        "I love your soul", "I love your voice", "I love your touch",
-        "I love your warmth", "I love your patience", "I love your loyalty",
-        "I love your passion", "I love your dreams", "I love your energy",
-        "I love your spirit", "I love your honesty"
-      ];
+    /* -----------------------------
+       DAILY LOVE MESSAGES
+    ------------------------------*/
 
-      function generateReasons(start, count) {
-        const fragment = document.createDocumentFragment();
-        for (let i = start; i < start + count && i < totalReasons; i++) {
-                    const li = document.createElement('li');
-          const phrase = lovePhrases[i % lovePhrases.length];
-          li.textContent = phrase + ' #' + (i + 1);
-          fragment.appendChild(li);
-        }
-        reasonsList.appendChild(fragment);
-        currentIndex += count;
-        if (currentIndex < totalReasons) {
-          setTimeout(() => generateReasons(currentIndex, batchSize), 10);
-        }
+    const DAILY_MESSAGES = [
+      "Good morning, my beautiful Queen. I hope today is as wonderful as your smile. ❤️",
+      "You are the first thought in my heart every morning. I love you forever. 💕",
+      "No matter what happens today, remember someone loves you endlessly. ❤️",
+      "You make my world brighter every single day. Have an amazing morning, my love. 🌸",
+      "My heart belongs to you today, tomorrow and forever. ❤️",
+      "You are my greatest blessing. Never forget how special you are to me. 💖",
+      "I fall in love with you again every morning.",
+      "I wish I could wake up beside you every day. ❤️",
+      "May your day be filled with happiness, peace and endless smiles.",
+            "I love you more than yesterday and less than tomorrow. ❤️"
+    ];
+
+    function getDailyMessage() {
+      const start = new Date(2026, 6, 10);
+      const diff = Math.floor((new Date() - start) / 86400000);
+      return DAILY_MESSAGES[diff % DAILY_MESSAGES.length];
+    }
+
+    /* -----------------------------
+       BETTER LOVE METER
+    ------------------------------*/
+
+    const loveMeter = document.getElementById('loveMeter');
+    const lovePercent = document.getElementById('lovePercent');
+    let love = 100;
+
+    function animateLoveMeter() {
+      if (love < 1000) {
+        love += 1;
       }
-      setTimeout(() => generateReasons(0, batchSize), 500);
+      const percent = Math.floor(love / 10);
+      loveMeter.style.width = percent + "%";
+      lovePercent.textContent = percent + "%";
+    }
 
-      // ---- LOVE METER ----
-      const loveMeter = document.getElementById('loveMeter');
-      const lovePercent = document.getElementById('lovePercent');
-      let loveValue = 100;
-      const MAX_LOVE = 1000;
+    setInterval(animateLoveMeter, 3000);
 
-      function updateLoveMeter() {
-        if (loveValue < MAX_LOVE) {
-          loveValue += 1;
-          if (loveValue > MAX_LOVE) loveValue = MAX_LOVE;
-        }
-        const pct = Math.min(loveValue / 10, 100);
-        loveMeter.style.width = pct + '%';
-        lovePercent.textContent = Math.round(pct) + '%';
+    /* -----------------------------
+       BETTER DAYS TOGETHER
+    ------------------------------*/
+
+    const daysCounter = document.getElementById('daysCounter');
+    const anniversary = new Date(2026, 5, 14);
+
+    function updateRelationship() {
+      const now = new Date();
+      const diff = now - anniversary;
+      const days = Math.floor(diff / 86400000);
+      daysCounter.textContent = days.toLocaleString();
+    }
+
+    updateRelationship();
+    setInterval(updateRelationship, 60000);
+
+    /* -----------------------------
+       1000 LOVE REASONS
+    ------------------------------*/
+
+    const reasonsList = document.getElementById('reasonsList');
+    const reasons = [
+      "I love your smile.",
+      "I love your laugh.",
+      "I love your eyes.",
+      "I love your hugs.",
+      "I love your kisses.",
+      "I love your voice.",
+      "I love your heart.",
+      "I love your kindness.",
+      "I love your loyalty.",
+      "I love your honesty.",
+      "I love your beautiful soul.",
+      "I love your patience.",
+      "I love your beauty.",
+      "I love your intelligence.",
+      "I love your confidence.",
+      "I love your strength.",
+      "I love your love.",
+      "I love everything about you.",
+      "You make me happy.",
+      "You complete me."
+    ];
+
+    function loadReasons() {
+      reasonsList.innerHTML = "";
+      const frag = document.createDocumentFragment();
+      for (let i = 1; i <= 1000; i++) {
+        const li = document.createElement("li");
+        li.textContent = reasons[(i - 1) % reasons.length] + " ❤️ #" + i;
+        frag.appendChild(li);
       }
-      setInterval(updateLoveMeter, 5000);
+      reasonsList.appendChild(frag);
+    }
 
-      // ---- DAYS TOGETHER ----
-      const daysCounter = document.getElementById('daysCounter');
-      const anniversary = new Date(2026, 5, 14);
+    loadReasons();
 
-      function updateDays() {
-        const now = new Date();
-        const diff = now - anniversary;
-        const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
-        daysCounter.textContent = days;
+    /* -----------------------------
+       FLOATING HEARTS
+    ------------------------------*/
+
+    function floatingHeart() {
+      const heart = document.createElement("div");
+      heart.innerHTML = "💖";
+      heart.style.position = "fixed";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.bottom = "-40px";
+      heart.style.fontSize = (18 + Math.random() * 20) + "px";
+      heart.style.transition = "6s linear";
+      heart.style.pointerEvents = "none";
+      heart.style.zIndex = "999";
+      document.body.appendChild(heart);
+      requestAnimationFrame(() => {
+        heart.style.transform = "translateY(-120vh) rotate(360deg)";
+        heart.style.opacity = "0";
+      });
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }
+
+    setInterval(floatingHeart, 2000);
+
+    /* -----------------------------
+       BETTER MUSIC PLAYER
+    ------------------------------*/
+
+    const MUSIC_FILE = "love.mpss.mp3";
+    let music = new Audio(MUSIC_FILE);
+    music.loop = true;
+    music.volume = 0.35;
+    let playing = false;
+    const musicBtn = document.getElementById('musicBtn');
+
+    musicBtn.onclick = function() {
+      if (playing) {
+        music.pause();
+        musicBtn.textContent = "🎵";
+        playing = false;
+      } else {
+        music.play().catch(() => {});
+        musicBtn.textContent = "🔊";
+        playing = true;
       }
-      updateDays();
-      setInterval(updateDays, 60000);
+    };
 
-      // ---- ALARM SYSTEM ----
-      let alarmTimeout = null;
-      const alarmStatus = document.getElementById('alarmStatus');
-      const alarmInput = document.getElementById('alarmTime');
-      const setAlarmBtn = document.getElementById('setAlarmBtn');
-      const alarmOverlay = document.getElementById('alarmOverlay');
-      const snoozeBtn = document.getElementById('snoozeBtn');
-      const stopAlarmBtn = document.getElementById('stopAlarmBtn');
-      let alarmAudio = null;
-      const CINNAMON_GIRL_URL = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+    /* -----------------------------
+       BETTER ALARM
+    ------------------------------*/
 
-      function playAlarmSound() {
-        if (alarmAudio) {
-          alarmAudio.pause();
-          alarmAudio.currentTime = 0;
-        }
-        alarmAudio = new Audio(CINNAMON_GIRL_URL);
-        alarmAudio.loop = true;
-        alarmAudio.volume = 0.4;
-        alarmAudio.play().catch(() => {});
+    let alarmTimer;
+    const alarmOverlay = document.getElementById('alarmOverlay');
+    const alarmInput = document.getElementById('alarmTime');
+    const setAlarmBtn = document.getElementById('setAlarmBtn');
+    const alarmStatus = document.getElementById('alarmStatus');
+    const snoozeBtn = document.getElementById('snoozeBtn');
+    const stopAlarmBtn = document.getElementById('stopAlarmBtn');
+
+    function ringAlarm() {
+      alarmOverlay.classList.add("show");
+      const ring = new Audio("love.mpss.mp3");
+      ring.loop = true;
+      ring.play().catch(() => {});
+      window.currentAlarm = ring;
+      if (Notification.permission === "granted") {
+        new Notification("💕 Good Morning My Queen!", {
+          body: getDailyMessage()
+        });
       }
+    }
 
-      function stopAlarmSound() {
-        if (alarmAudio) {
-          alarmAudio.pause();
-          alarmAudio.currentTime = 0;
-        }
+    function stopAlarm() {
+      alarmOverlay.classList.remove("show");
+      if (window.currentAlarm) {
+        window.currentAlarm.pause();
+        window.currentAlarm.currentTime = 0;
       }
+    }
 
-      function showAlarm() {
-        alarmOverlay.classList.add('show');
-        playAlarmSound();
-        if (Notification.permission === 'granted') {
-          new Notification('💕 Good Morning, My Queen!', {
-            body: 'You are the first thought in my heart, every single day.',
-            icon: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ctext y=\'.9em\' font-size=\'90\'%3E💕%3C/text%3E%3C/svg%3E'
+    stopAlarmBtn.onclick = stopAlarm;
+
+    snoozeBtn.onclick = function() {
+      stopAlarm();
+      alarmTimer = setTimeout(ringAlarm, 300000);
+    };
+
+    setAlarmBtn.onclick = function() {
+      clearTimeout(alarmTimer);
+      const value = alarmInput.value;
+      const now = new Date();
+      const [h, m] = value.split(":").map(Number);
+      const target = new Date();
+      target.setHours(h, m, 0, 0);
+      if (target < now) {
+        target.setDate(target.getDate() + 1);
+      }
+      alarmTimer = setTimeout(ringAlarm, target - now);
+      alarmStatus.textContent = "Alarm set for " + target.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    };
+
+    /* -----------------------------
+       AUTO NOTIFICATION
+    ------------------------------*/
+
+    if (Notification.permission === "default") {
+      Notification.requestPermission();
+    }
+
+    function scheduleMorning() {
+      const now = new Date();
+      const next = new Date();
+      next.setHours(8, 0, 0, 0);
+      if (next < now) {
+        next.setDate(next.getDate() + 1);
+      }
+      setTimeout(() => {
+        if (Notification.permission === "granted") {
+          new Notification("💕 Good Morning ❤️", {
+            body: getDailyMessage()
           });
         }
-      }
+        scheduleMorning();
+      }, next - now);
+    }
 
-      function hideAlarm() {
-        alarmOverlay.classList.remove('show');
-        stopAlarmSound();
-        if (alarmTimeout) {
-          clearTimeout(alarmTimeout);
-          alarmTimeout = null;
-        }
-      }
-
-      function setAlarm() {
-        if (alarmTimeout) {
-          clearTimeout(alarmTimeout);
-          alarmTimeout = null;
-        }
-        const now = new Date();
-        const [hours, minutes] = alarmInput.value.split(':').map(Number);
-        const alarmTime = new Date(now);
-        alarmTime.setHours(hours, minutes, 0, 0);
-        if (alarmTime <= now) {
-          alarmTime.setDate(alarmTime.getDate() + 1);
-        }
-        const delay = alarmTime - now;
-        alarmTimeout = setTimeout(() => {
-          showAlarm();
-        }, delay);
-        const timeStr = alarmTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        alarmStatus.textContent = '⏰ Alarm set for ' + timeStr + ' 💕';
-        alert('✅ Alarm set for ' + timeStr + '! 💕');
-      }
-
-      setAlarmBtn.addEventListener('click', setAlarm);
-
-      snoozeBtn.addEventListener('click', function() {
-        hideAlarm();
-        alarmTimeout = setTimeout(() => {
-          showAlarm();
-        }, 5 * 60 * 1000);
-        alarmStatus.textContent = '😴 Snoozed for 5 minutes';
-      });
-
-      stopAlarmBtn.addEventListener('click', function() {
-        hideAlarm();
-        alarmStatus.textContent = '⏰ Alarm stopped';
-      });
-
-      // ---- NOTIFICATIONS (AUTOMATIC ON FIRST VISIT) ----
-      if (Notification.permission === 'default') {
-        Notification.requestPermission().then(() => {});
-      }
-
-      function scheduleMorningNotification() {
-        const now = new Date();
-        const target = new Date(now);
-        target.setHours(8, 0, 0, 0);
-        let delay = target - now;
-        if (delay < 0) {
-          target.setDate(target.getDate() + 1);
-          delay = target - now;
-        }
-        setTimeout(() => {
-          if (Notification.permission === 'granted') {
-            new Notification('💕 Good Morning, My Queen!', {
-              body: getDailyMessage(),
-              icon: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ctext y=\'.9em\' font-size=\'90\'%3E💕%3C/text%3E%3C/svg%3E'
-            });
-          }
-          scheduleMorningNotification();
-        }, delay);
-      }
-
-      const DAILY_MESSAGES = [
-        "Good morning, my love. You're the first thing on my mind every day. 💕",
-        "I hope today brings you as much joy as you bring me.",
-        "You are my sunshine, even on cloudy days. ☀️",
-        "I fell in love with you yesterday, and I fall deeper every morning.",
-        "Another day, another reason to be grateful for you.",
-        "You are my favorite thought in the morning and my sweetest dream at night.",
-        "I love you more than coffee, and that's saying a lot. ☕💕",
-        "Every morning with you in my heart is a beautiful morning.",
-        "You are the best part of my day, even before it begins.",
-        "I wake up smiling because I know you're mine."
-      ];
-
-      function getDailyMessage() {
-        const now = new Date();
-        const start = new Date(2026, 6, 10);
-        const diff = Math.floor((now - start) / (1000 * 60 * 60 * 24));
-        return DAILY_MESSAGES[diff % DAILY_MESSAGES.length];
-      }
-
-      if (Notification.permission === 'granted') {
-        scheduleMorningNotification();
-      }
-
-      // ---- MUSIC: Cinnamon Girl (manual toggle) ----
-      const musicBtn = document.getElementById('musicBtn');
-      let audio = null;
-      let isPlaying = false;
-      const MUSIC_URL = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
-
-      musicBtn.addEventListener('click', function() {
-        if (!audio) {
-          audio = new Audio(MUSIC_URL);
-          audio.loop = true;
-          audio.volume = 0.3;
-        }
-        if (isPlaying) {
-          audio.pause();
-          isPlaying = false;
-          musicBtn.textContent = '🎵';
-        } else {
-          audio.play().catch(() => {});
-          isPlaying = true;
-          musicBtn.textContent = '🔊';
-        }
-      });
-    })();
+    if (Notification.permission === "granted") {
+      scheduleMorning();
+    }
   </script>
+
 </body>
 </html>
