@@ -27,6 +27,10 @@
       align-items: center;
       padding: 16px;
       overflow-x: hidden;
+      transition: background 0.5s ease;
+    }
+    body.night {
+      background: #0a0a0a;
     }
     .app {
       max-width: 420px;
@@ -38,6 +42,11 @@
       position: relative;
       overflow: hidden;
       color: #fff;
+      transition: background 0.5s ease;
+    }
+    body.night .app {
+      background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+      border: 1px solid #2a2a2a;
     }
 
     /* ── CLOUDS & HEARTS ── */
@@ -584,6 +593,90 @@
       }
     }
 
+    /* ── NEW FEATURES STYLES ── */
+    .info-card {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(4px);
+      border-radius: 24px;
+      padding: 16px 18px;
+      margin-top: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #ddd;
+      position: relative;
+      z-index: 1;
+    }
+    .info-card h4 {
+      font-size: 15px;
+      color: #ffb6c1;
+      margin-bottom: 8px;
+    }
+    .love-btn {
+      background: #ffb6c1;
+      border: none;
+      color: #4a0012;
+      font-weight: 700;
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .love-btn:hover {
+      background: #ff8fa3;
+      transform: scale(1.02);
+    }
+    .theme-dot {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.2);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .theme-dot:hover {
+      transform: scale(1.1);
+      border-color: #fff;
+    }
+    #noteList li {
+      background: rgba(255,255,255,0.05);
+      padding: 8px 12px;
+      border-radius: 12px;
+      margin-bottom: 6px;
+      color: #ddd;
+      font-size: 14px;
+      border-left: 3px solid #ffb6c1;
+      list-style: none;
+    }
+    #randomReason {
+      min-height: 30px;
+      font-size: 16px;
+      color: #ffb6c1;
+    }
+    #voiceNotes audio {
+      width: 100%;
+      margin-top: 6px;
+      border-radius: 12px;
+    }
+    #anniversaryCountdown {
+      font-size: 16px;
+      color: #ffb6c1;
+      text-align: center;
+    }
+    .mood-selector {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      font-size: 28px;
+      margin: 8px 0;
+    }
+    .mood-selector span {
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .mood-selector span:hover {
+      transform: scale(1.2);
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 400px) {
       .app {
@@ -675,7 +768,7 @@
       <ul id="reasonsList"></ul>
     </div>
 
-    <!-- Alarm Section with Bubbles -->
+    <!-- ─── ALARM SECTION ─── -->
     <div class="alarm-section" id="alarmSection">
       <div class="bubble-container" id="bubbleContainer">
         <div class="bubble"></div>
@@ -692,6 +785,7 @@
         <div class="bubble"></div>
         <div class="bubble"></div>
         <div class="bubble"></div>
+          <div class="bubble"></div>
         <div class="bubble"></div>
         <div class="bubble"></div>
         <div class="bubble"></div>
@@ -708,7 +802,59 @@
       <button id="setAlarmBtn">🌸 Set Alarm</button>
       <div class="alarm-status" id="alarmStatus">No alarm set</div>
     </div>
-  </div>
+
+    <!-- ─── ANNIVERSARY COUNTDOWN ─── -->
+    <div class="info-card" id="anniversaryCountdown">
+      ❤️ Loading...
+    </div>
+
+    <!-- ─── RANDOM LOVE GENERATOR ─── -->
+    <div class="info-card" style="text-align:center;">
+      <button id="randomReasonBtn" class="love-btn">💖 Tell me why</button>
+      <div id="randomReason" style="margin-top:8px; font-size:16px; color:#ffb6c1;">Tap the button 💕</div>
+    </div>
+
+    <!-- ─── LOVE NOTE JOURNAL ─── -->
+    <div class="info-card">
+      <h4>📝 Love Notes</h4>
+      <input type="text" id="loveNote" placeholder="Write something to me..." style="width:100%; padding:10px; border-radius:12px; border:1px solid #ffb6c1; background:transparent; color:#fff; margin-bottom:8px;">
+      <button id="saveLoveNote" class="love-btn">💾 Save Note</button>
+      <ul id="noteList" style="list-style:none; padding:0; margin-top:10px; text-align:left;"></ul>
+    </div>
+
+    <!-- ─── MOOD CHECK ─── -->
+    <div class="info-card" style="text-align:center;">
+      <h4>😊 How are you feeling?</h4>
+      <div class="mood-selector">
+        <span onclick="saveMood('❤️')">❤️</span>
+        <span onclick="saveMood('😊')">😊</span>
+        <span onclick="saveMood('🥺')">🥺</span>
+        <span onclick="saveMood('💕')">💕</span>
+      </div>
+    </div>
+
+    <!-- ─── THEME CHANGER ─── -->
+    <div class="info-card" style="text-align:center;">
+      <h4>🎨 Choose your theme</h4>
+      <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+        <button onclick="setTheme('#800020')" class="theme-dot" style="background:#800020;"></button>
+        <button onclick="setTheme('#c2185b')" class="theme-dot" style="background:#c2185b;"></button>
+        <button onclick="setTheme('#4a0012')" class="theme-dot" style="background:#4a0012;"></button>
+        <button onclick="setTheme('#333')" class="theme-dot" style="background:#333;"></button>
+        <button onclick="setTheme('#2c3e50')" class="theme-dot" style="background:#2c3e50;"></button>
+        <button onclick="setTheme('#1a1a2e')" class="theme-dot" style="background:#1a1a2e;"></button>
+      </div>
+    </div>
+
+    <!-- ─── VOICE NOTES ─── -->
+    <div class="info-card" style="text-align:center;">
+      <h4>🎤 Voice Notes</h4>
+      <button id="startRecordBtn" class="love-btn" onclick="startRecording()">⏺️ Record</button>
+      <button id="stopRecordBtn" class="love-btn" onclick="stopRecording()">⏹️ Stop</button>
+      <div id="voiceNotes" style="margin-top:10px;"></div>
+    </div>
+
+  </div> <!-- ─── END APP ─── -->
 
   <!-- ─── FULL-SCREEN ALARM OVERLAY ─── -->
   <div id="alarmOverlay">
@@ -725,95 +871,20 @@
   <button class="music-toggle" id="musicBtn" title="Play Music">🎵</button>
 
   <script>
-    /* ==========================================
-       TESRA APP - IMPROVED FEATURES
-       ========================================== */
+    /* ==========================================================
+       TESRA APP - FULL SCRIPT
+       ========================================================== */
 
-    /* -----------------------------
-       DAILY LOVE MESSAGES
-    ------------------------------*/
-
-    const DAILY_MESSAGES = [
-      "Good morning, my beautiful Queen. I hope today is as wonderful as your smile. ❤️",
-      "You are the first thought in my heart every morning. I love you forever. 💕",
-      "No matter what happens today, remember someone loves you endlessly. ❤️",
-      "You make my world brighter every single day. Have an amazing morning, my love. 🌸",
-      "My heart belongs to you today, tomorrow and forever. ❤️",
-      "You are my greatest blessing. Never forget how special you are to me. 💖",
-      "I fall in love with you again every morning.",
-      "I wish I could wake up beside you every day. ❤️",
-      "May your day be filled with happiness, peace and endless smiles.",
-            "I love you more than yesterday and less than tomorrow. ❤️"
-    ];
-
-    function getDailyMessage() {
-      const start = new Date(2026, 6, 10);
-      const diff = Math.floor((new Date() - start) / 86400000);
-      return DAILY_MESSAGES[diff % DAILY_MESSAGES.length];
-    }
-
-    /* -----------------------------
-       BETTER LOVE METER
-    ------------------------------*/
-
-    const loveMeter = document.getElementById('loveMeter');
-    const lovePercent = document.getElementById('lovePercent');
-    let love = 100;
-
-    function animateLoveMeter() {
-      if (love < 1000) {
-        love += 1;
-      }
-      const percent = Math.floor(love / 10);
-      loveMeter.style.width = percent + "%";
-      lovePercent.textContent = percent + "%";
-    }
-
-    setInterval(animateLoveMeter, 3000);
-
-    /* -----------------------------
-       BETTER DAYS TOGETHER
-    ------------------------------*/
-
-    const daysCounter = document.getElementById('daysCounter');
-    const anniversary = new Date(2026, 5, 14);
-
-    function updateRelationship() {
-      const now = new Date();
-      const diff = now - anniversary;
-      const days = Math.floor(diff / 86400000);
-      daysCounter.textContent = days.toLocaleString();
-    }
-
-    updateRelationship();
-    setInterval(updateRelationship, 60000);
-
-    /* -----------------------------
-       1000 LOVE REASONS
-    ------------------------------*/
-
+    // ─── 1,000 REASONS ───
     const reasonsList = document.getElementById('reasonsList');
     const reasons = [
-      "I love your smile.",
-      "I love your laugh.",
-      "I love your eyes.",
-      "I love your hugs.",
-      "I love your kisses.",
-      "I love your voice.",
-      "I love your heart.",
-      "I love your kindness.",
-      "I love your loyalty.",
-      "I love your honesty.",
-      "I love your beautiful soul.",
-      "I love your patience.",
-      "I love your beauty.",
-      "I love your intelligence.",
-      "I love your confidence.",
-      "I love your strength.",
-      "I love your love.",
-      "I love everything about you.",
-      "You make me happy.",
-      "You complete me."
+      "I love your smile.", "I love your laugh.", "I love your eyes.",
+      "I love your hugs.", "I love your kisses.", "I love your voice.",
+      "I love your heart.", "I love your kindness.", "I love your loyalty.",
+      "I love your honesty.", "I love your beautiful soul.", "I love your patience.",
+      "I love your beauty.", "I love your intelligence.", "I love your confidence.",
+      "I love your strength.", "I love your love.", "I love everything about you.",
+      "You make me happy.", "You complete me."
     ];
 
     function loadReasons() {
@@ -826,39 +897,57 @@
       }
       reasonsList.appendChild(frag);
     }
-
     loadReasons();
 
-    /* -----------------------------
-       FLOATING HEARTS
-    ------------------------------*/
+    // ─── LOVE METER ───
+    const loveMeter = document.getElementById('loveMeter');
+    const lovePercent = document.getElementById('lovePercent');
+    let love = 100;
 
-    function floatingHeart() {
-      const heart = document.createElement("div");
-      heart.innerHTML = "💖";
-      heart.style.position = "fixed";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.bottom = "-40px";
-      heart.style.fontSize = (18 + Math.random() * 20) + "px";
-      heart.style.transition = "6s linear";
-      heart.style.pointerEvents = "none";
-      heart.style.zIndex = "999";
-      document.body.appendChild(heart);
-      requestAnimationFrame(() => {
-        heart.style.transform = "translateY(-120vh) rotate(360deg)";
-        heart.style.opacity = "0";
-      });
-      setTimeout(() => {
-        heart.remove();
-      }, 6000);
+    function animateLoveMeter() {
+      if (love < 1000) {
+        love += 1;
+      }
+      const percent = Math.floor(love / 10);
+      loveMeter.style.width = percent + "%";
+      lovePercent.textContent = percent + "%";
+    }
+    setInterval(animateLoveMeter, 3000);
+
+    // ─── DAYS TOGETHER ───
+    const daysCounter = document.getElementById('daysCounter');
+    const anniversary = new Date(2026, 5, 14);
+
+    function updateRelationship() {
+      const now = new Date();
+      const diff = now - anniversary;
+      const days = Math.floor(diff / 86400000);
+      daysCounter.textContent = days.toLocaleString();
+    }
+    updateRelationship();
+    setInterval(updateRelationship, 60000);
+
+    // ─── DAILY LOVE MESSAGES ───
+    const DAILY_MESSAGES = [
+      "Good morning, my beautiful Queen. I hope today is as wonderful as your smile. ❤️",
+      "You are the first thought in my heart every morning. I love you forever. 💕",
+      "No matter what happens today, remember someone loves you endlessly. ❤️",
+      "You make my world brighter every single day. Have an amazing morning, my love. 🌸",
+      "My heart belongs to you today, tomorrow and forever. ❤️",
+      "You are my greatest blessing. Never forget how special you are to me. 💖",
+      "I fall in love with you again every morning.",
+      "I wish I could wake up beside you every day. ❤️",
+      "May your day be filled with happiness, peace and endless smiles.",
+      "I love you more than yesterday and less than tomorrow. ❤️"
+    ];
+
+    function getDailyMessage() {
+      const start = new Date(2026, 6, 10);
+      const diff = Math.floor((new Date() - start) / 86400000);
+      return DAILY_MESSAGES[diff % DAILY_MESSAGES.length];
     }
 
-    setInterval(floatingHeart, 2000);
-
-    /* -----------------------------
-       BETTER MUSIC PLAYER
-    ------------------------------*/
-
+    // ─── MUSIC PLAYER ───
     const MUSIC_FILE = "love.mpss.mp3";
     let music = new Audio(MUSIC_FILE);
     music.loop = true;
@@ -878,10 +967,7 @@
       }
     };
 
-    /* -----------------------------
-       BETTER ALARM
-    ------------------------------*/
-
+    // ─── ALARM SYSTEM ───
     let alarmTimer;
     const alarmOverlay = document.getElementById('alarmOverlay');
     const alarmInput = document.getElementById('alarmTime');
@@ -935,10 +1021,7 @@
       });
     };
 
-    /* -----------------------------
-       AUTO NOTIFICATION
-    ------------------------------*/
-
+    // ─── NOTIFICATIONS ───
     if (Notification.permission === "default") {
       Notification.requestPermission();
     }
@@ -963,7 +1046,245 @@
     if (Notification.permission === "granted") {
       scheduleMorning();
     }
-  </script>
 
+    /* ==========================================================
+       🌸 BEAUTIFUL EMOJI PARTICLE SYSTEM
+    ========================================================== */
+
+    const EMOJIS = [
+      "💖", "💕", "❤️", "💘", "💝",
+      "🌸", "🌹", "🌺", "🦋", "✨",
+      "💞", "💗", "💓", "💟", "🥰"
+    ];
+
+    function createParticle() {
+      const particle = document.createElement("span");
+      particle.innerHTML = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+      particle.style.position = "fixed";
+      particle.style.left = Math.random() * 100 + "vw";
+      particle.style.bottom = "-40px";
+      particle.style.fontSize = (18 + Math.random() * 28) + "px";
+      particle.style.pointerEvents = "none";
+      particle.style.zIndex = "999";
+      particle.style.transition = (6 + Math.random() * 4) + "s linear";
+      document.body.appendChild(particle);
+      requestAnimationFrame(() => {
+        particle.style.transform =
+          `translateY(-120vh) translateX(${Math.random() * 150 - 75}px) rotate(${Math.random() * 720}deg)`;
+        particle.style.opacity = "0";
+      });
+      setTimeout(() => {
+        particle.remove();
+      }, 10000);
+    }
+
+    setInterval(createParticle, 1200);
+
+    /* ==========================================================
+       ❤️ ANNIVERSARY COUNTDOWN
+    ========================================================== */
+
+    const anniversaryText = document.getElementById("anniversaryCountdown");
+
+    function updateAnniversary() {
+      const now = new Date();
+      let next = new Date(now.getFullYear(), 5, 14);
+      if (next < now) {
+        next.setFullYear(next.getFullYear() + 1);
+      }
+      const diff = Math.ceil((next - now) / 86400000);
+      anniversaryText.innerHTML = `❤️ ${diff} day${diff == 1 ? "" : "s"} until our special day`;
+    }
+
+    updateAnniversary();
+    setInterval(updateAnniversary, 60000);
+
+    /* ==========================================================
+       💌 DAILY LOVE LETTER
+    ========================================================== */
+
+    const LOVE_LETTERS = [
+      "My beautiful Testimony, every heartbeat reminds me how lucky I am to have you. ❤️",
+      "You are my peace, my happiness and my forever. 💕",
+      "I wish I could hug you every morning before the world wakes up.",
+      "You are my answered prayer.",
+      "Your smile is my favourite sunrise.",
+      "I'll always choose you.",
+      "You make ordinary days magical.",
+      "I hope today reminds you how amazing you are.",
+      "Thank you for existing.",
+      "I love everything about you.",
+      "You'll always have my heart.",
+      "I miss you every second.",
+      "You are enough.",
+      "You complete me.",
+      "I promise to keep loving you.",
+      "My Queen, never doubt my love.",
+      "You are my sunshine.",
+      "I believe in us.",
+      "I'm proud of you.",
+      "I can't wait to make more memories.",
+      "Every love song reminds me of you.",
+      "You are beautiful inside and out.",
+      "I cherish every conversation.",
+      "I'll stand beside you always.",
+      "You make me a better person.",
+      "My favourite place is wherever you are.",
+      "You are my home.",
+      "You'll always be my girl.",
+      "My heart smiles because of you.",
+      "Forever starts with you."
+    ];
+
+    const letterBox = document.querySelector(".love-letter");
+
+    function loadDailyLetter() {
+      const start = new Date(2026, 6, 10);
+      const day = Math.floor((new Date() - start) / 86400000);
+      letterBox.innerHTML =
+        "<strong>My Dearest Testimony ❤️</strong><br><br>" +
+        LOVE_LETTERS[day % LOVE_LETTERS.length];
+    }
+
+    loadDailyLetter();
+
+    /* ==========================================================
+       🌙 AUTO DAY/NIGHT MODE
+    ========================================================== */
+
+    function updateTheme() {
+      const hour = new Date().getHours();
+      if (hour >= 18 || hour <= 6) {
+        document.body.classList.add("night");
+      } else {
+        document.body.classList.remove("night");
+      }
+    }
+
+    updateTheme();
+    setInterval(updateTheme, 300000);
+
+    /* ==========================================================
+       💖 RANDOM LOVE GENERATOR
+    ========================================================== */
+
+    const RANDOM_REASONS = [
+      "You always make me smile.",
+      "You understand me.",
+      "You support me.",
+      "You have a beautiful heart.",
+      "You make life exciting.",
+      "Your laugh is adorable.",
+      "You make me feel safe.",
+      "You believe in me.",
+      "You inspire me.",
+      "You are my happiness."
+    ];
+
+    const reasonButton = document.getElementById("randomReasonBtn");
+    const randomReason = document.getElementById("randomReason");
+
+    if (reasonButton) {
+      reasonButton.onclick = function() {
+        const text = RANDOM_REASONS[Math.floor(Math.random() * RANDOM_REASONS.length)];
+        randomReason.innerHTML = "💕 " + text;
+        randomReason.animate([
+          { transform: "scale(.7)", opacity: 0 },
+          { transform: "scale(1.1)", opacity: 1 },
+          { transform: "scale(1)", opacity: 1 }
+        ], {
+          duration: 600
+        });
+      };
+    }
+
+    /* ==========================================================
+       📝 LOVE NOTE JOURNAL
+    ========================================================== */
+
+    const noteInput = document.getElementById("loveNote");
+    const saveNote = document.getElementById("saveLoveNote");
+    const noteList = document.getElementById("noteList");
+
+    function loadNotes() {
+      if (!noteList) return;
+      const notes = JSON.parse(localStorage.getItem("tesra_notes") || "[]");
+      noteList.innerHTML = "";
+      notes.forEach(note => {
+        const li = document.createElement("li");
+        li.innerHTML = note;
+        noteList.appendChild(li);
+      });
+    }
+
+    if (saveNote) {
+      saveNote.onclick = function() {
+        const notes = JSON.parse(localStorage.getItem("tesra_notes") || "[]");
+        notes.unshift(noteInput.value);
+        localStorage.setItem("tesra_notes", JSON.stringify(notes));
+        noteInput.value = "";
+        loadNotes();
+      };
+    }
+
+    loadNotes();
+
+    /* ==========================================================
+       😊 MOOD CHECK
+    ========================================================== */
+
+    function saveMood(mood) {
+      localStorage.setItem("tesraMood", JSON.stringify({
+        emoji: mood,
+        date: new Date().toDateString()
+      }));
+      alert("Mood Saved ❤️");
+    }
+
+    /* ==========================================================
+       🎨 THEME CHANGER
+    ========================================================== */
+
+    function setTheme(color) {
+      document.documentElement.style.setProperty("--theme", color);
+      localStorage.setItem("tesra_theme", color);
+    }
+
+    const savedTheme = localStorage.getItem("tesra_theme");
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+
+    /* ==========================================================
+       🎤 VOICE NOTES
+    ========================================================== */
+
+    let recorder;
+    let audioChunks = [];
+
+    async function startRecording() {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      recorder = new MediaRecorder(stream);
+      audioChunks = [];
+      recorder.ondataavailable = e => {
+        audioChunks.push(e.data);
+      };
+      recorder.onstop = () => {
+        const blob = new Blob(audioChunks);
+        const url = URL.createObjectURL(blob);
+        const audio = document.createElement("audio");
+        audio.controls = true;
+        audio.src = url;
+        document.getElementById("voiceNotes").appendChild(audio);
+      };
+      recorder.start();
+    }
+
+    function stopRecording() {
+      if (recorder) {
+        recorder.stop();
+      }
+    }
+  </script>
 </body>
-</html>
+          </html>
