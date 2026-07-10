@@ -9,13 +9,13 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://i.ibb.co/0cL3Wr2/190130-1291403634850282997.webp",
+      "src": "https://tesra.onrender.com/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://i.ibb.co/0cL3Wr2/190130-1291403634850282997.webp",
+      "src": "https://tesra.onrender.com/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
