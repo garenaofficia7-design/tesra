@@ -649,6 +649,123 @@
       margin-top: 10px;
     }
 
+    /* ── MEMORY GALLERY ── */
+    .gallery-box {
+      margin-top: 20px;
+      padding: 18px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 25px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .gallery-box h3 {
+      color: white;
+      margin-bottom: 12px;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .gallery-grid img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 2px solid rgba(255,255,255,0.1);
+      transition: 0.2s;
+    }
+    .gallery-grid img:hover {
+      transform: scale(1.02);
+      border-color: #ffb6c1;
+    }
+    .gallery-upload {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .gallery-upload input[type="file"] {
+      display: none;
+    }
+    .gallery-upload label {
+      background: #ffb6c1;
+      border: none;
+      color: #4a0012;
+      font-weight: 700;
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .gallery-upload label:hover {
+      background: #ff8fa3;
+      transform: scale(1.02);
+    }
+
+    /* ── CUSTOM ALARM MESSAGE ── */
+    .alarm-msg-input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid #ffb6c1;
+      background: transparent;
+      color: #fff;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+    .alarm-msg-input::placeholder {
+      color: #888;
+    }
+
+    /* ── I MISS YOU BUTTON ── */
+    .miss-you-btn {
+      background: #ffb6c1;
+      border: none;
+      color: #4a0012;
+      font-weight: 700;
+      padding: 12px 28px;
+      border-radius: 40px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 8px;
+    }
+    .miss-you-btn:hover {
+      background: #ff8fa3;
+      transform: scale(1.03);
+    }
+
+    /* ── LOVE STATS ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .stats-grid .stat-item {
+      background: rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 10px 6px;
+      text-align: center;
+    }
+    .stats-grid .stat-item .num {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffb6c1;
+      display: block;
+    }
+    .stats-grid .stat-item .label {
+      font-size: 10px;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 400px) {
       .app { padding: 16px; }
@@ -660,6 +777,8 @@
       #alarmOverlay h1 { font-size: 28px; }
       #alarmOverlay .message { font-size: 18px; }
       #alarmOverlay .alarm-buttons button { padding: 10px 20px; font-size: 16px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -753,9 +872,40 @@
       <div class="alarm-status" id="alarmStatus">No alarm set</div>
     </div>
 
+    <!-- ─── CUSTOM ALARM MESSAGE ─── -->
+    <div class="info-card">
+      <h4>💌 Custom Alarm Message</h4>
+      <input type="text" id="customAlarmMsg" class="alarm-msg-input" placeholder="Write a special message for the alarm..." />
+    </div>
+
+    <!-- ─── I MISS YOU BUTTON ─── -->
+    <div class="info-card" style="text-align:center;">
+      <button class="miss-you-btn" id="missYouBtn">💕 I Miss You</button>
+      <div id="missYouStatus" style="margin-top:6px; font-size:14px; color:#ffb6c1;"></div>
+    </div>
+
     <!-- ─── ANNIVERSARY COUNTDOWN ─── -->
     <div class="info-card" id="anniversaryCountdown">
       ❤️ Loading...
+    </div>
+
+    <!-- ─── LOVE STATS ─── -->
+    <div class="info-card">
+      <h4>📊 Love Stats</h4>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="num" id="statVisits">0</span>
+          <span class="label">Visits</span>
+        </div>
+        <div class="stat-item">
+          <span class="num" id="statNotes">0</span>
+          <span class="label">Notes</span>
+        </div>
+        <div class="stat-item">
+          <span class="num" id="statMoods">0</span>
+          <span class="label">Moods</span>
+        </div>
+      </div>
     </div>
 
     <!-- ─── RANDOM LOVE GENERATOR ─── -->
@@ -791,6 +941,19 @@
         <button onclick="changeTheme('burgundy')">❤️ Burgundy</button>
         <button onclick="changeTheme('purple')">💜 Purple</button>
         <button onclick="changeTheme('grey')">🩶 Grey</button>
+        <button onclick="changeTheme('gold')">✨ Gold</button>
+        <button onclick="changeTheme('teal')">💚 Teal</button>
+        <button onclick="changeTheme('lavender')">💜 Lavender</button>
+      </div>
+    </div>
+
+    <!-- ─── MEMORY GALLERY ─── -->
+    <div class="gallery-box">
+      <h3>📸 Our Memories</h3>
+      <div class="gallery-grid" id="galleryGrid"></div>
+      <div class="gallery-upload">
+        <label for="imageUpload">📤 Add Photo</label>
+        <input type="file" id="imageUpload" accept="image/*" multiple />
       </div>
     </div>
 
@@ -808,7 +971,7 @@
   <div id="alarmOverlay">
     <div class="prefix">🌸 Good Morning, My Queen 👑</div>
     <h1>💕 TESRA 💕</h1>
-    <div class="message">"You are the first thought in my heart, every single day."</div>
+    <div class="message" id="alarmMessage">"You are the first thought in my heart, every single day."</div>
     <div class="alarm-buttons">
       <button id="snoozeBtn">💤 Snooze</button>
       <button id="stopAlarmBtn">⏹️ Stop</button>
@@ -916,14 +1079,19 @@
     const alarmStatus = document.getElementById('alarmStatus');
     const snoozeBtn = document.getElementById('snoozeBtn');
     const stopAlarmBtn = document.getElementById('stopAlarmBtn');
+    const customAlarmMsg = document.getElementById('customAlarmMsg');
+    const alarmMessage = document.getElementById('alarmMessage');
+
     function ringAlarm() {
       alarmOverlay.classList.add("show");
+      const msg = customAlarmMsg.value.trim() || "You are the first thought in my heart, every single day.";
+      alarmMessage.textContent = msg;
       const ring = new Audio("love.mpss.mp3");
       ring.loop = true;
       ring.play().catch(() => {});
       window.currentAlarm = ring;
       if (Notification.permission === "granted") {
-        new Notification("💕 Good Morning My Queen!", { body: getDailyMessage() });
+        new Notification("💕 Good Morning My Queen!", { body: msg });
       }
     }
     function stopAlarm() {
@@ -965,6 +1133,81 @@
       }, next - now);
     }
     if (Notification.permission === "granted") scheduleMorning();
+
+    // ─── I MISS YOU BUTTON ───
+    const missYouBtn = document.getElementById('missYouBtn');
+    const missYouStatus = document.getElementById('missYouStatus');
+    missYouBtn.onclick = function() {
+      if (Notification.permission === "granted") {
+        new Notification("💕 I Miss You ❤️", { body: "I was just thinking about you. I miss you so much. 😔💕" });
+        missYouStatus.textContent = "💕 She knows you miss her!";
+        setTimeout(() => { missYouStatus.textContent = ""; }, 4000);
+      } else {
+        missYouStatus.textContent = "⚠️ Please enable notifications first.";
+        setTimeout(() => { missYouStatus.textContent = ""; }, 3000);
+      }
+    };
+
+    // ─── LOVE STATS ───
+    function updateStats() {
+      const visits = parseInt(localStorage.getItem('tesra_visits') || '0');
+      const notes = JSON.parse(localStorage.getItem('tesra_notes') || '[]').length;
+      const moods = JSON.parse(localStorage.getItem('tesra_moods') || '[]').length;
+      document.getElementById('statVisits').textContent = visits;
+      document.getElementById('statNotes').textContent = notes;
+      document.getElementById('statMoods').textContent = moods;
+    }
+    // Track visit
+    let visits = parseInt(localStorage.getItem('tesra_visits') || '0');
+    visits++;
+    localStorage.setItem('tesra_visits', visits);
+    updateStats();
+
+    // ─── MEMORY GALLERY ───
+    const galleryGrid = document.getElementById('galleryGrid');
+    const imageUpload = document.getElementById('imageUpload');
+    function loadGallery() {
+      const images = JSON.parse(localStorage.getItem('tesra_gallery') || '[]');
+      galleryGrid.innerHTML = '';
+      images.forEach((src, index) => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = 'Memory ' + (index + 1);
+        img.onclick = function() {
+          if (confirm('Delete this memory?')) {
+            const newImages = JSON.parse(localStorage.getItem('tesra_gallery') || '[]');
+            newImages.splice(index, 1);
+            localStorage.setItem('tesra_gallery', JSON.stringify(newImages));
+            loadGallery();
+          }
+        };
+        galleryGrid.appendChild(img);
+      });
+    }
+    imageUpload.onchange = function(e) {
+      const files = e.target.files;
+      for (let file of files) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const images = JSON.parse(localStorage.getItem('tesra_gallery') || '[]');
+          images.push(event.target.result);
+          localStorage.setItem('tesra_gallery', JSON.stringify(images));
+          loadGallery();
+        };
+        reader.readAsDataURL(file);
+      }
+      imageUpload.value = '';
+    };
+    loadGallery();
+
+    // ─── MOOD CHECK (with history) ───
+    function saveMood(mood) {
+      const moods = JSON.parse(localStorage.getItem('tesra_moods') || '[]');
+      moods.push({ emoji: mood, date: new Date().toLocaleString() });
+      localStorage.setItem('tesra_moods', JSON.stringify(moods));
+      alert("Mood Saved ❤️");
+      updateStats();
+    }
 
     /* ==========================================================
        🌸 EMOJI PARTICLE SYSTEM
@@ -1049,13 +1292,13 @@
     /* ==========================================================
        🌙 AUTO DAY/NIGHT MODE
     ========================================================== */
-    function updateTheme() {
+    function updateThemeMode() {
       const hour = new Date().getHours();
       if (hour >= 18 || hour <= 6) document.body.classList.add("night");
       else document.body.classList.remove("night");
     }
-    updateTheme();
-    setInterval(updateTheme, 300000);
+    updateThemeMode();
+    setInterval(updateThemeMode, 300000);
 
     /* ==========================================================
        💖 RANDOM LOVE GENERATOR
@@ -1102,17 +1345,10 @@
         localStorage.setItem("tesra_notes", JSON.stringify(notes));
         noteInput.value = "";
         loadNotes();
+        updateStats();
       };
     }
     loadNotes();
-
-    /* ==========================================================
-       😊 MOOD CHECK
-    ========================================================== */
-    function saveMood(mood) {
-      localStorage.setItem("tesraMood", JSON.stringify({ emoji: mood, date: new Date().toDateString() }));
-      alert("Mood Saved ❤️");
-    }
 
     /* ==========================================================
        🎨 THEME CHANGER
@@ -1121,7 +1357,10 @@
       pink: { main: "#ff69b4", second: "#ff1493" },
       burgundy: { main: "#800020", second: "#4a0012" },
       purple: { main: "#6a0dad", second: "#2d004d" },
-      grey: { main: "#555555", second: "#222222" }
+      grey: { main: "#555555", second: "#222222" },
+      gold: { main: "#b8860b", second: "#8b6508" },
+      teal: { main: "#008080", second: "#004c4c" },
+      lavender: { main: "#9370db", second: "#6a5acd" }
     };
     function changeTheme(name) {
       const theme = themes[name];
@@ -1208,6 +1447,9 @@
       transaction.objectStore("voices").delete(id);
       transaction.oncomplete = () => { loadVoices(); };
     }
+
+    // ─── INITIALIZE ───
+    updateStats();
   </script>
 </body>
-  </html>
+        </html>
