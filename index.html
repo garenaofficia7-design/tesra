@@ -18,6 +18,7 @@
       --main-color: #800020;
       --second-color: #4a0012;
       --text-color: #ffffff;
+      --bg-image: none;
     }
 
     /* ── LOADING SCREEN ── */
@@ -49,7 +50,11 @@
       align-items: center;
       padding: 16px;
       overflow-x: hidden;
-      transition: background 0.8s ease;
+      transition: background 0.8s ease, background-image 0.8s ease;
+      background-image: var(--bg-image);
+      background-size: cover;
+      background-position: center;
+      background-blend-mode: overlay;
     }
     body.night {
       background: #0a0a0a;
@@ -57,7 +62,8 @@
     .app {
       max-width: 420px;
       width: 100%;
-      background: linear-gradient(145deg, var(--main-color), var(--second-color));
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
       border-radius: 32px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
       padding: 24px 20px 30px;
@@ -65,9 +71,10 @@
       overflow: hidden;
       color: #fff;
       transition: background 0.8s ease;
+      border: 1px solid rgba(255,255,255,0.08);
     }
     body.night .app {
-      background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+      background: rgba(10,10,10,0.85);
       border: 1px solid #2a2a2a;
     }
 
@@ -574,9 +581,11 @@
       border-radius: 12px;
     }
     #anniversaryCountdown {
-      font-size: 16px;
+      font-size: 18px;
       color: #ffb6c1;
       text-align: center;
+      font-weight: 700;
+      padding: 10px;
     }
     .mood-selector {
       display: flex;
@@ -781,6 +790,98 @@
       letter-spacing: 0.5px;
     }
 
+    /* ── PIN LOCK ── */
+    .pin-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      gap: 16px;
+    }
+    .pin-container input {
+      background: transparent;
+      border: 2px solid #ffb6c1;
+      color: #fff;
+      padding: 16px;
+      font-size: 24px;
+      width: 200px;
+      text-align: center;
+      border-radius: 16px;
+      letter-spacing: 12px;
+    }
+    .pin-container input:focus {
+      outline: none;
+      border-color: #ff8fa3;
+      box-shadow: 0 0 30px rgba(255,182,193,0.15);
+    }
+    .pin-container .pin-error {
+      color: #ff6b6b;
+      font-size: 14px;
+      min-height: 20px;
+    }
+
+    /* ── WALLPAPER UPLOAD ── */
+    .wallpaper-upload {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .wallpaper-upload input[type="file"] {
+      display: none;
+    }
+    .wallpaper-upload label {
+      background: #ffb6c1;
+      border: none;
+      color: #4a0012;
+      font-weight: 700;
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .wallpaper-upload label:hover {
+      background: #ff8fa3;
+      transform: scale(1.02);
+    }
+
+    /* ── EXPORT BUTTON ── */
+    .export-btn {
+      background: #ffb6c1;
+      border: none;
+      color: #4a0012;
+      font-weight: 700;
+      padding: 10px 24px;
+      border-radius: 40px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 6px;
+    }
+    .export-btn:hover {
+      background: #ff8fa3;
+      transform: scale(1.02);
+    }
+
+    /* ── VOICE REPLY ── */
+    .voice-reply-btn {
+      background: #888;
+      border: none;
+      color: #fff;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 40px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .voice-reply-btn:hover {
+      background: #aaa;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 400px) {
       .app { padding: 16px; }
@@ -803,7 +904,7 @@
   <div id="loading">💕 Tesra 💕</div>
 
   <!-- ─── APP ─── -->
-  <div class="app">
+  <div class="app" id="appContainer">
     <!-- Butterflies -->
     <div class="butterfly-container">
       <div class="butterfly">🦋</div>
@@ -822,166 +923,200 @@
       <div class="heart-float">🌸</div>
     </div>
 
-    <img class="photo" src="https://i.ibb.co/0cL3Wr2/190130-1291403634850282997.webp" alt="Tesra" />
-
-    <div class="app-title">Tesra <span>💕</span></div>
-
-    <div class="love-letter">
-      <strong>My dearest Testimony ❤️</strong>,<br />
-      loving you has been one of the greatest blessings in my life. Every smile you give me, every word you speak, and every moment we share reminds me how lucky I am to have you. Thank you for loving me, believing in me, and making my life brighter. I promise to keep choosing you every single day. I love you more than words can ever express. Forever and always. ❤️🥹
-    </div>
-
-    <div class="dashboard">
-      <div class="meter-wrap">
-        <span class="meter-heart">❤️</span>
-        <div class="meter-bar">
-          <div class="meter-fill" id="loveMeter" style="width:100%"></div>
-        </div>
-        <span class="meter-label" id="lovePercent">100%</span>
-      </div>
-      <div class="counters">
-        <div class="counter-item">
-          <span class="num" id="daysCounter">0</span>
-          <span class="label">Days Together</span>
-        </div>
-        <div class="counter-item">
-          <span class="num" id="reasonsCount">1,000</span>
-          <span class="label">Reasons</span>
-        </div>
+    <!-- ─── PIN LOCK SCREEN ─── -->
+    <div id="pinScreen" style="display:none;">
+      <div class="pin-container">
+        <div style="font-size:60px; margin-bottom:10px;">🔒</div>
+        <h2 style="color:#ffb6c1;">Enter PIN</h2>
+        <input type="password" id="pinInput" maxlength="4" inputmode="numeric" pattern="[0-9]*" placeholder="• • • •">
+        <div class="pin-error" id="pinError"></div>
+        <button class="love-btn" id="pinUnlockBtn" onclick="unlockApp()">Unlock</button>
+        <button class="love-btn" style="background:#888;" onclick="setPin()">Set New PIN</button>
       </div>
     </div>
 
-    <div class="reasons">
-      <h3>💕 1,000 Reasons I Love You</h3>
-      <ul id="reasonsList"></ul>
-    </div>
+    <!-- ─── MAIN APP CONTENT ─── -->
+    <div id="mainContent" style="display:none;">
 
-    <!-- ─── ALARM SECTION ─── -->
-    <div class="alarm-section" id="alarmSection">
-      <div class="bubble-container" id="bubbleContainer">
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
+      <img class="photo" src="https://i.ibb.co/0cL3Wr2/190130-1291403634850282997.webp" alt="Tesra" />
+
+      <div class="app-title">Tesra <span>💕</span></div>
+
+      <div class="love-letter">
+        <strong>My dearest Testimony ❤️</strong>,<br />
+        loving you has been one of the greatest blessings in my life. Every smile you give me, every word you speak, and every moment we share reminds me how lucky I am to have you. Thank you for loving me, believing in me, and making my life brighter. I promise to keep choosing you every single day. I love you more than words can ever express. Forever and always. ❤️🥹
       </div>
-      <label>⏰ Set a reminder, my love 💕</label>
-      <input type="time" id="alarmTime" value="08:00" />
-      <button id="setAlarmBtn">🌸 Set Alarm</button>
-      <div class="alarm-status" id="alarmStatus">No alarm set</div>
-    </div>
 
-    <!-- ─── CUSTOM ALARM MESSAGE ─── -->
-    <div class="info-card">
-      <h4>💌 Custom Alarm Message</h4>
-      <input type="text" id="customAlarmMsg" class="alarm-msg-input" placeholder="Write a special message for the alarm..." />
-    </div>
-
-    <!-- ─── I MISS YOU BUTTON ─── -->
-    <div class="info-card" style="text-align:center;">
-      <button class="miss-you-btn" id="missYouBtn">💕 I Miss You</button>
-      <div id="missYouStatus" style="margin-top:6px; font-size:14px; color:#ffb6c1;"></div>
-    </div>
-
-    <!-- ─── ANNIVERSARY COUNTDOWN ─── -->
-    <div class="info-card" id="anniversaryCountdown">
-      ❤️ Loading...
-    </div>
-
-    <!-- ─── LOVE STATS ─── -->
-    <div class="info-card">
-      <h4>📊 Love Stats</h4>
-      <div class="stats-grid">
-        <div class="stat-item">
-          <span class="num" id="statVisits">0</span>
-          <span class="label">Visits</span>
+      <div class="dashboard">
+        <div class="meter-wrap">
+          <span class="meter-heart">❤️</span>
+          <div class="meter-bar">
+            <div class="meter-fill" id="loveMeter" style="width:100%"></div>
+          </div>
+          <span class="meter-label" id="lovePercent">100%</span>
         </div>
-        <div class="stat-item">
-          <span class="num" id="statNotes">0</span>
-          <span class="label">Notes</span>
-        </div>
-        <div class="stat-item">
-          <span class="num" id="statMoods">0</span>
-          <span class="label">Moods</span>
+        <div class="counters">
+          <div class="counter-item">
+            <span class="num" id="daysCounter">0</span>
+            <span class="label">Days Together</span>
+          </div>
+          <div class="counter-item">
+            <span class="num" id="reasonsCount">1,000</span>
+            <span class="label">Reasons</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- ─── RANDOM LOVE GENERATOR ─── -->
-    <div class="info-card" style="text-align:center;">
-      <button id="randomReasonBtn" class="love-btn">💖 Tell me why</button>
-      <div id="randomReason" style="margin-top:8px; font-size:16px; color:#ffb6c1;">Tap the button 💕</div>
-    </div>
-
-    <!-- ─── LOVE NOTE JOURNAL ─── -->
-    <div class="info-card">
-      <h4>📝 Love Notes</h4>
-      <input type="text" id="loveNote" placeholder="Write something to me..." style="width:100%; padding:10px; border-radius:12px; border:1px solid #ffb6c1; background:transparent; color:#fff; margin-bottom:8px;">
-      <button id="saveLoveNote" class="love-btn">💾 Save Note</button>
-      <ul id="noteList" style="list-style:none; padding:0; margin-top:10px; text-align:left;"></ul>
-    </div>
-
-    <!-- ─── MOOD CHECK ─── -->
-    <div class="info-card" style="text-align:center;">
-      <h4>😊 How are you feeling?</h4>
-      <div class="mood-selector">
-        <span onclick="saveMood('❤️')">❤️</span>
-        <span onclick="saveMood('😊')">😊</span>
-        <span onclick="saveMood('🥺')">🥺</span>
-        <span onclick="saveMood('💕')">💕</span>
+      <div class="reasons">
+        <h3>💕 1,000 Reasons I Love You</h3>
+        <ul id="reasonsList"></ul>
       </div>
-    </div>
 
-    <!-- ─── THEME CHANGER ─── -->
-    <div class="theme-box">
-      <h3>🎨 Choose Your Theme</h3>
-      <div class="theme-buttons">
-        <button onclick="changeTheme('pink')">💗 Pink</button>
-        <button onclick="changeTheme('burgundy')">❤️ Burgundy</button>
-        <button onclick="changeTheme('purple')">💜 Purple</button>
-        <button onclick="changeTheme('grey')">🩶 Grey</button>
-        <button onclick="changeTheme('gold')">✨ Gold</button>
-        <button onclick="changeTheme('teal')">💚 Teal</button>
-        <button onclick="changeTheme('lavender')">💜 Lavender</button>
+      <!-- ─── ALARM SECTION ─── -->
+      <div class="alarm-section" id="alarmSection">
+        <div class="bubble-container" id="bubbleContainer">
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+        </div>
+        <label>⏰ Set a reminder, my love 💕</label>
+        <input type="time" id="alarmTime" value="08:00" />
+        <button id="setAlarmBtn">🌸 Set Alarm</button>
+        <div class="alarm-status" id="alarmStatus">No alarm set</div>
       </div>
-    </div>
 
-    <!-- ─── MEMORY GALLERY ─── -->
-    <div class="gallery-box">
-      <h3>📸 Our Memories</h3>
-      <div class="gallery-grid" id="galleryGrid"></div>
-      <div class="gallery-upload">
-        <label for="imageUpload">📤 Add Photo</label>
-        <input type="file" id="imageUpload" accept="image/*" multiple />
+      <!-- ─── CUSTOM ALARM MESSAGE ─── -->
+      <div class="info-card">
+        <h4>💌 Custom Alarm Message</h4>
+        <input type="text" id="customAlarmMsg" class="alarm-msg-input" placeholder="Write a special message for the alarm..." />
       </div>
-    </div>
 
-    <!-- ─── VOICE NOTES ─── -->
-    <div class="voice-box">
-      <h3>🎤 Voice Notes For Us ❤️</h3>
-      <button id="startRecord">🎙️ Start Recording</button>
-      <button id="stopRecord" disabled>⏹️ Stop Recording</button>
-      <div id="recordings"></div>
-    </div>
+      <!-- ─── I MISS YOU BUTTON ─── -->
+      <div class="info-card" style="text-align:center;">
+        <button class="miss-you-btn" id="missYouBtn">💕 I Miss You</button>
+        <div id="missYouStatus" style="margin-top:6px; font-size:14px; color:#ffb6c1;"></div>
+        <div id="missYouLog" style="margin-top:8px; font-size:12px; color:#888; max-height:60px; overflow-y:auto;"></div>
+      </div>
+
+      <!-- ─── ANNIVERSARY COUNTDOWN ─── -->
+      <div class="info-card" id="anniversaryCountdown">
+        ❤️ Loading...
+      </div>
+
+      <!-- ─── LOVE STATS ─── -->
+      <div class="info-card">
+        <h4>📊 Love Stats</h4>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="num" id="statVisits">0</span>
+            <span class="label">Visits</span>
+          </div>
+          <div class="stat-item">
+            <span class="num" id="statNotes">0</span>
+            <span class="label">Notes</span>
+          </div>
+          <div class="stat-item">
+            <span class="num" id="statMoods">0</span>
+            <span class="label">Moods</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── RANDOM LOVE GENERATOR ─── -->
+      <div class="info-card" style="text-align:center;">
+        <button id="randomReasonBtn" class="love-btn">💖 Tell me why</button>
+        <div id="randomReason" style="margin-top:8px; font-size:16px; color:#ffb6c1;">Tap the button 💕</div>
+      </div>
+
+      <!-- ─── LOVE NOTE JOURNAL ─── -->
+      <div class="info-card">
+        <h4>📝 Love Notes</h4>
+        <input type="text" id="loveNote" placeholder="Write something to me..." style="width:100%; padding:10px; border-radius:12px; border:1px solid #ffb6c1; background:transparent; color:#fff; margin-bottom:8px;">
+        <button id="saveLoveNote" class="love-btn">💾 Save Note</button>
+        <ul id="noteList" style="list-style:none; padding:0; margin-top:10px; text-align:left;"></ul>
+      </div>
+
+      <!-- ─── MOOD CHECK ─── -->
+      <div class="info-card" style="text-align:center;">
+        <h4>😊 How are you feeling?</h4>
+        <div class="mood-selector">
+          <span onclick="saveMood('❤️')">❤️</span>
+          <span onclick="saveMood('😊')">😊</span>
+          <span onclick="saveMood('🥺')">🥺</span>
+          <span onclick="saveMood('💕')">💕</span>
+        </div>
+      </div>
+
+      <!-- ─── THEME CHANGER ─── -->
+      <div class="theme-box">
+        <h3>🎨 Choose Your Theme</h3>
+        <div class="theme-buttons">
+          <button onclick="changeTheme('pink')">💗 Pink</button>
+          <button onclick="changeTheme('burgundy')">❤️ Burgundy</button>
+          <button onclick="changeTheme('purple')">💜 Purple</button>
+          <button onclick="changeTheme('grey')">🩶 Grey</button>
+          <button onclick="changeTheme('gold')">✨ Gold</button>
+          <button onclick="changeTheme('teal')">💚 Teal</button>
+          <button onclick="changeTheme('lavender')">💜 Lavender</button>
+        </div>
+      </div>
+
+      <!-- ─── WALLPAPER UPLOAD ─── -->
+      <div class="info-card" style="text-align:center;">
+        <h4>🖼️ Custom Wallpaper</h4>
+        <div class="wallpaper-upload">
+          <label for="wallpaperUpload">📤 Upload Image</label>
+          <input type="file" id="wallpaperUpload" accept="image/*" />
+        </div>
+        <button class="love-btn" onclick="removeWallpaper()" style="margin-top:8px;">🗑️ Remove Wallpaper</button>
+      </div>
+
+      <!-- ─── EXPORT DATA ─── -->
+      <div class="info-card" style="text-align:center;">
+        <h4>💾 Backup & Export</h4>
+        <button class="export-btn" onclick="exportData()">📤 Export All Data</button>
+      </div>
+
+      <!-- ─── MEMORY GALLERY ─── -->
+      <div class="gallery-box">
+        <h3>📸 Our Memories</h3>
+        <div class="gallery-grid" id="galleryGrid"></div>
+        <div class="gallery-upload">
+          <label for="imageUpload">📤 Add Photo</label>
+          <input type="file" id="imageUpload" accept="image/*" multiple />
+        </div>
+      </div>
+
+      <!-- ─── VOICE NOTES ─── -->
+      <div class="voice-box">
+        <h3>🎤 Voice Notes For Us ❤️</h3>
+        <button id="startRecord">🎙️ Start Recording</button>
+        <button id="stopRecord" disabled>⏹️ Stop Recording</button>
+        <div id="recordings"></div>
+      </div>
+
+    </div> <!-- ─── END MAIN CONTENT ─── -->
 
   </div> <!-- ─── END APP ─── -->
 
@@ -1004,6 +1139,74 @@
        TESRA APP - FULL SCRIPT (All Features)
     ========================================================== */
 
+    // ─── PIN LOCK ───
+    const STORED_PIN = localStorage.getItem('tesra_pin');
+
+    function setPin() {
+      const pin = prompt("Set a 4-digit PIN for Tesra:");
+      if (pin && pin.length === 4 && /^\d{4}$/.test(pin)) {
+        localStorage.setItem('tesra_pin', pin);
+        alert("PIN set successfully! ❤️");
+        checkPin();
+      } else {
+        alert("Please enter exactly 4 digits.");
+      }
+    }
+
+    function checkPin() {
+      const pin = localStorage.getItem('tesra_pin');
+      if (pin) {
+        document.getElementById('pinScreen').style.display = 'flex';
+        document.getElementById('mainContent').style.display = 'none';
+        document.getElementById('pinInput').value = '';
+        document.getElementById('pinError').textContent = '';
+        document.getElementById('pinInput').focus();
+      } else {
+        document.getElementById('pinScreen').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+        // Show set PIN prompt if no PIN exists
+        if (!localStorage.getItem('tesra_pin_set')) {
+          setTimeout(() => {
+            if (confirm("No PIN set. Would you like to set one now?")) {
+              setPin();
+            }
+            localStorage.setItem('tesra_pin_set', 'true');
+          }, 500);
+        }
+      }
+    }
+
+    function unlockApp() {
+      const input = document.getElementById('pinInput').value;
+      const stored = localStorage.getItem('tesra_pin');
+      if (input === stored) {
+        document.getElementById('pinScreen').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+        document.getElementById('pinError').textContent = '';
+      } else {
+        document.getElementById('pinError').textContent = '❌ Incorrect PIN. Try again.';
+        document.getElementById('pinInput').value = '';
+        document.getElementById('pinInput').focus();
+      }
+    }
+
+    // Enter key for PIN
+    document.getElementById('pinInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') unlockApp();
+    });
+
+    // ─── LOADING SCREEN ───
+    window.addEventListener("load", function() {
+      document.getElementById("loading").style.display = "none";
+      checkPin();
+      updateStats();
+      loadReasons();
+      loadNotes();
+      loadGallery();
+      loadMissYouLog();
+      loadWallpaper();
+    });
+
     // ─── 1,000 REASONS ───
     const reasonsList = document.getElementById('reasonsList');
     const reasons = [
@@ -1025,7 +1228,6 @@
       }
       reasonsList.appendChild(frag);
     }
-    loadReasons();
 
     // ─── LOVE METER ───
     const loveMeter = document.getElementById('loveMeter');
@@ -1089,34 +1291,25 @@
       }
     };
 
-    // ─── NORMAL ALARM SYSTEM ───
+    // ─── ALARM SYSTEM ───
     let alarmTimer = null;
     let alarmSound = null;
-
-    const alarmOverlay = document.getElementById("alarmOverlay");
-    const alarmInput = document.getElementById("alarmTime");
-    const setAlarmBtn = document.getElementById("setAlarmBtn");
-    const alarmStatus = document.getElementById("alarmStatus");
-    const stopAlarmBtn = document.getElementById("stopAlarmBtn");
-    const snoozeBtn = document.getElementById("snoozeBtn");
-    const alarmMessage = document.getElementById("alarmMessage");
-    const customAlarmMsg = document.getElementById("customAlarmMsg");
+    const alarmOverlay = document.getElementById('alarmOverlay');
+    const alarmInput = document.getElementById('alarmTime');
+    const setAlarmBtn = document.getElementById('setAlarmBtn');
+    const alarmStatus = document.getElementById('alarmStatus');
+    const stopAlarmBtn = document.getElementById('stopAlarmBtn');
+    const snoozeBtn = document.getElementById('snoozeBtn');
+    const alarmMessage = document.getElementById('alarmMessage');
+    const customAlarmMsg = document.getElementById('customAlarmMsg');
 
     function ringAlarm() {
       alarmOverlay.classList.add("show");
       alarmMessage.textContent = customAlarmMsg.value.trim() || "You are the first thought in my heart ❤️";
-
-      // SAME UPLOADED SOUND
       alarmSound = new Audio("love.mpss.mp3");
       alarmSound.loop = true;
       alarmSound.volume = 1;
       alarmSound.play();
-
-      if (Notification.permission === "granted") {
-        new Notification("💕 Tesra Alarm", {
-          body: alarmMessage.textContent
-        });
-      }
     }
 
     function stopAlarm() {
@@ -1128,7 +1321,6 @@
     }
 
     stopAlarmBtn.onclick = stopAlarm;
-
     snoozeBtn.onclick = function() {
       stopAlarm();
       alarmTimer = setTimeout(ringAlarm, 5 * 60 * 1000);
@@ -1136,63 +1328,47 @@
 
     setAlarmBtn.onclick = function() {
       clearTimeout(alarmTimer);
-
       let time = alarmInput.value;
       if (!time) {
         alert("Choose alarm time ❤️");
         return;
       }
-
       let now = new Date();
       let alarm = new Date();
       let parts = time.split(":");
       alarm.setHours(parts[0]);
       alarm.setMinutes(parts[1]);
       alarm.setSeconds(0);
-
       if (alarm <= now) {
         alarm.setDate(alarm.getDate() + 1);
       }
-
       let delay = alarm - now;
       alarmTimer = setTimeout(ringAlarm, delay);
-
       alarmStatus.innerHTML = "⏰ Alarm set for " + alarm.toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit"
       });
-
       alert("💕 Alarm saved successfully!");
     };
-
-    // ─── NOTIFICATIONS ───
-    if (Notification.permission === "default") Notification.requestPermission();
-    function scheduleMorning() {
-      const now = new Date();
-      const next = new Date();
-      next.setHours(8, 0, 0, 0);
-      if (next < now) next.setDate(next.getDate() + 1);
-      setTimeout(() => {
-        if (Notification.permission === "granted") {
-          new Notification("💕 Good Morning ❤️", { body: getDailyMessage() });
-        }
-        scheduleMorning();
-      }, next - now);
-    }
-    if (Notification.permission === "granted") scheduleMorning();
 
     // ─── I MISS YOU BUTTON ───
     const missYouBtn = document.getElementById('missYouBtn');
     const missYouStatus = document.getElementById('missYouStatus');
+    const missYouLog = document.getElementById('missYouLog');
+
+    function loadMissYouLog() {
+      const log = JSON.parse(localStorage.getItem('tesra_missyou_log') || '[]');
+      missYouLog.innerHTML = log.slice(-5).reverse().map(msg => '💕 ' + msg).join('<br>');
+    }
+
     missYouBtn.onclick = function() {
-      if (Notification.permission === "granted") {
-        new Notification("💕 I Miss You ❤️", { body: "I was just thinking about you. I miss you so much. 😔💕" });
-        missYouStatus.textContent = "💕 She knows you miss her!";
-        setTimeout(() => { missYouStatus.textContent = ""; }, 4000);
-      } else {
-        missYouStatus.textContent = "⚠️ Please enable notifications first.";
-        setTimeout(() => { missYouStatus.textContent = ""; }, 3000);
-      }
+      const now = new Date().toLocaleString();
+      const log = JSON.parse(localStorage.getItem('tesra_missyou_log') || '[]');
+      log.push(now + ' – She thought of you 💕');
+      localStorage.setItem('tesra_missyou_log', JSON.stringify(log));
+      loadMissYouLog();
+      missYouStatus.textContent = "💕 She knows you miss her!";
+      setTimeout(() => { missYouStatus.textContent = ""; }, 3000);
     };
 
     // ─── LOVE STATS ───
@@ -1204,11 +1380,9 @@
       document.getElementById('statNotes').textContent = notes;
       document.getElementById('statMoods').textContent = moods;
     }
-    // Track visit
     let visits = parseInt(localStorage.getItem('tesra_visits') || '0');
     visits++;
     localStorage.setItem('tesra_visits', visits);
-    updateStats();
 
     // ─── MEMORY GALLERY ───
     const galleryGrid = document.getElementById('galleryGrid');
@@ -1247,7 +1421,7 @@
     };
     loadGallery();
 
-    // ─── MOOD CHECK (with history) ───
+    // ─── MOOD CHECK ───
     function saveMood(mood) {
       const moods = JSON.parse(localStorage.getItem('tesra_moods') || '[]');
       moods.push({ emoji: mood, date: new Date().toLocaleString() });
@@ -1256,32 +1430,7 @@
       updateStats();
     }
 
-    /* ==========================================================
-       🌸 EMOJI PARTICLE SYSTEM
-    ========================================================== */
-    const EMOJIS = ["💖","💕","❤️","💘","💝","🌸","🌹","🌺","🦋","✨","💞","💗","💓","💟","🥰"];
-    function createParticle() {
-      const particle = document.createElement("span");
-      particle.innerHTML = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
-      particle.style.position = "fixed";
-      particle.style.left = Math.random() * 100 + "vw";
-      particle.style.bottom = "-40px";
-      particle.style.fontSize = (18 + Math.random() * 28) + "px";
-      particle.style.pointerEvents = "none";
-      particle.style.zIndex = "999";
-      particle.style.transition = (6 + Math.random() * 4) + "s linear";
-      document.body.appendChild(particle);
-      requestAnimationFrame(() => {
-        particle.style.transform = `translateY(-120vh) translateX(${Math.random() * 150 - 75}px) rotate(${Math.random() * 720}deg)`;
-        particle.style.opacity = "0";
-      });
-      setTimeout(() => particle.remove(), 10000);
-    }
-    setInterval(createParticle, 1200);
-
-    /* ==========================================================
-       ❤️ ANNIVERSARY COUNTDOWN
-    ========================================================== */
+    // ─── ANNIVERSARY COUNTDOWN ───
     const anniversaryText = document.getElementById("anniversaryCountdown");
     function updateAnniversary() {
       const now = new Date();
@@ -1293,9 +1442,7 @@
     updateAnniversary();
     setInterval(updateAnniversary, 60000);
 
-    /* ==========================================================
-       💌 DAILY LOVE LETTER
-    ========================================================== */
+    // ─── DAILY LOVE LETTER ───
     const LOVE_LETTERS = [
       "My beautiful Testimony, every heartbeat reminds me how lucky I am to have you. ❤️",
       "You are my peace, my happiness and my forever. 💕",
@@ -1336,9 +1483,7 @@
     }
     loadDailyLetter();
 
-    /* ==========================================================
-       🌙 AUTO DAY/NIGHT MODE
-    ========================================================== */
+    // ─── AUTO DAY/NIGHT MODE ───
     function updateThemeMode() {
       const hour = new Date().getHours();
       if (hour >= 18 || hour <= 6) document.body.classList.add("night");
@@ -1347,9 +1492,7 @@
     updateThemeMode();
     setInterval(updateThemeMode, 300000);
 
-    /* ==========================================================
-       💖 RANDOM LOVE GENERATOR
-    ========================================================== */
+    // ─── RANDOM LOVE GENERATOR ───
     const RANDOM_REASONS = [
       "You always make me smile.", "You understand me.", "You support me.",
       "You have a beautiful heart.", "You make life exciting.", "Your laugh is adorable.",
@@ -1369,7 +1512,7 @@
       };
     }
 
-    // ─── LOVE NOTE JOURNAL (SAFER) ───
+    // ─── LOVE NOTE JOURNAL ───
     const noteInput = document.getElementById("loveNote");
     const saveNote = document.getElementById("saveLoveNote");
     const noteList = document.getElementById("noteList");
@@ -1379,7 +1522,7 @@
       noteList.innerHTML = "";
       notes.forEach(note => {
         const li = document.createElement("li");
-        li.textContent = note; // safer
+        li.textContent = note;
         noteList.appendChild(li);
       });
     }
@@ -1395,7 +1538,7 @@
     }
     loadNotes();
 
-    // ─── THEME CHANGER (IMPROVED) ───
+    // ─── THEME CHANGER ───
     const themes = {
       pink: { main: "#ff69b4", second: "#ff1493" },
       burgundy: { main: "#800020", second: "#4a0012" },
@@ -1417,7 +1560,51 @@
       if (saved) changeTheme(saved);
     });
 
-    // ─── VOICE RECORDER (IMPROVED) ───
+    // ─── WALLPAPER ───
+    const wallpaperUpload = document.getElementById('wallpaperUpload');
+    function loadWallpaper() {
+      const bg = localStorage.getItem('tesra_wallpaper');
+      if (bg) {
+        document.documentElement.style.setProperty('--bg-image', 'url(' + bg + ')');
+      }
+    }
+    wallpaperUpload.onchange = function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const data = event.target.result;
+        localStorage.setItem('tesra_wallpaper', data);
+        document.documentElement.style.setProperty('--bg-image', 'url(' + data + ')');
+      };
+      reader.readAsDataURL(file);
+      wallpaperUpload.value = '';
+    };
+    function removeWallpaper() {
+      localStorage.removeItem('tesra_wallpaper');
+      document.documentElement.style.setProperty('--bg-image', 'none');
+    }
+
+    // ─── EXPORT DATA ───
+    function exportData() {
+      const data = {
+        notes: JSON.parse(localStorage.getItem('tesra_notes') || '[]'),
+        moods: JSON.parse(localStorage.getItem('tesra_moods') || '[]'),
+        gallery: JSON.parse(localStorage.getItem('tesra_gallery') || '[]'),
+        missYouLog: JSON.parse(localStorage.getItem('tesra_missyou_log') || '[]'),
+        visits: localStorage.getItem('tesra_visits') || '0',
+        theme: localStorage.getItem('tesraTheme') || 'burgundy'
+      };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'tesra_backup_' + new Date().toISOString().slice(0,10) + '.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // ─── VOICE NOTES (IndexedDB) ───
     let db;
     const request = indexedDB.open("TesraVoiceNotes", 1);
     request.onupgradeneeded = function(e) {
@@ -1497,12 +1684,10 @@
       transaction.oncomplete = () => { loadVoices(); };
     }
 
-    // ─── LOADING SCREEN ───
-    window.addEventListener("load", () => {
-      document.getElementById("loading").style.display = "none";
-    });
+    // ─── VOICE NOTE REPLIES ───
+    // (Already handled in the voice item UI)
 
-    // ─── INITIALIZE ───
+    // ─── UPDATE STATS ───
     updateStats();
   </script>
 </body>
