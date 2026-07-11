@@ -70,12 +70,57 @@
       position: relative;
       overflow: hidden;
       color: #fff;
-      transition: background 0.8s ease;
+      transition: background 0.8s ease, background-image 0.8s ease;
       border: 1px solid rgba(255,255,255,0.08);
     }
     body.night .app {
       background: rgba(10,10,10,0.85);
       border: 1px solid #2a2a2a;
+    }
+
+    /* ── ANIMATED BACKGROUND ── */
+    .animated-bg {
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, #800020, #4a0012, #800020);
+      animation: rotateBg 20s linear infinite;
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: 0;
+    }
+    @keyframes rotateBg {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* ── NIGHT SKY ── */
+    .night-sky {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      display: none;
+    }
+    body.night .night-sky {
+      display: block;
+    }
+    .star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 2s infinite alternate;
+    }
+    @keyframes twinkle {
+      0% { opacity: 0.2; }
+      100% { opacity: 1; }
     }
 
     /* ── CLOUDS & HEARTS ── */
@@ -210,6 +255,32 @@
     }
     .love-letter strong { color: #fff; font-style: normal; }
 
+    /* ── HANDWRITTEN LETTER EFFECT ── */
+    .handwritten-letter {
+      background: rgba(255,248,240,0.08);
+      backdrop-filter: blur(4px);
+      border-radius: 24px;
+      padding: 20px 18px;
+      margin: 16px 0 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 16px;
+      line-height: 1.8;
+      color: #ddd;
+      text-align: center;
+      font-style: italic;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+    }
+    .handwritten-letter::before {
+      content: "✧";
+      font-size: 24px;
+      color: #ffb6c1;
+      display: block;
+      margin-bottom: 8px;
+    }
+
     /* ── DASHBOARD ── */
     .dashboard {
       display: flex;
@@ -325,7 +396,7 @@
       font-size: 12px;
     }
 
-    /* ── ALARM SECTION WITH BUBBLES ── */
+    /* ── ALARM SECTION ── */
     .alarm-section {
       position: relative;
       overflow: hidden;
@@ -882,6 +953,80 @@
       background: #aaa;
     }
 
+    /* ── LOVE CHAT ── */
+    .chat-box {
+      max-height: 150px;
+      overflow-y: auto;
+      margin-top: 8px;
+      padding: 8px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 16px;
+      text-align: left;
+    }
+    .chat-msg {
+      padding: 4px 0;
+      font-size: 13px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: #ddd;
+    }
+    .chat-msg strong {
+      color: #ffb6c1;
+    }
+
+    /* ── GIFT BOX ── */
+    .gift-box {
+      font-size: 60px;
+      cursor: pointer;
+      transition: 0.3s;
+      display: inline-block;
+    }
+    .gift-box:hover {
+      transform: scale(1.1);
+    }
+
+    /* ── TIMELINE ── */
+    .timeline-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 13px;
+      color: #ddd;
+    }
+    .timeline-item .label { color: #aaa; }
+    .timeline-item .value { color: #ffb6c1; font-weight: 600; }
+
+    /* ── DAILY LOVE SCORE ── */
+    .daily-score {
+      font-size: 32px;
+      font-weight: 700;
+      color: #ffb6c1;
+      text-align: center;
+    }
+
+    /* ── SLIDESHOW ── */
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1;
+      overflow: hidden;
+      border-radius: 16px;
+      margin-top: 8px;
+    }
+    .slideshow-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+    .slideshow-container img.active {
+      opacity: 1;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 400px) {
       .app { padding: 16px; }
@@ -905,6 +1050,12 @@
 
   <!-- ─── APP ─── -->
   <div class="app" id="appContainer">
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+
+    <!-- Night Sky -->
+    <div class="night-sky" id="nightSky"></div>
+
     <!-- Butterflies -->
     <div class="butterfly-container">
       <div class="butterfly">🦋</div>
@@ -942,11 +1093,19 @@
 
       <div class="app-title">Tesra <span>💕</span></div>
 
-      <div class="love-letter">
-        <strong>My dearest Testimony ❤️</strong>,<br />
-        loving you has been one of the greatest blessings in my life. Every smile you give me, every word you speak, and every moment we share reminds me how lucky I am to have you. Thank you for loving me, believing in me, and making my life brighter. I promise to keep choosing you every single day. I love you more than words can ever express. Forever and always. ❤️🥹
+      <!-- ─── HANDWRITTEN LETTER ─── -->
+      <div class="handwritten-letter" id="dailyLetter">
+        <strong>My Dearest Testimony ❤️</strong><br /><br />
+        <span id="letterContent">Loading...</span>
       </div>
 
+      <!-- ─── DAILY LOVE REMINDER ─── -->
+      <div class="info-card" style="text-align:center;">
+        <h4>🌅 Daily Love Reminder</h4>
+        <div id="dailyReminder" style="font-size:16px; color:#ffb6c1;">💕 You are loved, always.</div>
+      </div>
+
+      <!-- ─── DASHBOARD ─── -->
       <div class="dashboard">
         <div class="meter-wrap">
           <span class="meter-heart">❤️</span>
@@ -965,6 +1124,20 @@
             <span class="label">Reasons</span>
           </div>
         </div>
+      </div>
+
+      <!-- ─── DAILY LOVE SCORE ─── -->
+      <div class="info-card" style="text-align:center;">
+        <h4>💖 Daily Love Score</h4>
+        <div class="daily-score" id="dailyScore">100</div>
+        <div style="font-size:12px; color:#888;">Based on your interactions today 💕</div>
+      </div>
+
+      <!-- ─── THINKING OF YOU COUNTER ─── -->
+      <div class="info-card" style="text-align:center;">
+        <h4>💞 Thinking of You</h4>
+        <div style="font-size:28px; font-weight:700; color:#ffb6c1;" id="thinkingCounter">0</div>
+        <div style="font-size:12px; color:#888;">times you've opened Tesra today</div>
       </div>
 
       <div class="reasons">
@@ -1024,6 +1197,11 @@
         ❤️ Loading...
       </div>
 
+      <!-- ─── BIRTHDAY TRACKER ─── -->
+      <div class="info-card" id="birthdayTracker">
+        🎂 Loading...
+      </div>
+
       <!-- ─── LOVE STATS ─── -->
       <div class="info-card">
         <h4>📊 Love Stats</h4>
@@ -1043,6 +1221,17 @@
         </div>
       </div>
 
+      <!-- ─── LOVE GROWTH TIMELINE ─── -->
+      <div class="info-card">
+        <h4>📈 Love Growth Timeline</h4>
+        <div id="timelineContainer">
+          <div class="timeline-item"><span class="label">Days together</span><span class="value" id="tlDays">0</span></div>
+          <div class="timeline-item"><span class="label">Love notes written</span><span class="value" id="tlNotes">0</span></div>
+          <div class="timeline-item"><span class="label">Moods shared</span><span class="value" id="tlMoods">0</span></div>
+          <div class="timeline-item"><span class="label">Times you thought of me</span><span class="value" id="tlMissYou">0</span></div>
+        </div>
+      </div>
+
       <!-- ─── RANDOM LOVE GENERATOR ─── -->
       <div class="info-card" style="text-align:center;">
         <button id="randomReasonBtn" class="love-btn">💖 Tell me why</button>
@@ -1057,6 +1246,14 @@
         <ul id="noteList" style="list-style:none; padding:0; margin-top:10px; text-align:left;"></ul>
       </div>
 
+      <!-- ─── LOVE CHAT ─── -->
+      <div class="info-card">
+        <h4>💬 Love Chat</h4>
+        <input type="text" id="chatInput" placeholder="Type a message..." style="width:100%; padding:10px; border-radius:12px; border:1px solid #ffb6c1; background:transparent; color:#fff; margin-bottom:8px;">
+        <button class="love-btn" onclick="sendChatMessage()">💕 Send</button>
+        <div class="chat-box" id="chatBox"></div>
+      </div>
+
       <!-- ─── MOOD CHECK ─── -->
       <div class="info-card" style="text-align:center;">
         <h4>😊 How are you feeling?</h4>
@@ -1066,6 +1263,19 @@
           <span onclick="saveMood('🥺')">🥺</span>
           <span onclick="saveMood('💕')">💕</span>
         </div>
+      </div>
+
+      <!-- ─── DIGITAL GIFT BOX ─── -->
+      <div class="info-card" style="text-align:center;">
+        <h4>💎 A Gift For You</h4>
+        <div class="gift-box" id="giftBox" onclick="openGift()">🎁</div>
+        <div id="giftMessage" style="margin-top:8px; font-size:16px; color:#ffb6c1; min-height:30px;"></div>
+      </div>
+
+      <!-- ─── MEMORY SLIDESHOW ─── -->
+      <div class="info-card">
+        <h4>📸 Memory Slideshow</h4>
+        <div class="slideshow-container" id="slideshowContainer"></div>
       </div>
 
       <!-- ─── THEME CHANGER ─── -->
@@ -1080,6 +1290,16 @@
           <button onclick="changeTheme('teal')">💚 Teal</button>
           <button onclick="changeTheme('lavender')">💜 Lavender</button>
         </div>
+      </div>
+
+      <!-- ─── CUSTOM PLAYLIST ─── -->
+      <div class="info-card" style="text-align:center;">
+        <h4>🎵 Custom Playlist</h4>
+        <input type="text" id="playlistInput" placeholder="Paste song URL..." style="width:100%; padding:10px; border-radius:12px; border:1px solid #ffb6c1; background:transparent; color:#fff; margin-bottom:8px;">
+        <button class="love-btn" onclick="addSong()">➕ Add Song</button>
+        <button class="love-btn" onclick="shufflePlaylist()">🔀 Shuffle</button>
+        <div id="playlistContainer" style="margin-top:8px;"></div>
+        <audio id="playlistAudio" controls style="width:100%; margin-top:8px; display:none;"></audio>
       </div>
 
       <!-- ─── WALLPAPER UPLOAD ─── -->
@@ -1164,7 +1384,6 @@
       } else {
         document.getElementById('pinScreen').style.display = 'none';
         document.getElementById('mainContent').style.display = 'block';
-        // Show set PIN prompt if no PIN exists
         if (!localStorage.getItem('tesra_pin_set')) {
           setTimeout(() => {
             if (confirm("No PIN set. Would you like to set one now?")) {
@@ -1190,7 +1409,6 @@
       }
     }
 
-    // Enter key for PIN
     document.getElementById('pinInput').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') unlockApp();
     });
@@ -1205,6 +1423,14 @@
       loadGallery();
       loadMissYouLog();
       loadWallpaper();
+      loadChat();
+      loadPlaylist();
+      updateThinkingCounter();
+      updateDailyScore();
+      updateTimeline();
+      generateNightSky();
+      startSlideshow();
+      loadBirthdayTracker();
     });
 
     // ─── 1,000 REASONS ───
@@ -1351,6 +1577,39 @@
       alert("💕 Alarm saved successfully!");
     };
 
+    // ─── DAILY LOVE REMINDER ───
+    function updateDailyReminder() {
+      const reminders = [
+        "💕 You are loved, always.",
+        "🌹 You are my heart's greatest treasure.",
+        "💖 Every day with you is a gift.",
+        "🌸 You make my world beautiful.",
+        "💞 I'm so grateful for you.",
+        "✨ You are my sunshine.",
+        "💗 My heart belongs to you."
+      ];
+      const day = new Date().getDate();
+      document.getElementById('dailyReminder').textContent = reminders[day % reminders.length];
+    }
+    updateDailyReminder();
+
+    // ─── HANDWRITTEN LETTER ───
+    function updateDailyLetter() {
+      const letters = [
+        "My beautiful Testimony, you are the reason I believe in love. Every day with you feels like a dream I never want to wake up from.",
+        "You are my peace, my joy, and my home. No matter where I go, my heart always finds its way back to you.",
+        "I still remember the first time you smiled at me. That moment changed everything. I knew right then that you were special.",
+        "You are not just my girlfriend — you are my best friend, my confidant, and my greatest blessing.",
+        "I love the way you laugh, the way you talk, the way you make even the simplest moments feel magical.",
+        "Thank you for being you. Thank you for loving me. Thank you for staying.",
+        "You are the most beautiful soul I have ever known. Inside and out, you are perfect to me.",
+        "I promise to always choose you. Today, tomorrow, and forever."
+      ];
+      const day = new Date().getDate();
+      document.getElementById('letterContent').textContent = letters[day % letters.length];
+    }
+    updateDailyLetter();
+
     // ─── I MISS YOU BUTTON ───
     const missYouBtn = document.getElementById('missYouBtn');
     const missYouStatus = document.getElementById('missYouStatus');
@@ -1369,6 +1628,7 @@
       loadMissYouLog();
       missYouStatus.textContent = "💕 She knows you miss her!";
       setTimeout(() => { missYouStatus.textContent = ""; }, 3000);
+      updateTimeline();
     };
 
     // ─── LOVE STATS ───
@@ -1383,6 +1643,40 @@
     let visits = parseInt(localStorage.getItem('tesra_visits') || '0');
     visits++;
     localStorage.setItem('tesra_visits', visits);
+
+    // ─── THINKING OF YOU COUNTER ───
+    function updateThinkingCounter() {
+      const today = new Date().toDateString();
+      const data = JSON.parse(localStorage.getItem('tesra_thinking') || '{"date":"","count":0}');
+      if (data.date !== today) {
+        data.date = today;
+        data.count = 0;
+      }
+      data.count++;
+      localStorage.setItem('tesra_thinking', JSON.stringify(data));
+      document.getElementById('thinkingCounter').textContent = data.count;
+    }
+
+    // ─── DAILY LOVE SCORE ───
+    function updateDailyScore() {
+      const notes = JSON.parse(localStorage.getItem('tesra_notes') || '[]').length;
+      const moods = JSON.parse(localStorage.getItem('tesra_moods') || '[]').length;
+      const visits = parseInt(localStorage.getItem('tesra_visits') || '0');
+      const score = Math.min(100, notes * 2 + moods * 3 + visits);
+      document.getElementById('dailyScore').textContent = score || 100;
+    }
+
+    // ─── TIMELINE ───
+    function updateTimeline() {
+      const days = document.getElementById('daysCounter').textContent || '0';
+      const notes = JSON.parse(localStorage.getItem('tesra_notes') || '[]').length;
+      const moods = JSON.parse(localStorage.getItem('tesra_moods') || '[]').length;
+      const missYou = JSON.parse(localStorage.getItem('tesra_missyou_log') || '[]').length;
+      document.getElementById('tlDays').textContent = days;
+      document.getElementById('tlNotes').textContent = notes;
+      document.getElementById('tlMoods').textContent = moods;
+      document.getElementById('tlMissYou').textContent = missYou;
+    }
 
     // ─── MEMORY GALLERY ───
     const galleryGrid = document.getElementById('galleryGrid');
@@ -1421,6 +1715,34 @@
     };
     loadGallery();
 
+    // ─── SLIDESHOW ───
+    let slideInterval;
+    function startSlideshow() {
+      const container = document.getElementById('slideshowContainer');
+      const images = JSON.parse(localStorage.getItem('tesra_gallery') || '[]');
+      container.innerHTML = '';
+      if (images.length === 0) {
+        container.innerHTML = '<div style="color:#888; padding:20px; text-align:center;">No memories yet 💕</div>';
+        return;
+      }
+      images.forEach((src, index) => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = 'Memory ' + (index + 1);
+        if (index === 0) img.classList.add('active');
+        container.appendChild(img);
+      });
+      let current = 0;
+      if (slideInterval) clearInterval(slideInterval);
+      slideInterval = setInterval(() => {
+        const imgs = container.querySelectorAll('img');
+        if (imgs.length === 0) return;
+        imgs[current].classList.remove('active');
+        current = (current + 1) % imgs.length;
+        imgs[current].classList.add('active');
+      }, 3000);
+    }
+
     // ─── MOOD CHECK ───
     function saveMood(mood) {
       const moods = JSON.parse(localStorage.getItem('tesra_moods') || '[]');
@@ -1428,6 +1750,8 @@
       localStorage.setItem('tesra_moods', JSON.stringify(moods));
       alert("Mood Saved ❤️");
       updateStats();
+      updateDailyScore();
+      updateTimeline();
     }
 
     // ─── ANNIVERSARY COUNTDOWN ───
@@ -1442,55 +1766,66 @@
     updateAnniversary();
     setInterval(updateAnniversary, 60000);
 
-    // ─── DAILY LOVE LETTER ───
-    const LOVE_LETTERS = [
-      "My beautiful Testimony, every heartbeat reminds me how lucky I am to have you. ❤️",
-      "You are my peace, my happiness and my forever. 💕",
-      "I wish I could hug you every morning before the world wakes up.",
-      "You are my answered prayer.",
-      "Your smile is my favourite sunrise.",
-      "I'll always choose you.",
-      "You make ordinary days magical.",
-      "I hope today reminds you how amazing you are.",
-      "Thank you for existing.",
-      "I love everything about you.",
-      "You'll always have my heart.",
-      "I miss you every second.",
-      "You are enough.",
-      "You complete me.",
-      "I promise to keep loving you.",
-      "My Queen, never doubt my love.",
-      "You are my sunshine.",
-      "I believe in us.",
-      "I'm proud of you.",
-      "I can't wait to make more memories.",
-      "Every love song reminds me of you.",
-      "You are beautiful inside and out.",
-      "I cherish every conversation.",
-      "I'll stand beside you always.",
-      "You make me a better person.",
-      "My favourite place is wherever you are.",
-      "You are my home.",
-      "You'll always be my girl.",
-      "My heart smiles because of you.",
-      "Forever starts with you."
-    ];
-    const letterBox = document.querySelector(".love-letter");
-    function loadDailyLetter() {
-      const start = new Date(2026, 6, 10);
-      const day = Math.floor((new Date() - start) / 86400000);
-      letterBox.innerHTML = "<strong>My Dearest Testimony ❤️</strong><br><br>" + LOVE_LETTERS[day % LOVE_LETTERS.length];
+    // ─── BIRTHDAY TRACKER ───
+    function loadBirthdayTracker() {
+      const birthday = new Date(2026, 6, 8); // July 8 – change to her actual birthday
+      const now = new Date();
+      let next = new Date(now.getFullYear(), birthday.getMonth(), birthday.getDate());
+      if (next < now) next.setFullYear(next.getFullYear() + 1);
+      const diff = Math.ceil((next - now) / 86400000);
+      document.getElementById('birthdayTracker').innerHTML = `🎂 ${diff} day${diff == 1 ? "" : "s"} until her birthday! 🎉`;
     }
-    loadDailyLetter();
 
-    // ─── AUTO DAY/NIGHT MODE ───
-    function updateThemeMode() {
-      const hour = new Date().getHours();
-      if (hour >= 18 || hour <= 6) document.body.classList.add("night");
-      else document.body.classList.remove("night");
+    // ─── LOVE CHAT ───
+    function loadChat() {
+      const msgs = JSON.parse(localStorage.getItem('tesra_chat') || '[]');
+      const box = document.getElementById('chatBox');
+      box.innerHTML = msgs.map(m => `<div class="chat-msg"><strong>💕</strong> ${m}</div>`).join('');
     }
-    updateThemeMode();
-    setInterval(updateThemeMode, 300000);
+    function sendChatMessage() {
+      const input = document.getElementById('chatInput');
+      const msg = input.value.trim();
+      if (!msg) return;
+      const msgs = JSON.parse(localStorage.getItem('tesra_chat') || '[]');
+      msgs.push(msg);
+      localStorage.setItem('tesra_chat', JSON.stringify(msgs));
+      input.value = '';
+      loadChat();
+    }
+
+    // ─── DIGITAL GIFT BOX ───
+    const giftMessages = [
+      "💕 You are my greatest gift.",
+      "🌹 I love you more than words can say.",
+      "💖 You make my world beautiful.",
+      "🌸 Every day with you is a blessing.",
+      "💞 You are my forever.",
+      "✨ Thank you for being you.",
+      "💗 You are my heart's home."
+    ];
+    function openGift() {
+      const msg = giftMessages[Math.floor(Math.random() * giftMessages.length)];
+      document.getElementById('giftMessage').textContent = '🎁 ' + msg;
+      document.getElementById('giftBox').textContent = '💝';
+      setTimeout(() => {
+        document.getElementById('giftBox').textContent = '🎁';
+      }, 3000);
+    }
+
+    // ─── NIGHT SKY ───
+    function generateNightSky() {
+      const container = document.getElementById('nightSky');
+      for (let i = 0; i < 50; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 3 + 's';
+        star.style.width = (2 + Math.random() * 3) + 'px';
+        star.style.height = star.style.width;
+        container.appendChild(star);
+      }
+    }
 
     // ─── RANDOM LOVE GENERATOR ───
     const RANDOM_REASONS = [
@@ -1534,6 +1869,8 @@
         noteInput.value = "";
         loadNotes();
         updateStats();
+        updateDailyScore();
+        updateTimeline();
       };
     }
     loadNotes();
@@ -1559,6 +1896,57 @@
       const saved = localStorage.getItem("tesraTheme");
       if (saved) changeTheme(saved);
     });
+
+    // ─── CUSTOM PLAYLIST ───
+    let playlist = JSON.parse(localStorage.getItem('tesra_playlist') || '[]');
+    let currentSongIndex = 0;
+    const playlistContainer = document.getElementById('playlistContainer');
+    const playlistAudio = document.getElementById('playlistAudio');
+
+    function loadPlaylist() {
+      playlistContainer.innerHTML = playlist.map((url, i) =>
+        `<div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+          <span style="font-size:12px; color:#ddd;">🎵 Song ${i+1}</span>
+          <button class="love-btn" style="padding:2px 10px; font-size:11px;" onclick="playSong(${i})">▶️</button>
+          <button class="love-btn" style="padding:2px 10px; font-size:11px; background:#888;" onclick="removeSong(${i})">🗑️</button>
+        </div>`
+      ).join('');
+    }
+
+    function addSong() {
+      const url = document.getElementById('playlistInput').value.trim();
+      if (!url) return alert('Please paste a song URL (MP3 link)');
+      playlist.push(url);
+      localStorage.setItem('tesra_playlist', JSON.stringify(playlist));
+      document.getElementById('playlistInput').value = '';
+      loadPlaylist();
+    }
+
+    function removeSong(index) {
+      playlist.splice(index, 1);
+      localStorage.setItem('tesra_playlist', JSON.stringify(playlist));
+      loadPlaylist();
+      if (playlistAudio.src && currentSongIndex === index) {
+        playlistAudio.pause();
+        playlistAudio.src = '';
+      }
+    }
+
+    function playSong(index) {
+      if (index >= playlist.length) return;
+      currentSongIndex = index;
+      playlistAudio.src = playlist[index];
+      playlistAudio.style.display = 'block';
+      playlistAudio.play().catch(() => {});
+    }
+
+    function shufflePlaylist() {
+      if (playlist.length === 0) return alert('Add some songs first!');
+      const randomIndex = Math.floor(Math.random() * playlist.length);
+      playSong(randomIndex);
+    }
+
+    loadPlaylist();
 
     // ─── WALLPAPER ───
     const wallpaperUpload = document.getElementById('wallpaperUpload');
@@ -1592,8 +1980,10 @@
         moods: JSON.parse(localStorage.getItem('tesra_moods') || '[]'),
         gallery: JSON.parse(localStorage.getItem('tesra_gallery') || '[]'),
         missYouLog: JSON.parse(localStorage.getItem('tesra_missyou_log') || '[]'),
+        chat: JSON.parse(localStorage.getItem('tesra_chat') || '[]'),
         visits: localStorage.getItem('tesra_visits') || '0',
-        theme: localStorage.getItem('tesraTheme') || 'burgundy'
+        theme: localStorage.getItem('tesraTheme') || 'burgundy',
+        playlist: JSON.parse(localStorage.getItem('tesra_playlist') || '[]')
       };
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
@@ -1604,7 +1994,7 @@
       URL.revokeObjectURL(url);
     }
 
-    // ─── VOICE NOTES (IndexedDB) ───
+    // ─── VOICE NOTES ───
     let db;
     const request = indexedDB.open("TesraVoiceNotes", 1);
     request.onupgradeneeded = function(e) {
@@ -1671,6 +2061,7 @@
           div.innerHTML = `
             <p>❤️ ${item.date}</p>
             <audio controls src="${url}"></audio>
+            <button class="voice-reply-btn" onclick="startVoiceReply(${cursor.key})">💬 Reply</button>
             <button onclick="deleteVoice(${cursor.key})">🗑️ Delete</button>
           `;
           box.appendChild(div);
@@ -1684,11 +2075,105 @@
       transaction.oncomplete = () => { loadVoices(); };
     }
 
-    // ─── VOICE NOTE REPLIES ───
-    // (Already handled in the voice item UI)
+    // ─── VOICE REPLY ───
+    let replyRecorder;
+    let replyChunks = [];
+    let replyTargetId = null;
+
+    async function startVoiceReply(id) {
+      replyTargetId = id;
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        replyRecorder = new MediaRecorder(stream);
+        replyChunks = [];
+        replyRecorder.ondataavailable = (e) => { replyChunks.push(e.data); };
+        replyRecorder.onstop = () => {
+          const blob = new Blob(replyChunks, { type: "audio/webm" });
+          saveVoiceReply(replyTargetId, blob);
+          stream.getTracks().forEach(track => track.stop());
+        };
+        replyRecorder.start();
+        alert("Recording reply... tap Stop Reply when done.");
+      } catch(error) {
+        alert("Please allow microphone permission ❤️");
+      }
+    }
+
+    function stopVoiceReply() {
+      if (replyRecorder) {
+        replyRecorder.stop();
+        replyRecorder = null;
+      }
+    }
+
+    function saveVoiceReply(parentId, blob) {
+      const transaction = db.transaction(["voices"], "readwrite");
+      const store = transaction.objectStore("voices");
+      const getRequest = store.get(parentId);
+      getRequest.onsuccess = function() {
+        const item = getRequest.result;
+        if (item) {
+          const replyKey = 'reply_' + Date.now();
+          item[replyKey] = blob;
+          store.put(item);
+          loadVoices();
+        }
+      };
+    }
 
     // ─── UPDATE STATS ───
     updateStats();
+    updateDailyScore();
+    updateTimeline();
+
+    // ─── OVERRIDE LOAD VOICES TO SHOW REPLIES ───
+    const originalLoadVoices = loadVoices;
+    loadVoices = function() {
+      if (!db) return;
+      const box = document.getElementById("recordings");
+      box.innerHTML = "";
+      const transaction = db.transaction(["voices"], "readonly");
+      const store = transaction.objectStore("voices");
+      store.openCursor().onsuccess = function(e) {
+        const cursor = e.target.result;
+        if (cursor) {
+          const item = cursor.value;
+          const url = URL.createObjectURL(item.audio);
+          const div = document.createElement("div");
+          div.className = "voice-item";
+          let html = `<p>❤️ ${item.date}</p><audio controls src="${url}"></audio>`;
+          // Check for replies
+          for (let key in item) {
+            if (key.startsWith('reply_')) {
+              const replyUrl = URL.createObjectURL(item[key]);
+              html += `<p style="font-size:12px; color:#ffb6c1; margin-top:4px;">💬 Reply:</p>
+                       <audio controls src="${replyUrl}"></audio>`;
+            }
+          }
+          html += `<button class="voice-reply-btn" onclick="startVoiceReply(${cursor.key})">💬 Reply</button>
+                   <button onclick="deleteVoice(${cursor.key})">🗑️ Delete</button>`;
+          div.innerHTML = html;
+          box.appendChild(div);
+          cursor.continue();
+        }
+      };
+    };
+    // Override loadVoices to use the new one
+    const originalOnsuccess = request.onsuccess;
+    request.onsuccess = function(e) {
+      db = e.target.result;
+      loadVoices();
+    };
+
+    // ─── AUTO DAY/NIGHT MODE ───
+    function updateThemeMode() {
+      const hour = new Date().getHours();
+      if (hour >= 18 || hour <= 6) document.body.classList.add("night");
+      else document.body.classList.remove("night");
+    }
+    updateThemeMode();
+    setInterval(updateThemeMode, 300000);
+
   </script>
 </body>
   </html>
