@@ -1089,35 +1089,41 @@
       }
     };
 
-    // ─── ALARM SYSTEM ───
-    let alarmTimer;
-    const alarmOverlay = document.getElementById('alarmOverlay');
-    const alarmInput = document.getElementById('alarmTime');
-    const setAlarmBtn = document.getElementById('setAlarmBtn');
-    const alarmStatus = document.getElementById('alarmStatus');
-    const snoozeBtn = document.getElementById('snoozeBtn');
-    const stopAlarmBtn = document.getElementById('stopAlarmBtn');
-    const customAlarmMsg = document.getElementById('customAlarmMsg');
-    const alarmMessage = document.getElementById('alarmMessage');
+    // ─── NORMAL ALARM SYSTEM ───
+    let alarmTimer = null;
+    let alarmSound = null;
+
+    const alarmOverlay = document.getElementById("alarmOverlay");
+    const alarmInput = document.getElementById("alarmTime");
+    const setAlarmBtn = document.getElementById("setAlarmBtn");
+    const alarmStatus = document.getElementById("alarmStatus");
+    const stopAlarmBtn = document.getElementById("stopAlarmBtn");
+    const snoozeBtn = document.getElementById("snoozeBtn");
+    const alarmMessage = document.getElementById("alarmMessage");
+    const customAlarmMsg = document.getElementById("customAlarmMsg");
 
     function ringAlarm() {
       alarmOverlay.classList.add("show");
-      const msg = customAlarmMsg.value.trim() || "You are the first thought in my heart, every single day.";
-      alarmMessage.textContent = msg;
-      const ring = new Audio("love.mpss.mp3");
-      ring.loop = true;
-      ring.play().catch(() => {});
-      window.currentAlarm = ring;
+      alarmMessage.textContent = customAlarmMsg.value.trim() || "You are the first thought in my heart ❤️";
+
+      // SAME UPLOADED SOUND
+      alarmSound = new Audio("love.mpss.mp3");
+      alarmSound.loop = true;
+      alarmSound.volume = 1;
+      alarmSound.play();
+
       if (Notification.permission === "granted") {
-        new Notification("💕 Good Morning My Queen!", { body: msg });
+        new Notification("💕 Tesra Alarm", {
+          body: alarmMessage.textContent
+        });
       }
     }
 
     function stopAlarm() {
       alarmOverlay.classList.remove("show");
-      if (window.currentAlarm) {
-        window.currentAlarm.pause();
-        window.currentAlarm.currentTime = 0;
+      if (alarmSound) {
+        alarmSound.pause();
+        alarmSound.currentTime = 0;
       }
     }
 
@@ -1125,29 +1131,38 @@
 
     snoozeBtn.onclick = function() {
       stopAlarm();
-      alarmTimer = setTimeout(ringAlarm, 300000);
+      alarmTimer = setTimeout(ringAlarm, 5 * 60 * 1000);
     };
 
     setAlarmBtn.onclick = function() {
       clearTimeout(alarmTimer);
-      const value = alarmInput.value;
-      const now = new Date();
-      const [h, m] = value.split(":").map(Number);
-      const target = new Date();
-      target.setHours(h, m, 0, 0);
-      if (target < now) {
-        target.setDate(target.getDate() + 1);
+
+      let time = alarmInput.value;
+      if (!time) {
+        alert("Choose alarm time ❤️");
+        return;
       }
-      const delay = target - now;
+
+      let now = new Date();
+      let alarm = new Date();
+      let parts = time.split(":");
+      alarm.setHours(parts[0]);
+      alarm.setMinutes(parts[1]);
+      alarm.setSeconds(0);
+
+      if (alarm <= now) {
+        alarm.setDate(alarm.getDate() + 1);
+      }
+
+      let delay = alarm - now;
       alarmTimer = setTimeout(ringAlarm, delay);
-      alarmStatus.textContent = "⏰ Alarm set for " + target.toLocaleTimeString([], {
+
+      alarmStatus.innerHTML = "⏰ Alarm set for " + alarm.toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit"
       });
-      alert("✅ Alarm set for " + target.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit"
-      }) + "! 💕");
+
+      alert("💕 Alarm saved successfully!");
     };
 
     // ─── NOTIFICATIONS ───
@@ -1491,4 +1506,4 @@
     updateStats();
   </script>
 </body>
-        </html>
+  </html>
